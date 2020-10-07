@@ -1,13 +1,26 @@
 body {
-    background-color: lightblue;
+    background-color: yellow;
   }
   
   h1 {
-    color: white;
+    color: blue;
+    font-family:arial;
     text-align: center;
+    font-size: 140%;
   }
-  
+  h2 {
+    color: red;
+    font-family:verdana;
+    text-align: center;
+}
   p {
     font-family: verdana;
-    font-size: 20px;
+    font-size: 80%;
+    color:red;
+    
+  }
+  #tyyli { color:black;
+        font-weight: bold;
+        font-style: italic;
+
   }
