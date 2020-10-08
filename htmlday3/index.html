@@ -5,29 +5,42 @@
 <style>
     #we {
         position: static;
-      
+        z-index: 1;
 }
 #ae {
         position: relative;
   left: 100px;
   top: 150px;
+  z-index: 1;
 }
 
 #ve {
         position: absolute;
   left: 1000px;
   top: 400px;
+  z-index: 1;
 }
 
 #pe {
         position: sticky;
- 
+        z-index: 1;
 }
 
 #de {
         position: fixed;
   left: 20%;
   top: auto;
+  z-index: 1;
+}
+img.de {
+    position:absolute;
+    top:300px;
+z-index:1;
+}
+img.we {
+    position:absolute;
+    top:300px;
+z-index: -1;
 }
 
 </style>
@@ -43,6 +56,8 @@
         <br><br><br>
         <h1 id=pe>5</h1>
         <br> <br><br><br>
+        <img class=de src=https://i.redd.it/5g1k4oncinr51.jpg>
+        <img class=we src=https://i.redd.it/3j18n0a6amr51.png>
     </body>
     
 </html>
