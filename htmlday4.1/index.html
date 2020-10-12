@@ -1,92 +1,68 @@
 <!DOCTYPE html>
 <html>
-    <meta http-equiv="refresh" content="5">
+    <meta http-equiv="refresh" content="120">
     <head>
 
     </head>
-    <style> 
-     body { color:red;
+    <style>
+    body{ background-image:url('https://i.gifer.com/INdx.gif');
+    background-repeat: no-repeat;
+    background-size: cover;
 
-
-}
-    .oma1 { color:blue;
-
-
+    } h1{
+        color:green;
+        text-align: left;
     }
-    .oma2 { color:inherit;
+    form { 
+        display: flex;
+        flex-direction: column;
+        flex-wrap:wrap;
+        align-content:space-between;
 
+        
+        color:green;
 
+        
     }
-    .oma3 { color:initial;
+    
+    } </style>
 
-    }
-    .oma4 { color:unset;
+<body>
 
-}
-    .esikoinen  { 
+<h1>Ilmoittautumislomake</h1>
+
+<form action="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+
+  
+  <label for="frmNameA">Koko nimi</label>
+<input name="name" id="frmNameA"  required autocomplete="name">
+  <label for="frmEmailA">Email</label>
+<input type="email" name="email" id="frmEmailA"  required autocomplete="email">
+
+<label for="frmEmailC">Uudelleen Email</label>
+<input type="email" name="emailC" id="frmEmailC"  required autocomplete="email">
+<label for="frmPhoneNumA">Puhelin</label>
+<input type="tel" name="phone" id="frmPhoneNumA" required autocomplete="tel">
+<label for="frmAddressS">Osoite</label>
+<input name="street-address" required id="frmAddressS"  autocomplete="street-address">
+
+<label for="frmCityS">Kaupunki</label>
+<input name="ship-city" required id="frmCityS"  autocomplete="address-level2">
+<label for="frmAddressS">Maa</label>
+<input name="country-name" required id="country-name1"  autocomplete="country-name">
+<label for="appt">Valitse osallistumisaika</label>
+
+<input type="time" id="appt" name="appt"
+       min="08:00" max="14:00" required>
+
+<small>Koulutuksia pidetään 8-14 välisenä aikana</small>
+
+<br>
+<input type="checkbox" id="tietosuoja" name="tietosuoja" value="Boat">
+<label for="tietosuoja"> hyväksy <a href="https://yle.fi/aihe/sivu/yleisradio/tietosuojalauseke">tietosuojalauseke</a></label>
+<input type="submit" id=hyväksy value="Submit">
+</form> 
 
 
-    }
-.kuopus { color:magenta;
-
-
-}
-#testi-perintö { color:green;
-
-
-}
-    </style>
-<BODY>
-
-
-    <!– Periytyvyys testaus-->
-   
-    
-    <h1 class="oma1">Otsikko 1</h1>
-    
-    
-    
-     <h1 class="oma2">Otsikko 2</h1>
-    
-    
-    <h1 class="oma3">Otsikko 3</h1>
-    
-    
-    <h1 class="oma4">Otsikko 4</h1>
-    
-    
-    
-    
-    
-    
-    
-    
-    Tässä on paljon erilaista tekstiä ennen asiaa. Tässä osassa perintä tulee BODY-elementistä. Tekstille ei ole muotoiltu mitään.
-    
-    
-    
-    
-    
-    <div id="testi-perintö">
-    
-    
-    <p class="esikoinen">Perii maat ja rahat.</p>
-    
-    
-    <p class="kuopus">Perii sen mitä jäljelle jää.</p>
-    
-    
-    <p>Perii kaiken.</p>
-    
-    
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    </BODY>
-    </html>
+</body>
+</html>
