@@ -23,7 +23,7 @@
   animation-delay: 1s;
         
   background-color:#173f5f;
-  transform:matrix(0.586,0.8,-0.8,0.586,40,20);
+  transform:matrix(1,0.8,0.1,0.586,60,99);
 
 
         
@@ -38,7 +38,7 @@
         
         background-color:#20639b;
         
-  transform:skew(110deg,110deg);
+  transform:skew(250deg,100deg);
       
       
               
@@ -53,6 +53,8 @@
   animation-delay: 7s;
         background-color:#3caea3;
         transform:scaleY(3);
+        animation-direction: alternate;
+
       
       
               
@@ -82,11 +84,13 @@
   position: relative;
   animation: liiku 5s infinite;
   animation-delay: 10s;
+  animation-direction: alternate;
+
               
           }
           @keyframes liiku {
   from {left: 0px;}
-  to {left: 999px;}
+  to {left: 500px;}
 }
 </
             
@@ -95,10 +99,10 @@
 <body>
 
 <h1>Css animoi ominaisuus</h1>
-
+<div class=dsa>Laatikko 2</div>
 <div class=asd>Laatikko 1</div>
 
-<div class=dsa>Laatikko 2</div>
+
 
 <div class=sda>Laatikko 3</div>
 
