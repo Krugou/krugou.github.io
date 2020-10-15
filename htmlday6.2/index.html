@@ -6,189 +6,71 @@
     </head>
     
     <style>
+      html, body, h1, h2, h3, h4, h5, h6 {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
       
       @import url('https://fonts.googleapis.com/css2?family=Sansita+Swashed:wght@500&display=swap');
 
-    body{  background-image:url('https://i.gifer.com/INdx.gif');
-    background-repeat:repeat;
-    background-size:0%;
-    font-family: 'Sansita Swashed', cursive;
-
-    } h1{
-        color:black;
-        text-align: center;
-        font-family: 'Courier New', Courier, monospace;
-    }
-    div { display:flex;
-            flex-direction: row;
-        flex-wrap:wrap;
-        
-      }
-    div.asd { 
-      width: 100px;
-  height: 100px;
-  background: red;
-  position: relative;
-  animation: liiku 7s infinite;
-  animation-delay: 1s;
-  animation-direction: alternate;
-  background-color:#173f5f;
-  transform:matrix(1,0.8,0.1,0.586,60,99);
-
-
-        
-    }
-    div.dsa { 
-      width: 100px;
-  height: 100px;
-  background: red;
-  position: relative;
-  animation: liiku 7s infinite;
-  animation-delay: 4s;
-  animation-direction: alternate;
-        background-color:#20639b;
-        
-  transform:skew(250deg,100deg);
-      
-      
-              
-          }
-          div.sda { 
-        
-            width: 100px;
-  height: 100px;
-  background: red;
-  position: relative;
-  animation: liiku 7s infinite;
-  animation-delay: 7s;
-        background-color:#3caea3;
-        transform:scaleY(3);
-        animation-direction: alternate;
-
-      
-      
-              
-          }
-          div.ads { 
-        
-            width: 100px;
-  height: 100px;
-  background: red;
-  position: relative;
-  animation: liiku 7s infinite;
-  animation-delay: 3s;
-        background-color:#f6d55c;
-        transform:translateY(-25px);
-        animation-direction: alternate;
-      
-              
-          }
-          div.sad { 
-        
-        background-color:#ed553b;
-        transition: width 2s;
-      
-        width: 100px;
-  height: 100px;
-  background: red;
-  position: relative;
-  animation: liiku 10s infinite;
-  animation-delay: 10s;
-  animation-direction: alternate;
-
-              
-          }
-          @keyframes liiku {
-  from {left: 0px;}
-  to {left: 500px;}
+    /* ----------- Non-Retina Screens ----------- */
+@media screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (-webkit-min-device-pixel-ratio: 1) { 
 }
-form { 
-        font-family: 'Courier New', Courier, monospace;
-        display: flex;
-        flex-direction: column;
-        flex-wrap:wrap;
-        
-        align-content: center;
-        
-        color:green;
 
-        
-    }
-    audio {
-      align-content: center;
+/* ----------- Retina Screens ----------- */
+@media screen 
+  and (min-device-width: 1200px) 
+  and (max-device-width: 1600px) 
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (min-resolution: 192dpi) { 
+}
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+}
 
-    }
-    .square {
-  height: 50px;
-  width: 50px;
-  background-color: lightgreen;
+/* Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+  
 }
-.circle {
-  height: 50px;
-  width: 50px;
-  background-color: lightblue;
-  border-radius: 50%;
+img {
+  width: 60vmin;
+  
+  height:auto;
 }
-.oval {
-  height: 50px;
-  width: 100px;
-  background-color: red;
-  border-radius: 50%;
+body {
+ width: 100vmax;
 }
-.rectangle {
-  height: 50px;
-  width: 100px;
-  background-color: blue;
-}
-.triangle-up {
-	width: 0;
-	height: 0;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
-	border-bottom: 50px solid pink;
-}
-:root {
-  --main-bg-color: lightblue;
-  --main-txt-color: blue;  
-  --main-padding: 15px;  
-  --main-font:aria;
-  --main-border-style:solid;
 
+div {
+  width: 50vmin;
+  border: 15px solid green;
+  padding: 50px;
+  margin: 20px;
 }
-h2 {
-  font: var(--main-font);
-  background-color: var(--main-bg-color);
-  padding: var(--main-padding);
-  border-style: var(--main-border-style);
+h1 {
+  width: 100%;
+  max-width: 100%;
 }
+
             
      </style>
 
 <body>
 
   <h1>Otsikko h1</h1>
-  <div>
-    <h2 id="h21">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ornare lobortis risus, vel sollicitudin arcu vestibulum at. Praesent id turpis in turpis lacinia dignissim. Nulla aliquam ac quam vel scelerisque. Maecenas congue nulla nec elementum laoreet. Phasellus ex dolor, placerat eu tristique non, imperdiet sit amet risus. Quisque lacinia felis ipsum, sed interdum leo facilisis a. Vivamus ante risus, mollis sit amet lobortis vel, fringilla sit amet enim.
+  <div>1</div>
+  <div>2</div><div>3</div>
+    <img src="flower.jpeg">
 
-    </h2>
- 
-  <h2 id="h22">Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed accumsan pretium arcu, ac dapibus quam sollicitudin quis. Duis sollicitudin ornare mauris, sed consectetur lectus placerat efficitur. Phasellus scelerisque, diam eget placerat finibus, ante enim vulputate enim, eget facilisis ex risus a enim. Aliquam at efficitur sem, sodales accumsan neque. Aenean consectetur libero non urna euismod maximus. Aliquam vitae egestas est, congue sodales orci.
-
-  </h2>
-  
-
-  <h2 id="h23">Maecenas quam felis, ultrices ut lectus at, venenatis varius est. Morbi lacinia ut augue sed pulvinar. Nullam euismod augue nulla, sit amet dignissim massa semper quis. Nullam vitae accumsan dui. Nullam auctor ac est at fringilla. Etiam nulla mauris, fringilla vitae porttitor et, efficitur sit amet risus. In sit amet rhoncus magna. Mauris vulputate egestas ullamcorper. Curabitur ut mi vestibulum, blandit diam vitae, fermentum diam. Suspendisse potenti. Suspendisse hendrerit aliquam orci, sit amet blandit orci tristique ac. Fusce turpis mi, condimentum id vulputate a, iaculis ac dolor. Suspendisse faucibus sem risus, vitae vulputate lectus facilisis ultricies. Ut sit amet nulla augue. Duis commodo turpis interdum efficitur pulvinar.
-
-  </h2>
-
-<h2 id="h24">Quisque a leo id est auctor condimentum sed sit amet arcu. Nulla bibendum tortor quam, sed hendrerit nisl congue ut. Fusce sit amet ex vitae ipsum sagittis eleifend quis vitae nulla. Pellentesque maximus tristique nisl vel lobortis. Vestibulum quis eros eu quam posuere aliquam. Morbi nec blandit purus. Nam ac interdum lectus. Pellentesque dictum ultricies enim condimentum placerat. Nunc pulvinar non est congue consequat.
-
-</h2>
-
-<h2 id="h25">In vitae erat eget eros pretium venenatis id nec tortor. Morbi nunc mi, ultrices nec massa quis, malesuada lacinia tortor. In imperdiet quis ex eu consectetur. Nulla viverra sapien erat, at laoreet odio consequat eu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse nunc neque, bibendum scelerisque tempus id, eleifend at dolor. Etiam eget ante urna. Phasellus elementum tempus ex, egestas vestibulum nunc fringilla vitae. Ut tristique, est in elementum ultricies, eros dolor tristique felis, a tincidunt est magna sed risus. Nullam molestie augue massa, non venenatis orci convallis fermentum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et ultrices eros, vel aliquet tellus. Fusce velit nibh, vulputate ut pretium eget, posuere quis metus. Aenean tincidunt ante et sem ullamcorper mollis. Sed in leo viverra, ultrices sem id, imperdiet nisi. Duis malesuada tincidunt turpis a venenatis.
-
-</h2>
-</div>
 
 <br>
 <br>
