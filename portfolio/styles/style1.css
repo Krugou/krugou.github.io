@@ -1,3 +1,6 @@
+:root{
+  --shadow: 14px 15px 67px 0px rgba(0,0,0,0.75);
+}
 body {
     background-color: lightblue;
     margin: 1rem;
@@ -13,5 +16,24 @@ body {
     flex-direction: row;
     margin: 10px;
     padding: 20px;
+
+}
+p {
+  color:green;
+ }
+.boxmodel
+  { display: flex;
+    flex-direction: row;
+    margin: 10px;
+    padding: 20px;
+
+}
+
+.boxmodel img{
+  width: 100%;
+  box-shadow: var(--shadow);
+}
+li a{
+  box-shadow: var(--shadow);
 
 }
