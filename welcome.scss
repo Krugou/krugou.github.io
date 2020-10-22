@@ -22,7 +22,7 @@ body {
 }
 
 .text {
-  color: lightblue;
+  color: #fbae17;
   display: inline-block;
   margin-left: 5px;
 }
@@ -40,7 +40,7 @@ body {
     width: $width;
     height: $height;
     border-radius: 50%;
-    background-color: lightblue;
+    background-color: #fbae17;
     transform-origin: 50%;
     animation: bounce 500ms alternate infinite ease;
   }

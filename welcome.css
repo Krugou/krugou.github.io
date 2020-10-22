@@ -15,7 +15,7 @@ body {
 }
 
 .text {
-  color: #lightblue;
+  color: #fbae17;
   display: inline-block;
   margin-left: 5px;
 }
@@ -35,7 +35,7 @@ body {
   width: 15px;
   height: 15px;
   border-radius: 50%;
-  background-color: #lightblue;
+  background-color: #fbae17;
   -webkit-transform-origin: 50%;
           transform-origin: 50%;
   -webkit-animation: bounce 500ms alternate infinite ease;
