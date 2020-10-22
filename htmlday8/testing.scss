@@ -1,0 +1,29 @@
+
+$font-stack:    Helvetica, sans-serif;
+$mcolor1: blue;
+$margin-1:1px;
+$padding-1:1%;
+$scolor:red;
+$mcolor2: blue;
+
+body {
+  font: 100% $font-stack;
+  
+}
+nav  {
+    ul{
+        margin: $margin-1;
+        padding:$padding-1;
+    }
+}
+li {
+    color:$mcolor;
+}
+a {
+    color:$scolor;
+}
+
+@for $i from 1 through 3 {
+    .font-#{$i} { font-size: $i * 10px; color:$mcolor }
+   
+}
