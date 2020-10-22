@@ -33,7 +33,7 @@ p {
   width: 100%;
   box-shadow: var(--shadow);
 }
-.shadow{
+li a{
   box-shadow: var(--shadow);
 
 }
