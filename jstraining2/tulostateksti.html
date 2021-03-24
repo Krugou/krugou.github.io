@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+Nimesi on? <input type="text" id="nimi" >
+
+
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="tervehdys"></p>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("nimi").value;
+  document.getElementById("tervehdys").innerHTML = ("Hei, sinun nimesi on: " + x);
+}
+</script>
+
+</body>
+</html>
