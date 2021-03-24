@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+Luku yksi <input type="text" id="numero1" >
+
+
+
+<button onclick="myFunction()">Tulosta kertotaulu</button>
+
+<p id="laskelma"></p>
+
+<script>
+function myFunction() {
+  var x = document.getElementById("numero1").value;
+  var x2 = parseInt(x)
+  for(let i = 1; i <= 10; i++) { 
+    const vastaus = i * x2;
+    console.log(`${x2} * ${i} = ${vastaus}`);
+    document.getElementById("laskelma").innerHTML = (x2 + " * " + i +" = " +vastaus);
+  }
+  
+}
+</script>
+
+</body>
+</html>
