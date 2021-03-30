@@ -4,9 +4,11 @@
 
 
 
-<p>Anna numero</p>
+<p>Anna numerot</p>
 
-<input id="arvo">
+1:<input id="arvo">
+2:<input id="arvo2">
+
 
 <button type="button" onclick="myFunction()">Lähetä</button>
 
@@ -17,23 +19,25 @@ function myFunction() {
   var x, text;
 
   
-  x = document.getElementById("arvo").value;
-
+  y = document.getElementById("arvo").value;
+  z = document.getElementById("arvo2").value;
+  x = +y + +z;
+    console.log(x)
  
   if (isNaN(x)) {
     text = "Antamasi arvo ei ole luku.";
     document.getElementById("test11").style.color = "white";
     document.body.style.backgroundColor = "red";
-  } else if  (x < -10)  {
+  } else if  (x < 25)  {
     text = "<h6>Liian pieni</h6>"
-
+    document.getElementById("test11").style.color = "red";
   }
-  else if  (x > 10)  {
+  else if  (x > 75)  {
     text = "<h1>Liian iso</h1>"
-
+    document.getElementById("test11").style.color = "blue";
   }
   else {
-    text = x;
+    text = "ok";
     document.getElementById("test11").style.color = "green";
   }
   
