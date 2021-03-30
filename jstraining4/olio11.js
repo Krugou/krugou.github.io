@@ -29,4 +29,5 @@ function laskeKokonaisHinta(arr){
 }
 var vihanneskori = arvoSatunnainen(5)
 console.log(vihanneskori.length)
+console.log(vihanneskori.toString)
 console.log(laskeKokonaisHinta(vihanneskori))
