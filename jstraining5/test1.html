@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label> email.<input pattern="/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/" required type="email" />
+        </label>
+        <br>
+        <label> creditcard<input type="tel" inputmode="numeric" required pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="xxxx xxxx xxxx xxxx" />
+        </label>
+        <br>
+        <label> string with &a <input pattern="&a$" placeholder="&a" required type="text" />
+    </label>
+        <br>
+        <input type="submit" value="Lähetä">
+    </form>
+</body>
+</html>
