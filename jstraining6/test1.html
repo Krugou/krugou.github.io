@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button id="nappi">kokeile</button>
+    <button id="nappi2">kokeile2</button>
+    <button id="nappi3">kokeile3</button>
+    <button id="nappi4">kokeile4</button>
+    <p id="testi"></p>
+
+    <script>
+        document.getElementById("nappi2").addEventListener("click", function() {
+          document.getElementById("testi").innerHTML = "<br>oho mitä kävi";
+        });
+        document.getElementById("nappi").addEventListener("mousedown", function() {
+          document.getElementById("testi").innerHTML = "varovasti nyt";
+        });
+        document.getElementById("nappi").addEventListener("mouseup", function() {
+          document.getElementById("testi").innerHTML = "uudestaan";
+        });
+        document.getElementById("nappi").addEventListener("mouseover", function() {
+          document.getElementById("testi").innerHTML = "löysit oikean kohdan";
+        });
+        document.getElementById("nappi").addEventListener("mouseout", function() {
+          document.getElementById("testi").innerHTML = "takaisin";
+        });
+        document.getElementById("nappi3").addEventListener("load", function() {
+         
+        });
+        </script>
+</body>
+</html>
