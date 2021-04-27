@@ -16,9 +16,24 @@ exports.Metodi4 = function reverseString(str) {
     const joinArray = reverseArray.join("");
     return joinArray;
 }
- 
+ exports.Metodi5 = function countChrOccurence (str) {
+    let charMap = new Map();
+    const count = 0;
+     for (const key of str) {
+      charMap.set(key,count);  
+     }
+   
+     for (const key of str) {
+       let count = charMap.get(key);
+       charMap.set(key, count + 1);
+     }
+   
+     for (const [key,value] of charMap) {
+       console.log(key,value)
+     }
+   } 
 
-exports.Metodi5 = function sum_digits_from_string(dstr) {
+exports.Metodi6 = function sum_digits_from_string(dstr) {
     var dsum = 0;
   
     for (var i = 0; i < dstr.length; i++)
