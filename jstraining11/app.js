@@ -158,8 +158,8 @@ function searchClientsByName(val){
 
 /*
 
-curl http://localhost:3000/api/clients -X POST -d ’clientname=Taitotalo’
-Invoke-WebRequest -Method POST http://localhost:3000/api/clients -Body @{clientname=Taitotalo’}
+curl http://localhost:3000/api/clients -X POST -d ’clientname='Taitotalo'
+Invoke-WebRequest -Method POST http://localhost:3000/api/clients -Body @{clientname='Taitotalo'}
 
 curl http://localhost:3000/api/clients -X GET
 Invoke-WebRequest -Method GET http://localhost:3000/api/clients
@@ -167,8 +167,8 @@ Invoke-WebRequest -Method GET http://localhost:3000/api/clients
 curl http://localhost:3000/api/clients/1 -X GET
 Invoke-WebRequest -Method GET http://localhost:3000/api/clients/1
 
-curl http://localhost:3000/api/clients/1 -X PUT -d ’clientname=Hesburger’
-Invoke-WebRequest -Method PUT http://localhost:3000/api/clients/1 -Body @{clientname= Hesburger’}
+curl http://localhost:3000/api/clients/1 -X PUT -d ’clientname='Hesburger'
+Invoke-WebRequest -Method PUT http://localhost:3000/api/clients/1 -Body @{clientname= 'Hesburger'}
 
 curl http://localhost:3000/api/clients/1 -X DELETE -d 
 Invoke-WebRequest -Method DELETE http://localhost:3000/api/clients/1
