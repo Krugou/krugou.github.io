@@ -11,5 +11,11 @@ Triangle.prototype.checkType = function() {
     else if ((this.side1 !== this.side2) &&(this.side1 !== this.side3) && (this.side2 !== this.side3)) {
         return 'epäsäännöllinen kolmio'
     }
+    else if ((this.side1 === this.side2) && (this.side1 === this.side3)){
+        return "tasasivuinen kolmio"
+    }
+    else {
+        return "tasakylkinen kolmio"
+    }
  };
 module.exports = { Triangle }
