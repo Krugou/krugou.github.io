@@ -9,3 +9,11 @@ describe('Triangle',() => {
         expect (triangle.side3).toEqual(5);
     });
 });
+describe('Should correctly determine whether three lengths are not a triangle',() => {
+    const notTriangle = new Triangle(3,9,22);
+    expect(notTriangle.checkType()).toEqual('Not a triangle');
+});
+describe('Tarkistetaan, onko epäsäännöllinen kolmio',() => {
+    const notTriangle = new Triangle(4,5,7);
+    expect(notTriangle.checkType()).toEqual('epäsäännöllinen kolmio');
+});
