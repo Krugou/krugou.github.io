@@ -1,0 +1,14 @@
+
+router.post('/mainsite3',(req,res)=>{
+    const {name,email,seating} = req.body;
+    let errors = [];
+User.findOne({seating : seating}).exec((err,user)=>{
+    console.log(user);   
+    if(user) {
+        errors.push({msg: 'seating is taken'});
+        res.render('mainsite3',{errors,name,email,seating})  
+       } else {
+        const updateUser = new User({
+            name : name,
+            seating : seating,
+        });

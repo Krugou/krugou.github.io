@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="welcome.css" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  
+  <%- include ('./partials/header') %>
+  <p> Welcome <%= user.name %></p>
+  <a href="/users/logout">Logout</a>
+  <form action="/users/register" method="POST">
+    <label for="rivikirjain">select your seating row letter</label>
+    <select id="rivikirjain">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+        <option value="d">d</option>
+        <option value="e">e</option>
+    </select>
+  <label for="rivinumero">select your seating row number</label>
+  <select id="rivinumero">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+  </select>
+  <button id="btn">reserve these seats</button>
+</form>
+  <script>
+    const btn = document.querySelector('#btn');
+    const valitse = document.querySelector('#rivikirjain');
+    const valitse2 = document.querySelector('#rivinumero');
+    btn.onclick = (event) => {
+        event.preventDefault();
+        // lähetä tiedot mongodb:hen
+        alert(valitse.value + valitse2.value);
+    };
+  </script>
+  <%- include ('./partials/footer') %>
+</body>
+</html>

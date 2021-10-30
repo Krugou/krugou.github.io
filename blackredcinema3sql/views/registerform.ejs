@@ -1,0 +1,93 @@
+<%- include ('./partials/header') %>
+<h1>Register</h1>
+<%- include ('./partials/seating') %>
+<%- include ('./partials/messages') %>
+<div class="container"></div>
+<form action="/register" method="POST">
+  
+  
+      <div class="row">
+        <div class="col-25">
+          <label for="name">Name</label>
+        </div>
+        <div class="col-75">
+          <input
+          type="name"
+          name="name"
+          placeholder="Enter Name"
+          value="<%= typeof name != 'undefined' ? name : '' %>"
+        />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="email">Email</label>
+        </div>
+        <div class="col-75">
+          <input
+      type="email"
+      name="email"
+      placeholder="Enter Email"
+      value="<%= typeof email != 'undefined' ? email : '' %>"
+    />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="password">Password</label>
+        </div>
+        <div class="col-75">
+          <input
+      type="password"
+      name="password"
+      placeholder="Create Password"
+      value="<%= typeof password != 'undefined' ? password : '' %>"
+    />
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-25">
+          <label for="password2">Confirm Password</label>
+        </div>
+        <div class="col-75">
+          <input
+      type="password"
+      name="password2"
+      placeholder="Confirm Password"
+      value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
+    />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="seating">type your preferred seat</label>
+        </div>
+        <div class="col-75">
+          <input
+      type="text"
+      name="seating"
+      value="<%= typeof seating != 'undefined' ? seating : '' %>"
+    />    
+<div>
+  <div >
+    <label for="movie">choose your movie</label>
+    <select name="movie" id="movie">
+      <option value="Richie Rich">Richie Rich</option>
+      <option value="Shawshank Redemption">Shawshank Redemption</option>
+      <option value="Dune">Dune</option>
+      <option value="Big Fish">Big Fish</option>
+    </select>
+  </div>
+</div>
+</div>
+  <button type="submit" class="row">
+    Register and reserve these seats
+  </button>
+</form>
+<p >Have An Account? <a href="/login">Login</a></p>
+<%- include ('./partials/footer') %>
+
+ 
+  
