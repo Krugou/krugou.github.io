@@ -10,7 +10,7 @@ const db = mysql.createConnection({
 
 db.connect(function(err) {
   if (err) throw err;
-  var sql3 = "DELETE FROM TABLE bookings WHERE EMAIL = 'g'";
+  var sql3 = "DROP TABLE bookings";
   db.query(sql3, function (err, result) {
     if (err) throw err;
     console.log("Number of records deleted: " + result.affectedRows);

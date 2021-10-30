@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var db=require('../database');
-// to display registration form 
+// näyttää rekisteröintilomakkeen
 router.get('/register', function(req, res, next) {
   res.render('registerform');
 });
-// to store user input detail on post request
+// tallentaa käyttäjän syöttämät tiedot post pyynnöstä
 router.post('/register', function(req, res, next) {
     inputpassword ={
         password2: req.body.password2
@@ -17,7 +17,7 @@ router.post('/register', function(req, res, next) {
         seating: req.body.seating,
         movie: req.body.movie,
     }
-// check unique email address
+// tarkistaa ettei sähköposti ole käytössä
 var sql="SELECT * FROM bookings WHERE email =?";
 db.query(sql, [inputData.email] ,function (err, data, fields) {
  if(err) throw err
@@ -29,7 +29,7 @@ db.query(sql, [inputData.email] ,function (err, data, fields) {
     console.log("password failed")
  }else{
      
-    // save users data into database
+    // tallentaa db:hen tiedot
     var sql2 = "INSERT INTO bookings SET ?";
    db.query(sql2, inputData, function (err, data) {
       if (err) throw err;

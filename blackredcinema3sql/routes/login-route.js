@@ -7,17 +7,18 @@ router.get('/login', function(req, res, next) {
 });
 router.post('/login', function(req, res){
     var emailAddress = req.body.email;
-    var seating2 = req.body.seating;
-    var movie2 = req.body.movie;
+    var seating = req.body.seating;
+    var movie = req.body.movie;
     var password = req.body.password;
-    var sql="SELECT * FROM bookings WHERE email =? AND password =?";
+    var sql="SELECT * FROM bookings WHERE email =? AND password =? ";
     db.query(sql, [emailAddress, password], function (err, data, fields) {
         if(err) throw err
         if(data.length>0){
             req.session.loggedinUser= true;
             req.session.emailAddress= emailAddress;
-            req.session.seating= seating2;
-            req.session.movie= movie2;
+            req.session.seating= seating;
+            req.session.movie= movie;
+            
             console.log("success at login")
             res.redirect('/reservations');
         }else{

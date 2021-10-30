@@ -1,8 +1,8 @@
 
 const express = require('express')
 var router = express.Router();
-/* GET users listing. */
-router.get('/logout', function(req, res) {
+/* lopettaa session */
+router.get('/logout', function(req, res) {  
   req.session.destroy();
   res.redirect('/login');
 });

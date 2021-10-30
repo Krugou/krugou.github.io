@@ -27,7 +27,7 @@ body {
   }
   
   input[type=submit] {
-    background-color: rebeccapurple;
+    background-color: black;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -58,7 +58,6 @@ body {
     margin-top: 6px;
   }
   
-  /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
