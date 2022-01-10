@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>tulos:</p>
+    <p id="teksti"></p>
+</body>
+<script> 
+     let arvo;
+if (window.confirm("Lasketaanko neliöjuuri?") == true) {
+  arvo = parseInt(prompt("Anna neliöjuuri")); 
+  if(arvo>0) {
+      arvo2 = Math.sqrt(arvo);
+    document.getElementById('teksti').innerHTML = arvo + " neliöjuuri on: " + arvo2
+
+  } else {
+    document.getElementById('teksti').innerHTML = 'Negatiivisen luvun neliöjuuri ei ole määritelty'
+  }
+} else {
+  document.getElementById('teksti').innerHTML = 'Neliöjuurta ei laskettu.'
+}
+    </script>
+</html>

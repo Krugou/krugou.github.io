@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>tulos:</p>
+    <p id="teksti"></p>
+</body>
+<script> 
+    
+     var arvo = parseInt(prompt("Anna vuosi: "))
+     
+    if (arvo % 4 == 0 && ( arvo % 100 != 0 || arvo % 400 == 0 ) ) {
+      document.getElementById('teksti').innerHTML = 'Annoit vuoden ' + arvo + " ja se on karkausvuosi.";
+    } else {
+      document.getElementById('teksti').innerHTML = 'Annoit vuoden ' + arvo + " ja se ei ole karkausvuosi.";
+    }
+
+    </script>
+</html>
