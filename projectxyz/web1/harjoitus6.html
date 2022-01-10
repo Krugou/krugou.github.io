@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+<h1> harjoitus 6</h1>
+<p>Massa nykymittojen mukaan:</p>
+<p id="teksti"></p>
+</body>
+<script>
+
+  var luku1 = parseInt(prompt('leivisköt?'));
+  var luku2 = parseInt(prompt('naulat?'));
+  var luku3 = parseInt(prompt('luodit?'));
+  var naula = (luku1 * 20);
+  var luodit = ((naula + luku2) * 32);
+  var paino = ((luodit + luku3) * 13.3);
+  var painokg = (paino / 1000);
+  var painokg1 = Math.floor(painokg);
+  var painogr = (paino - (painokg1 * 1000));
+
+  // console logit testaukseen
+  console.log(luku1);
+  console.log(luku2);
+  console.log(luku3);
+  console.log(naula);
+  console.log(luodit);
+  console.log(paino);
+  console.log(painokg);
+  console.log(painokg1);
+  console.log(painogr);
+
+  document.getElementById('teksti').innerHTML = (painokg1) + ' kilogrammaa ja ' +
+      Number.parseFloat(painogr).toFixed(2) + ' grammaa.';
+</script>
+</html>

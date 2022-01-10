@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>tulos:</p>
+    <p id="teksti"></p>
+</body>
+<script> let luku;
+    pituus = parseInt(prompt('Anna kuhan pituus(cm)? '));
+    if (pituus>37) {
+        document.getElementById('teksti').innerHTML = ('Kuha on oikean pituinen');
+        console.log('Kuha on oikean pituinen');
+    }
+    else if (pituus<37) {
+        document.getElementById('teksti').innerHTML = ('Kuha on alamittainen siitä puuttuu ' + (37 - pituus) + " cm");
+        console.log('Kuha on alamittainen siitä puuttuu: ' + (37 - pituus));
+    }
+    else {
+        document.getElementById('teksti').innerHTML = ('pituus oli muuta');
+        console.log('pituus oli muuta');
+    }</script>
+</html>
