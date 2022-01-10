@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>tulos:</p>
+    <p id="teksti"></p>
+</body>
+<script> let luku;
+    arvo = parseInt(prompt('Anna Hemoglobiiniarvo(g/l) ?'));
+    sex = prompt('Anna sukupuoli(mies/nainen)?')
+    if (sex == "mies"){
+
+    
+    if (arvo>134 &&arvo<195) {
+        document.getElementById('teksti').innerHTML = ('Hemoglobiinisi on ' + arvo + " ja se on normaali");
+        console.log('Hemoglobiinisi on ' + arvo + " ja se on normaali");
+    }
+    else if (arvo>175) {
+        document.getElementById('teksti').innerHTML = ('Hemoglobiinisi on ' + arvo + " ja se on liian korkea");
+        console.log('Hemoglobiinisi on ' + arvo + " ja on liian korkea");
+    }
+    else if (arvo<117) {
+        document.getElementById('teksti').innerHTML = ('Hemoglobiinisi on ' + arvo + " ja se on liian alhainen");
+        console.log('Hemoglobiinisi on ' + arvo + " ja on liian alhainen");
+    }
+    else {
+        document.getElementById('teksti').innerHTML = ('hemoglobiiniarvo oli muuta kuin numero');
+        console.log('hemoglobiiniarvo oli muuta kuin numero');
+    }
+    }
+    else if (sex== "nainen") {
+        if (arvo>117&&arvo<175) {
+        document.getElementById('teksti').innerHTML = ('Hemoglobiinisi on ' + arvo + " ja se on normaali");
+        console.log('Hemoglobiinisi on ' + arvo + " ja se on normaali");
+    }
+    else if (arvo>175) {
+        document.getElementById('teksti').innerHTML = ('Hemoglobiinisi on ' + arvo + " ja se on liian korkea");
+        console.log('Hemoglobiinisi on ' + arvo + " ja on liian korkea");
+    }
+    else if (arvo<117) {
+        document.getElementById('teksti').innerHTML = ('Hemoglobiinisi on ' + arvo + " ja se on liian alhainen");
+        console.log('Hemoglobiinisi on ' + arvo + " ja on liian alhainen");
+    }
+    else {
+        document.getElementById('teksti').innerHTML = ('hemoglobiiniarvo oli muuta kuin numero');
+        console.log('hemoglobiiniarvo oli muuta kuin numero');
+    }
+
+    }
+    else {
+        document.getElementById('teksti').innerHTML = ('Syötit sukupuolen väärin');
+        console.log('Syötit sukupuolen väärin');
+    }
+    </script>
+</html>
