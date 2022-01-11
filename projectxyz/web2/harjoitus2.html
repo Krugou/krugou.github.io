@@ -8,34 +8,38 @@
 </head>
 
 <body>
-    <img src="tuvat.png" alt="tuvat"> <br>
-    <p id="teksti"></p>
-    <iframe src="HarryPotterTheme.mp3" allow="autoplay" style="display:none" id="iframeAudio">
-    </iframe> 
-    <audio  controls autoplay>
-      <source src="HarryPotterTheme.mp3" type="audio/mpeg">
+<img src="tuvat.png" alt="tuvat"> <br>
+<p id="teksti"></p>
+<iframe src="HarryPotterTheme.mp3" allow="autoplay" style="display:none" id="iframeAudio">
+</iframe>
+<audio controls autoplay>
+    <source src="HarryPotterTheme.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
-    </audio>
-    <iframe src="https://open.spotify.com/embed/track/6CeCOC2zx1qS8mQNYHe6IM?utm_source=generator" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>    
+</audio>
+
 </body>
-<script> 
-     function getRandomInt(min, max) {
+<script>
+  function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   }
+
   var noppa1 = getRandomInt(1, 4);
-     var nimi = prompt("Anna nimesi: ")
-     
-    if (noppa1== 1) {
-      document.getElementById('teksti').innerHTML = nimi + ' olet <a href="https://fi.wikipedia.org/wiki/Korpinkynsi">Korpinkynsi</a>'; 
-    } else if (noppa1== 2) {
-      document.getElementById('teksti').innerHTML = nimi + ' olet <a href="https://fi.wikipedia.org/wiki/Rohkelikko">Rohkelikko</a>';
-    } else if (noppa1== 3) {
-      document.getElementById('teksti').innerHTML = nimi + ' olet <a href="https://fi.wikipedia.org/wiki/Luihuinen">Luihuinen</a>';
-    } else  {
-      document.getElementById('teksti').innerHTML = nimi + ' olet <a href="https://fi.wikipedia.org/wiki/Puuskupuh">Puuskupuh</a>';
-    }
+  var nimi = prompt('Anna nimesi: ');
+
+  if (noppa1 == 1) {
+    document.getElementById('teksti').innerHTML = nimi +
+        ' olet <a href="https://fi.wikipedia.org/wiki/Korpinkynsi">Korpinkynsi</a>';
+  } else if (noppa1 == 2) {
+    document.getElementById('teksti').innerHTML = nimi +
+        ' olet <a href="https://fi.wikipedia.org/wiki/Rohkelikko">Rohkelikko</a>';
+  } else if (noppa1 == 3) {
+    document.getElementById('teksti').innerHTML = nimi +
+        ' olet <a href="https://fi.wikipedia.org/wiki/Luihuinen">Luihuinen</a>';
+  } else {
+    document.getElementById('teksti').innerHTML = nimi +
+        ' olet <a href="https://fi.wikipedia.org/wiki/Puuskupuh">Puuskupuh</a>';
+  }
 
 
-
-    </script>
+</script>
 </html>

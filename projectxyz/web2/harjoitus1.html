@@ -8,21 +8,19 @@
 </head>
 
 <body>
-    <p>tulos:</p>
-    <p id="teksti"></p>
+<p>tulos:</p>
+<p id="teksti"></p>
 </body>
 <script> let luku;
-    pituus = parseInt(prompt('Anna kuhan pituus(cm)? '));
-    if (pituus>37) {
-        document.getElementById('teksti').innerHTML = ('Kuha on oikean pituinen');
-        console.log('Kuha on oikean pituinen');
-    }
-    else if (pituus<37) {
-        document.getElementById('teksti').innerHTML = ('Kuha on alamittainen siitä puuttuu ' + (37 - pituus) + " cm");
-        console.log('Kuha on alamittainen siitä puuttuu: ' + (37 - pituus));
-    }
-    else {
-        document.getElementById('teksti').innerHTML = ('pituus oli muuta');
-        console.log('pituus oli muuta');
-    }</script>
+pituus = parseInt(prompt('Anna kuhan pituus(cm)? '));
+if (pituus > 37) {
+  document.getElementById('teksti').innerHTML = ('Kuha on oikean pituinen');
+  console.log('Kuha on oikean pituinen');
+} else if (pituus < 37) {
+  document.getElementById('teksti').innerHTML = ('Kuha on alamittainen siitä puuttuu ' + (37 - pituus) + ' cm');
+  console.log('Kuha on alamittainen siitä puuttuu: ' + (37 - pituus));
+} else {
+  document.getElementById('teksti').innerHTML = ('pituus oli muuta');
+  console.log('pituus oli muuta');
+}</script>
 </html>

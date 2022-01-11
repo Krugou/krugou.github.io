@@ -8,22 +8,22 @@
 </head>
 
 <body>
-    <p>tulos:</p>
-    <p id="teksti"></p>
+<p>tulos:</p>
+<p id="teksti"></p>
 </body>
-<script> 
-     let arvo;
-if (window.confirm("Lasketaanko neliöjuuri?") == true) {
-  arvo = parseInt(prompt("Anna neliöjuuri")); 
-  if(arvo>0) {
+<script>
+  let arvo;
+  if (window.confirm('Lasketaanko neliöjuuri?') == true) {
+    arvo = parseInt(prompt('Anna neliöjuuri'));
+    if (arvo > 0) {
       arvo2 = Math.sqrt(arvo);
-    document.getElementById('teksti').innerHTML = arvo + " neliöjuuri on: " + arvo2
+      document.getElementById('teksti').innerHTML = arvo + ' neliöjuuri on: ' + arvo2;
 
+    } else {
+      document.getElementById('teksti').innerHTML = 'Negatiivisen luvun neliöjuuri ei ole määritelty';
+    }
   } else {
-    document.getElementById('teksti').innerHTML = 'Negatiivisen luvun neliöjuuri ei ole määritelty'
+    document.getElementById('teksti').innerHTML = 'Neliöjuurta ei laskettu.';
   }
-} else {
-  document.getElementById('teksti').innerHTML = 'Neliöjuurta ei laskettu.'
-}
-    </script>
+</script>
 </html>

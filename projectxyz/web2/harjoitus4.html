@@ -8,19 +8,19 @@
 </head>
 
 <body>
-    <p>tulos:</p>
-    <p id="teksti"></p>
+<p>tulos:</p>
+<p id="teksti"></p>
 </body>
-<script> 
-     var lompakko = parseInt(prompt('Paljonko sinulla on rahaa lompakossa?'));
-     var lipunhinta = parseInt(prompt('Lipunhinta?'));
-    if (lompakko>lipunhinta) {
-        document.getElementById('teksti').innerHTML = ('Lipunosto onnistui. saldo jäljellä: ' + (lompakko-lipunhinta));
-        console.log('Lipunosto onnistui. saldo jäljellä: ' + (lompakko-lipunhinta));
-    } else {
-        document.getElementById('teksti').innerHTML = ('Rahat eivät riitä. Lipunosto epäonnistui');
-        console.log('Rahat eivät riitä. Lipunosto epäonnistui');
-    }
+<script>
+  var lompakko = parseInt(prompt('Paljonko sinulla on rahaa lompakossa?'));
+  var lipunhinta = parseInt(prompt('Lipunhinta?'));
+  if (lompakko > lipunhinta) {
+    document.getElementById('teksti').innerHTML = ('Lipunosto onnistui. saldo jäljellä: ' + (lompakko - lipunhinta));
+    console.log('Lipunosto onnistui. saldo jäljellä: ' + (lompakko - lipunhinta));
+  } else {
+    document.getElementById('teksti').innerHTML = ('Rahat eivät riitä. Lipunosto epäonnistui');
+    console.log('Rahat eivät riitä. Lipunosto epäonnistui');
+  }
 
-    </script>
+</script>
 </html>
