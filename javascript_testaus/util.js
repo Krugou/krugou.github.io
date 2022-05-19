@@ -1,6 +1,8 @@
-const { default: ModuleNotFoundError } = require("jest-resolve/build/ModuleNotFoundError")
+const {default: ModuleNotFoundError} = require(
+    'jest-resolve/build/ModuleNotFoundError');
 
-function greet (name) {
-    return `Hello ${name}`
+function greet(name) {
+  return `Hello ${name}`;
 }
-module.exports = {greet}
+
+module.exports = {greet};

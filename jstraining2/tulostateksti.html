@@ -2,8 +2,7 @@
 <html>
 <body>
 
-Nimesi on? <input type="text" id="nimi" >
-
+Nimesi on? <input id="nimi" type="text">
 
 
 <button onclick="myFunction()">Tulosta tervehdys</button>
@@ -11,10 +10,10 @@ Nimesi on? <input type="text" id="nimi" >
 <p id="tervehdys"></p>
 
 <script>
-function myFunction() {
-  var x = document.getElementById("nimi").value;
-  document.getElementById("tervehdys").innerHTML = ("Hei, sinun nimesi on: " + x);
-}
+  function myFunction() {
+    var x = document.getElementById('nimi').value;
+    document.getElementById('tervehdys').innerHTML = ('Hei, sinun nimesi on: ' + x);
+  }
 </script>
 
 </body>

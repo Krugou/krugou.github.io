@@ -1,1 +1,1 @@
-exports.kerto = function(x,y,z){return x*y*z}
+exports.kerto = function(x, y, z) {return x * y * z;};

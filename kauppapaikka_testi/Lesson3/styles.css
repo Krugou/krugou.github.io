@@ -4,7 +4,7 @@
 @font-face {
     font-family: "Booter - Zero Zero";
     src: url("Fonts/Booter - Zero Zero.woff") format("woff"),
-         url("Fonts/Booter - Zero Zero.woff2") format("woff2");
+    url("Fonts/Booter - Zero Zero.woff2") format("woff2");
     font-weight: normal;
     font-style: normal;
 }
@@ -81,6 +81,7 @@ html, body {
     margin: 0 auto;
     padding: 0 1.5em;
 }
+
 .section-header {
     font-family: "Metal Mania";
     font-weight: normal;

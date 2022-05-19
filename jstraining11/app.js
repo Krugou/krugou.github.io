@@ -60,101 +60,99 @@ async function luoAsiakas(nimi){
 var mysql = require('mysql');
 var express = require('express');
 var app = express();
-const port = 3000
+const port = 3000;
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+  res.send('Hello World!');
+});
 
-app.get('/api/clients/', function (req, res) {
-  res.send(getClients())
-})
+app.get('/api/clients/', function(req, res) {
+  res.send(getClients());
+});
 
-app.get('/api/clients/:id', function (req, res) {
-    res.send(getClient(req.params.id))
-})
+app.get('/api/clients/:id', function(req, res) {
+  res.send(getClient(req.params.id));
+});
 
-app.post('/api/clients/', function (req, res) {
+app.post('/api/clients/', function(req, res) {
   console.log('Got body:', req.body);
-  res.send(addClient(data))
-})
+  res.send(addClient(data));
+});
 
-app.put('/api/clients/:id', function (req, res) {
+app.put('/api/clients/:id', function(req, res) {
   console.log('Got body:', req.body);
-  res.send(updateClient(req.params.id, req.body))
-})
+  res.send(updateClient(req.params.id, req.body));
+});
 
-app.delete('/api/clients/:id', function (req, res) {
-    res.send(deleteClient(req.params.id))
-})
+app.delete('/api/clients/:id', function(req, res) {
+  res.send(deleteClient(req.params.id));
+});
 
-app.get('/search/clients/byName', function (req, res) {
-  res.send(searchClientsByName(req.query.val))
-})
+app.get('/search/clients/byName', function(req, res) {
+  res.send(searchClientsByName(req.query.val));
+});
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
+  console.log(`Example app listening at http://localhost:${port}`);
+});
 
 var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "demo"
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'demo',
 });
 
 con.connect(function(err) {
   if (err) throw err;
-  console.log("Connected!");
+  console.log('Connected!');
 });
 
-function addClient(data){
+function addClient(data) {
   /* https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp */
   /* https://www.veracode.com/blog/secure-development/how-prevent-sql-injection-nodejs */
-  var sql = "INSERT INTO CLIENTS (ClientName) VALUES (?)";
-  con.query(sql, [data.nimi], function (err, result) {
+  var sql = 'INSERT INTO CLIENTS (ClientName) VALUES (?)';
+  con.query(sql, [data.nimi], function(err, result) {
     if (err) throw err;
-    console.log("Client "+data.nimi+" created");
-    return "Client "+nimi+" created";
+    console.log('Client ' + data.nimi + ' created');
+    return 'Client ' + nimi + ' created';
   });
 }
 
-function getClients(){
+function getClients() {
   /* https://www.w3schools.com/nodejs/nodejs_mysql_select.asp */
-  var sql = "SELECT * FROM Clients";
-  con.query(sql,function(err,result){
-    if(err) throw err;
-    console.log(result)
+  var sql = 'SELECT * FROM Clients';
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+    console.log(result);
     return result;
   });
 }
 
-function getClient(id){
+function getClient(id) {
   /* https://www.w3schools.com/nodejs/nodejs_mysql_select.asp */
-  var sql = "SELECT * FROM Clients WHERE id = ?";
-  con.query(sql,function(err,result){
-    if(err) throw err;
-    console.log(result)
+  var sql = 'SELECT * FROM Clients WHERE id = ?';
+  con.query(sql, function(err, result) {
+    if (err) throw err;
+    console.log(result);
     return result;
   });
 }
 
-function updateClient(id, data){
+function updateClient(id, data) {
   /* https://www.w3schools.com/nodejs/nodejs_mysql_update.asp */
-  var sql = "UPDATE Clients SET Clientname = ? WHERE id = ?";
+  var sql = 'UPDATE Clients SET Clientname = ? WHERE id = ?';
 }
 
-function deleteClient(id){
+function deleteClient(id) {
   /* https://www.w3schools.com/nodejs/nodejs_mysql_delete.asp */
-  var sql = "DELETE FROM Clients WHERE id = ?";
+  var sql = 'DELETE FROM Clients WHERE id = ?';
 }
 
-function searchClientsByName(val){
-    /* https://www.w3schools.com/nodejs/nodejs_mysql_where.asp */
-  var sql = "SELECT * FROM Clients LIKE %?%";
+function searchClientsByName(val) {
+  /* https://www.w3schools.com/nodejs/nodejs_mysql_where.asp */
+  var sql = 'SELECT * FROM Clients LIKE %?%';
 }
-
 
 /*
 

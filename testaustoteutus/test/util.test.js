@@ -1,15 +1,13 @@
 const {greet} = require('../util');
 
+describe('Testataan merkkijonoja...', () => {
 
+  test('Tulostaa tervehdys viestin', () => {
 
-describe('Testataan merkkijonoja...',() => {
+    const results = greet('Jasmin');
 
-    test('Tulostaa tervehdys viestin',() =>{
+    expect(results).toBe('Terve Jasmin');
 
-        const results = greet('Jasmin');
-
-        expect(results).toBe('Terve Jasmin');
-
-    });
+  });
 
 });

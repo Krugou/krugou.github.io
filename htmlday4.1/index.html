@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html>
-    <meta http-equiv="refresh" content="120">
-    <head>
+<meta content="120" http-equiv="refresh">
+<head>
 
-    </head>
-    <style>
-    body{ background-image:url('https://i.gifer.com/INdx.gif');
-    background-repeat:repeat;
-    background-size:0%;
+</head>
+<style>
+    body {
+        background-image: url('https://i.gifer.com/INdx.gif');
+        background-repeat: repeat;
+        background-size: 0%;
 
-    } h1{
-        color:black;
+    }
+
+    h1 {
+        color: black;
         text-align: center;
         font-family: 'Courier New', Courier, monospace;
     }
-    form { 
+
+    form {
         font-family: 'Courier New', Courier, monospace;
         display: flex;
         flex-direction: column;
-        flex-wrap:wrap;
-        
-        align-content: center;
-        
-        color:green;
+        flex-wrap: wrap;
 
-        
+        align-content: center;
+
+        color: green;
+
+
     }
-    
-     </style>
+
+</style>
 
 <body>
 
@@ -35,49 +39,50 @@
 
 <form action="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
 
-  
-  <label for="frmNameA">Koko nimi</label>
-<input name="name" id="frmNameA"  required autocomplete="name">
-<br>
-  <label for="frmEmailA">Email</label>
-<input type="email" name="email" id="frmEmailA"  required autocomplete="email">
-<br>
-<label for="frmEmailC">Uudelleen Email</label>
-<input type="email" name="emailC" id="frmEmailC"  required autocomplete="email">
-<br>
-<label for="frmPhoneNumA">Puhelin</label>
-<input type="tel" name="phone" id="frmPhoneNumA" required autocomplete="tel">
-<br>
-<label for="frmAddressS">Osoite</label>
-<input name="street-address" required id="frmAddressS"  autocomplete="street-address">
-<br>
-<label for="frmCityS">Kaupunki</label>
-<input name="ship-city" required id="frmCityS"  autocomplete="address-level2">
-<br>
-<label for="frmAddressS">Maa</label>
-<input name="country-name" required id="country-name1"  autocomplete="country-name">
-<br>
-<label for="appt">Valitse osallistumisaika</label>
 
-<input type="time" id="appt" name="appt"
-       min="08:00" max="14:00" required>
-       <br>
-<small>Koulutuksia pidetään 8-14 välisenä aikana</small>
-<br>
-<input type="date" id="app2t" name="date">
-<input type="checkbox" id="paikka" name="paikka" required value="paikka">
-<label for="paikka"> Helsinki</label>
-<input type="checkbox" id="paikka" name="paikka" required value="paikka">
-<label for="paikka"> Espoo</label>
-<input type="checkbox" id="paikka" name="paikka" required value="paikka">
-<label for="paikka"> Porvoo</label>
-<input type="checkbox" id="paikka" name="paikka" required value="paikka">
-<label for="paikka"> Vantaa</label>
-<input type="checkbox" id="tietosuoja" name="tietosuoja" required value="tietosuoja">
-<label for="tietosuoja"> hyväksy <a href="https://yle.fi/aihe/sivu/yleisradio/tietosuojalauseke">tietosuojalauseke</a></label>
-<br>
-<input type="submit" id=hyväksy value="Submit">
-</form> 
+    <label for="frmNameA">Koko nimi</label>
+    <input autocomplete="name" id="frmNameA" name="name" required>
+    <br>
+    <label for="frmEmailA">Email</label>
+    <input autocomplete="email" id="frmEmailA" name="email" required type="email">
+    <br>
+    <label for="frmEmailC">Uudelleen Email</label>
+    <input autocomplete="email" id="frmEmailC" name="emailC" required type="email">
+    <br>
+    <label for="frmPhoneNumA">Puhelin</label>
+    <input autocomplete="tel" id="frmPhoneNumA" name="phone" required type="tel">
+    <br>
+    <label for="frmAddressS">Osoite</label>
+    <input autocomplete="street-address" id="frmAddressS" name="street-address" required>
+    <br>
+    <label for="frmCityS">Kaupunki</label>
+    <input autocomplete="address-level2" id="frmCityS" name="ship-city" required>
+    <br>
+    <label for="frmAddressS">Maa</label>
+    <input autocomplete="country-name" id="country-name1" name="country-name" required>
+    <br>
+    <label for="appt">Valitse osallistumisaika</label>
+
+    <input id="appt" max="14:00" min="08:00"
+           name="appt" required type="time">
+    <br>
+    <small>Koulutuksia pidetään 8-14 välisenä aikana</small>
+    <br>
+    <input id="app2t" name="date" type="date">
+    <input id="paikka" name="paikka" required type="checkbox" value="paikka">
+    <label for="paikka"> Helsinki</label>
+    <input id="paikka" name="paikka" required type="checkbox" value="paikka">
+    <label for="paikka"> Espoo</label>
+    <input id="paikka" name="paikka" required type="checkbox" value="paikka">
+    <label for="paikka"> Porvoo</label>
+    <input id="paikka" name="paikka" required type="checkbox" value="paikka">
+    <label for="paikka"> Vantaa</label>
+    <input id="tietosuoja" name="tietosuoja" required type="checkbox" value="tietosuoja">
+    <label for="tietosuoja"> hyväksy <a
+            href="https://yle.fi/aihe/sivu/yleisradio/tietosuojalauseke">tietosuojalauseke</a></label>
+    <br>
+    <input id=hyväksy type="submit" value="Submit">
+</form>
 
 
 </body>

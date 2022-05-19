@@ -2,8 +2,7 @@
 <html>
 <body>
 
-Luku yksi <input type="text" id="numero1" >
-
+Luku yksi <input id="numero1" type="text">
 
 
 <button onclick="myFunction()">Tulosta kertotaulu</button>
@@ -11,16 +10,16 @@ Luku yksi <input type="text" id="numero1" >
 <p id="laskelma"></p>
 
 <script>
-function myFunction() {
-  var x = document.getElementById("numero1").value;
-  var x2 = parseInt(x)
-  for(var i = 0; i <= 10; i++) { 
-    const vastaus = i * x2;
-    console.log(`${x2} * ${i} = ${vastaus}`);
-    document.getElementById("laskelma").innerHTML = (x2 + " * " + i +" = " +vastaus);
+  function myFunction() {
+    var x = document.getElementById('numero1').value;
+    var x2 = parseInt(x);
+    for (var i = 0; i <= 10; i++) {
+      const vastaus = i * x2;
+      console.log(`${x2} * ${i} = ${vastaus}`);
+      document.getElementById('laskelma').innerHTML = (x2 + ' * ' + i + ' = ' + vastaus);
+    }
+
   }
-  
-}
 </script>
 
 </body>

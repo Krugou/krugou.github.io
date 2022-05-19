@@ -2,41 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Document</title>
 </head>
 <body>
-  <h3>Anna auton väri, paino ja omistaja</h3>
+<h3>Anna auton väri, paino ja omistaja</h3>
 
-  <form >
-   <label>Väri.</label><input type="text" id="color1" placeholder="Punainen"><br>
-   <label>Paino kg.</label> <input type="text" id="weight1" placeholder="1500"><br>
-   <label>Omistaja</label><input type="text" id="owner1" placeholder="Aku Ankka"><br>
-   <label>Rekisterikilpi</label><input type="text" id="licenseplate" placeholder="313"><br>
-  
-  </form>
-  <button onclick="teeAuto()">Tulosta</button>
+<form>
+    <label>Väri.</label><input id="color1" placeholder="Punainen" type="text"><br>
+    <label>Paino kg.</label> <input id="weight1" placeholder="1500" type="text"><br>
+    <label>Omistaja</label><input id="owner1" placeholder="Aku Ankka" type="text"><br>
+    <label>Rekisterikilpi</label><input id="licenseplate" placeholder="313" type="text"><br>
+
+</form>
+<button onclick="teeAuto()">Tulosta</button>
 
 <div id="test2">123</div>
 
 <script>
-function teeAuto() {
-  var vari = document.querySelector("#color1").value
-  var paino = document.querySelector("#weight1").value
-  var omistaja = document.querySelector("#owner1").value
-  var rekisterikilpi = document.querySelector("#licenseplate").value
-var auto = {
-omistaja: omistaja,
-paino: paino,
-vari: vari,
-rekisterikilpi: rekisterikilpi,
-autoTiedot : function(){
-  return "Auton omistaja on " + omistaja + ". Se painaa " + paino +  " kiloa. " + "ja sen väri ja rekisterikilpi on " +vari +" "+ rekisterikilpi ;
-}
+  function teeAuto() {
+    var vari = document.querySelector('#color1').value;
+    var paino = document.querySelector('#weight1').value;
+    var omistaja = document.querySelector('#owner1').value;
+    var rekisterikilpi = document.querySelector('#licenseplate').value;
+    var auto = {
+      omistaja: omistaja,
+      paino: paino,
+      vari: vari,
+      rekisterikilpi: rekisterikilpi,
+      autoTiedot: function() {
+        return 'Auton omistaja on ' + omistaja + '. Se painaa ' + paino + ' kiloa. ' +
+            'ja sen väri ja rekisterikilpi on ' + vari + ' ' + rekisterikilpi;
+      },
 
-}
-document.querySelector("#test2").innerHTML = auto
+    };
+    document.querySelector('#test2').innerHTML = auto;
 </script>
 </body>
 </html>

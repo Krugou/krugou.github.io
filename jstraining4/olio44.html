@@ -3,48 +3,43 @@
 <body>
 
 
-
 <p>Anna numerot</p>
 
 1:<input id="arvo">
 2:<input id="arvo2">
 
 
-<button type="button" onclick="myFunction()">Lähetä</button>
+<button onclick="myFunction()" type="button">Lähetä</button>
 
 <p id="test11"></p>
 
 <script>
-function myFunction() {
-  var x, text;
+  function myFunction() {
+    var x, text;
 
-  
-  y = document.getElementById("arvo").value;
-  z = document.getElementById("arvo2").value;
-  x = +y + +z;
-    console.log(x)
- 
-  if (isNaN(x)) {
-    text = "Antamasi arvo ei ole luku.";
-    document.getElementById("test11").style.color = "white";
-    document.body.style.backgroundColor = "red";
-  } else if  (x < 25)  {
-    text = "<h6>Liian pieni</h6>"
-    document.getElementById("test11").style.color = "red";
-  }
-  else if  (x > 75)  {
-    text = "<h1>Liian iso</h1>"
-    document.getElementById("test11").style.color = "blue";
-  }
-  else {
-    text = "ok";
-    document.getElementById("test11").style.color = "green";
-  }
-  
-  document.getElementById("test11").innerHTML = text;
+    y = document.getElementById('arvo').value;
+    z = document.getElementById('arvo2').value;
+    x = +y + +z;
+    console.log(x);
 
- 
-}
+    if (isNaN(x)) {
+      text = 'Antamasi arvo ei ole luku.';
+      document.getElementById('test11').style.color = 'white';
+      document.body.style.backgroundColor = 'red';
+    } else if (x < 25) {
+      text = '<h6>Liian pieni</h6>';
+      document.getElementById('test11').style.color = 'red';
+    } else if (x > 75) {
+      text = '<h1>Liian iso</h1>';
+      document.getElementById('test11').style.color = 'blue';
+    } else {
+      text = 'ok';
+      document.getElementById('test11').style.color = 'green';
+    }
+
+    document.getElementById('test11').innerHTML = text;
+
+  }
 </script>
 
 </body>

@@ -1,4 +1,5 @@
 function uppercase(str, callback) {
-    callback(str.toUpperCase())
+  callback(str.toUpperCase());
 }
-module.exports = {uppercase}
+
+module.exports = {uppercase};

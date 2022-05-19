@@ -1,5 +1,5 @@
 //docs https://github.com/tj/should.js/
-const { sum } = require('../math');
+const {sum} = require('../math');
 const should = require('should');
 describe('Should.js', () => {
   it('should return 4 when the input number are 1 and 3', function() {
@@ -11,7 +11,7 @@ describe('Should.js', () => {
     'foobar'.should.not.startWith('bar');
   });
   it('above and greaterThan demo', () => {
-    const user = { age: 20 };
+    const user = {age: 20};
     user.age.should.be.above(5);
     user.age.should.not.be.above(100);
   });

@@ -3,44 +3,38 @@
 <body>
 
 
-
 <p>Anna numero</p>
 
 <input id="arvo">
 
-<button type="button" onclick="myFunction()">Lähetä</button>
+<button onclick="myFunction()" type="button">Lähetä</button>
 
 <p id="test11"></p>
 
 <script>
-function myFunction() {
-  var x, text;
+  function myFunction() {
+    var x, text;
 
-  
-  x = document.getElementById("arvo").value;
+    x = document.getElementById('arvo').value;
 
- 
-  if (isNaN(x)) {
-    text = "Antamasi arvo ei ole luku.";
-    document.getElementById("test11").style.color = "white";
-    document.body.style.backgroundColor = "red";
-  } else if  (x < -10)  {
-    text = "<h6>Liian pieni</h6>"
+    if (isNaN(x)) {
+      text = 'Antamasi arvo ei ole luku.';
+      document.getElementById('test11').style.color = 'white';
+      document.body.style.backgroundColor = 'red';
+    } else if (x < -10) {
+      text = '<h6>Liian pieni</h6>';
+
+    } else if (x > 10) {
+      text = '<h1>Liian iso</h1>';
+
+    } else {
+      text = x;
+      document.getElementById('test11').style.color = 'green';
+    }
+
+    document.getElementById('test11').innerHTML = text;
 
   }
-  else if  (x > 10)  {
-    text = "<h1>Liian iso</h1>"
-
-  }
-  else {
-    text = x;
-    document.getElementById("test11").style.color = "green";
-  }
-  
-  document.getElementById("test11").innerHTML = text;
-
- 
-}
 </script>
 
 </body>

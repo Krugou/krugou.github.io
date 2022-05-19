@@ -4,7 +4,7 @@ const should = require('chai').should(); //actually call the function
 describe('chai assetion library', () => {
   it('assert with chai demo', () => {
     let foo = 'bar',
-      beverages = { tea: ['chai', 'matcha', 'oolong'] };
+        beverages = {tea: ['chai', 'matcha', 'oolong']};
     assert.typeOf(foo, 'string'); // without optional message
     assert.typeOf(foo, 'string', 'foo is a string'); // with optional message
     assert.equal(foo, 'bar', 'foo equal `bar`');
@@ -13,17 +13,15 @@ describe('chai assetion library', () => {
   });
   it('expect with chai', () => {
     const foo = 'bar',
-      beverages = { tea: ['chai', 'matcha', 'oolong'] };
+        beverages = {tea: ['chai', 'matcha', 'oolong']};
     expect(foo).to.be.a('string');
     expect(foo).to.equal('bar');
     expect(foo).to.have.lengthOf(3);
-    expect(beverages)
-      .to.have.property('tea')
-      .with.lengthOf(3);
+    expect(beverages).to.have.property('tea').with.lengthOf(3);
   });
   it('should with chai.js', () => {
     const foo = 'bar',
-      beverages = { tea: ['chai', 'matcha', 'oolong'] };
+        beverages = {tea: ['chai', 'matcha', 'oolong']};
     foo.should.be.a('string');
     foo.should.equal('bar');
     foo.should.have.lengthOf(3);

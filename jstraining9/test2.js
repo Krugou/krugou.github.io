@@ -1,5 +1,5 @@
 var moikka;
-moikka = ()=>  {
-    return "moikka vaan";
-}
-console.log(moikka())
+moikka = () => {
+  return 'moikka vaan';
+};
+console.log(moikka());
