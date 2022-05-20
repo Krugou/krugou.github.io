@@ -153,6 +153,83 @@
 			"location": "Helsinki",
 			"lat": "60.167735",
 			"lon": "24.908833"
+		},
+		{
+			"name": "Munkkiniemen uimaranta",
+			"url": "70B3D5705000DFF6_v1",
+			"location": "Helsinki",
+			"lat": 60.200333,
+			"lon": 24.857306 
+		},
+		{
+			"name":"Rajasaari",
+			"url": "70B3D5705000E3C0_v1",
+			"location": "Helsinki",
+			"lat": 60.180667,
+			"lon": 24.908639
+		},
+		{
+			"name": "Sompasauna",
+			"url": "70B3D5705000E418_v1",
+			"location": "Helsinki",
+			"lat": 60.194102,
+			"lon": 24.984992
+		},
+		{
+			"name": "Kalasatama",
+			"url": "70B3D57050001A97_v1",
+			"location": "Helsinki",
+			"lat": 60.180724,
+			"lon": 24.979968
+		},
+		{
+			"name": "Sompasauna",
+			"url": "70B3D57050004C07_v1",
+			"location": "Helsinki",
+			"lat": 60.175742,
+			"lon": 24.975318
+		},
+		{
+			"name": "Eiranranta",
+			"url": "70B3D57050004DF2_v1",
+			"location": "Helsinki",
+			"lat": 60.15241,
+			"lon": 24.93135
+		},
+		{
+			"name": "Vasikkasaari (Helsinki)",
+			"url": "70B3D57050004DF8_v1",
+			"location": "Helsinki",
+			"lat": 60.15232,
+			"lon": 25.01586
+		},
+		{
+			"name": "Eiranranta (Löyly)",
+			"url": "70B3D57050005037_v1",
+			"location": "Helsinki",
+			"lat": 60.1523,
+			"lon": 24.931
+		},
+		{
+			"name": "Eiranranta (Löyly)",
+			"url": "70B3D57050005054_v1",
+			"location": "Helsinki",
+			"lat": 60.1523,
+			"lon": 24.931
+		},
+		{
+			"name": "Vartiosaari (Reposalmen laituri)",
+			"url": "70B3D57050004FE6_v1",
+			"location": "Helsinki",
+			"lat": 60.1801,
+			"lon": 25.0686
+		},
+		{
+			"name": "Munkkiniemi",
+			"url": "70B3D5705000E703_v1",
+			"location": "Helsinki",
+			"lat": 60.2004257,
+			"lon": 24.8554928
 		}
 
 	]
