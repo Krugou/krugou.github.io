@@ -17,19 +17,19 @@ const generateCards = (data) => {
         if (repo.name === 'github-slideshow' || repo.name === 'krugou.github.io') {
             return;
         }
-        if (repo.has_pages) {
+       
             // make card
             const card = document.createElement('div');
             card.classList.add('card');
 
 
 
-            // Add repo name and description
+        if (repo.has_pages) {
             const link = document.createElement('a');
             link.setAttribute('href', link + repo.name);
-            link.textContent = repo.name;
+            link.textContent = 'website for repo: '+ repo.name;
             card.appendChild(link);
-
+}
             const description = document.createElement('p');
             description.textContent = repo.description;
             card.appendChild(description);
@@ -57,7 +57,7 @@ const generateCards = (data) => {
 
             // Add "View on GitHub" button
             const button = document.createElement('button');
-            button.textContent = "View on GitHub";
+            button.textContent = "github repo link";
             button.onclick = () => window.open(repo.svn_url, '_blank');
             card.appendChild(button);
 
@@ -66,7 +66,7 @@ const generateCards = (data) => {
 
 
 
-        }
+        
     })
 }
 // fetchrepos();
