@@ -66,6 +66,31 @@ const fetchrepos = () => {
 // fetchrepos();
 
 const underconstruction = () => {
-    document.body.innerHTML = '<div class="underconstruction"><h1 class="underconsttitle">Under Construction</h1> <img src="https://media.giphy.com/media/Yj6d4OMmDV3bnYtOow/giphy.gif" alt="Under Construction" > </div>';
+    document.body.innerHTML = '<div class="underconstruction"><h1 class="underconsttitle">Under Construction</h1>' +
+        '<img class="underconstrimage" src="https://media.giphy.com/media/Yj6d4OMmDV3bnYtOow/giphy.gif" alt = "Under Construction" >' +
+        ' </div> ';
+    const underConstruction = document.querySelector('.underconstruction');
+    underConstruction.style.display = 'flex';
+    underConstruction.style.alignContent = 'center';
+    underConstruction.style.justifyContent = 'center';
+    underConstruction.style.flexDirection = 'column';
+    underConstruction.style.margin = '1rem';
+    underConstruction.style.padding = '1rem';
+
+    const underConstTitle = document.querySelector('.underconsttitle');
+    underConstTitle.style.textAlign = 'center';
+    underConstTitle.style.transform = 'scaleX(1.5)';
+    underConstTitle.style.animation = 'transforms 5s infinite forwards';
+    underConstTitle.style.margin = '1rem';
+    underConstTitle.style.padding = '1rem';
+
+    const underConstrImage = document.querySelector('.underconstrimage');
+    underConstrImage.style.display = 'flex';
+    underConstrImage.style.justifyContent = 'center';
+    underConstrImage.style.flexDirection = 'column';
+    underConstrImage.style.alignContent = 'center';
+    underConstrImage.style.width = '80vw';
+    underConstrImage.style.margin = '1rem';
+    underConstrImage.style.padding = '1rem';
 }
 underconstruction();
