@@ -17,56 +17,56 @@ const generateCards = (data) => {
         if (repo.name === 'github-slideshow' || repo.name === 'krugou.github.io') {
             return;
         }
-       
-            // make card
-            const card = document.createElement('div');
-            card.classList.add('card');
+
+        // make card
+        const card = document.createElement('div');
+        card.classList.add('card');
 
 
 
         if (repo.has_pages) {
             const link = document.createElement('a');
             link.setAttribute('href', link + repo.name);
-            link.textContent = 'website for repo: '+ repo.name;
+            link.textContent = 'website for repo: ' + repo.name;
             card.appendChild(link);
-}
-            const description = document.createElement('p');
-            description.textContent = repo.description;
-            card.appendChild(description);
+        }
+        const description = document.createElement('p');
+        description.textContent = repo.description;
+        card.appendChild(description);
 
-            // Add language
-            const language = document.createElement('span');
-            language.textContent = repo.language;
-            card.appendChild(language);
+        // Add language
+        const language = document.createElement('span');
+        language.textContent = repo.language;
+        card.appendChild(language);
 
-            // Add metrics
-            const metricsList = document.createElement('ul');
+        // Add metrics
+        const metricsList = document.createElement('ul');
 
-            const stars = document.createElement('li');
-            stars.textContent = `Stars: ${repo.stargazers_count}`;
-            metricsList.appendChild(stars);
+        const stars = document.createElement('li');
+        stars.textContent = `Stars: ${repo.stargazers_count}`;
+        metricsList.appendChild(stars);
 
-            const forks = document.createElement('li');
-            forks.textContent = `Forks: ${repo.forks}`;
-            metricsList.appendChild(forks);
-            const size = document.createElement('li');
-            size.textContent = `Size: ${repo.size}`;
-            metricsList.appendChild(size);
+        const forks = document.createElement('li');
+        forks.textContent = `Forks: ${repo.forks}`;
+        metricsList.appendChild(forks);
+        const size = document.createElement('li');
+        size.textContent = `Size: ${repo.size}`;
+        metricsList.appendChild(size);
 
-            card.appendChild(metricsList);
+        card.appendChild(metricsList);
 
-            // Add "View on GitHub" button
-            const button = document.createElement('button');
-            button.textContent = "github repo link";
-            button.onclick = () => window.open(repo.svn_url, '_blank');
-            card.appendChild(button);
+        // Add "View on GitHub" button
+        const button = document.createElement('button');
+        button.textContent = "github repo link";
+        button.onclick = () => window.open(repo.svn_url, '_blank');
+        card.appendChild(button);
 
-            main.appendChild(card);
-
-
+        main.appendChild(card);
 
 
-        
+
+
+
     })
 }
 // fetchrepos();
