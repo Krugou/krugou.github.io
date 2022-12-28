@@ -11,50 +11,40 @@ const fetchrepos = () => {
 const generateCards = (data) => {
 	const main = document.querySelector('main');
 	const header = document.querySelector('header');
-	const link = 'https://krugou.github.io/'
+	const prelink = 'https://krugou.github.io/'
 	data.forEach(repo => {
 		// if name is github github-slideshow then skip
 		if (repo.name === 'github-slideshow' || repo.name === 'krugou.github.io') {
 			return;
 		}
-
 		// make card
 		const card = document.createElement('div');
 		card.classList.add('card');
-
-
-
 		if (repo.has_pages) {
 			const link = document.createElement('a');
-			link.setAttribute('href', link + repo.name);
+			link.setAttribute('href', prelink + repo.name);
 			link.textContent = 'website for repo: ' + repo.name;
 			card.appendChild(link);
 		}
 		const description = document.createElement('p');
 		description.textContent = repo.description;
 		card.appendChild(description);
-
 		// Add language
 		const language = document.createElement('span');
 		language.textContent = repo.language;
 		card.appendChild(language);
-
 		// Add metrics
 		const metricsList = document.createElement('ul');
-
 		const stars = document.createElement('li');
 		stars.textContent = `Stars: ${repo.stargazers_count}`;
 		metricsList.appendChild(stars);
-
 		const forks = document.createElement('li');
 		forks.textContent = `Forks: ${repo.forks}`;
 		metricsList.appendChild(forks);
 		const size = document.createElement('li');
 		size.textContent = `Size: ${repo.size}`;
 		metricsList.appendChild(size);
-
 		card.appendChild(metricsList);
-
 		// Add "View on GitHub" button
 		const button = document.createElement('button');
 		button.textContent = "github repo link";
