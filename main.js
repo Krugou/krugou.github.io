@@ -89,4 +89,4 @@ const underconstruction = () => {
 	underConstrImage.style.margin = '1rem';
 	underConstrImage.style.padding = '1rem';
 }
-// underconstruction();
+underconstruction();
