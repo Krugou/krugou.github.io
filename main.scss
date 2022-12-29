@@ -4,7 +4,6 @@ html {
   background-color: black;
   color: white;
 }
-
 .card {
   border: 1px solid white;
   display: flex;
@@ -25,29 +24,22 @@ main {
   align-items: center;
 }
 
-@-webkit-keyframes transforms {
+@keyframes transforms {
   0% {
     transform: scaleX(1.5);
   }
+
   50% {
     transform: scaleX(1);
   }
+
   100% {
     transform: scaleX(1.5);
   }
 }
 
-@keyframes transforms {
-  0% {
-    transform: scaleX(1.5);
-  }
-  50% {
-    transform: scaleX(1);
-  }
-  100% {
-    transform: scaleX(1.5);
-  }
-}
+
+
 /* .hero-image {
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('../aleksi2-2895.jpg');
@@ -264,4 +256,4 @@ ul {
     color: white;
     width: 100%;
   }
-} *//*# sourceMappingURL=main.css.map */
+} */
