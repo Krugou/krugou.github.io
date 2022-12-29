@@ -59,7 +59,7 @@ const generateCards = (data) => {
 
 	})
 }
-// fetchrepos();
+fetchrepos();
 
 const underconstruction = () => {
 	document.body.innerHTML = '<div class="underconstruction"><h1 class="underconsttitle">Under Construction</h1>' +
@@ -89,4 +89,4 @@ const underconstruction = () => {
 	underConstrImage.style.margin = '1rem';
 	underConstrImage.style.padding = '1rem';
 }
-underconstruction();
+// underconstruction();
