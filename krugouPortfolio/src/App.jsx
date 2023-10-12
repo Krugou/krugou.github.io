@@ -2,6 +2,7 @@ import React from 'react';
 import {Route, BrowserRouter as Router, Routes} from 'react-router-dom';
 import Footer from './views/Footer';
 import Header from './views/Header';
+import Immigrants from './views/Immigrants';
 import LandingZone from './views/LandingZone';
 
 const App = () => {
@@ -31,7 +32,7 @@ const App = () => {
 				/>
 				<Route
 					path='/game'
-					element={<h1>Game</h1>}
+					element={<Immigrants />}
 				/>
 			</Routes>
 			<Footer />
