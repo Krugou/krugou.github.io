@@ -3,12 +3,16 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
+ 	"scripts": {
+		"dev": "vite --port 8080 --open  --host",
+		"devBrutal": "vite --port 8080 --open -d --force --host",
+		"devDebug": "vite --port 8080 --open -d --host",
+		"build": "vite build --outDir /a --minify --manifest  --sourcemap --base / ",
+		"buildWatch": "vite build --outDir /a  --minify --manifest  --sourcemap --base / --watch",
+		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+		"preview": "vite preview",
+		"filter": "vite --filter  "
+	},
   "dependencies": {
 		"@emotion/react": "^11.11.1",
 		"@emotion/styled": "^11.11.0",
