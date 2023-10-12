@@ -4,11 +4,20 @@ import StatusBar from '../components/immigrants/StatusBar';
 const Immigrants = () => {
 	const [gameData, setGameData] = useState(null);
 
+	// Development data for testing
+	const devData = {
+		health: 100,
+		mana: 50,
+		experience: 0,
+	};
+
 	useEffect(() => {
-		fetch('/path/to/your/gameStart.json')
-			.then((response) => response.json())
-			.then((data) => setGameData(data))
-			.catch((error) => console.error('Error:', error));
+		// Commenting out the fetch call and using devData for testing
+		// fetch('/path/to/your/gameStart.json')
+		//     .then(response => response.json())
+		//     .then(data => setGameData(data))
+		//     .catch(error => console.error('Error:', error));
+		setGameData(devData);
 	}, []);
 
 	if (!gameData) {
