@@ -1,17 +1,30 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import StatusBar from '../components/immigrants/StatusBar';
 
 const Immigrants = () => {
-	const startGame = () => {
-		alert('Starting the game...');
-		// Add your game logic here
-	};
+	const [gameData, setGameData] = useState(null);
+
+	useEffect(() => {
+		fetch('/path/to/your/gameStart.json')
+			.then((response) => response.json())
+			.then((data) => setGameData(data))
+			.catch((error) => console.error('Error:', error));
+	}, []);
+
+	if (!gameData) {
+		return <div>Loading...</div>;
+	}
 
 	return (
-		<div>
-			<h1>Welcome to the Immigrants Game!</h1>
-			<p>Press the button below to start the game.</p>
-			<button onClick={startGame}>Start Game</button>
-		</div>
+		<>
+			<StatusBar
+				health={gameData.health}
+				mana={gameData.mana}
+				experience={gameData.experience}
+			/>
+			<MainView />
+			<ImmigrantsNav />
+		</>
 	);
 };
 
