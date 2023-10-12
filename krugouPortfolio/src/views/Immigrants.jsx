@@ -1,4 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
+import ImmigrantsNav from '../components/immigrants/ImmigrantsNav';
+import MainView from '../components/immigrants/MainView';
 import StatusBar from '../components/immigrants/StatusBar';
 
 const Immigrants = () => {
@@ -32,7 +34,7 @@ const Immigrants = () => {
 				experience={gameData.experience}
 			/>
 			<MainView />
-			<ImmigrantsNav />
+			<ImmigrantsNav gameData={gameData} />
 		</>
 	);
 };
