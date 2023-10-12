@@ -1,3 +1,4 @@
 *.log
 temp/
 node_modules/
+krugouPortfolio/package-lock.json
