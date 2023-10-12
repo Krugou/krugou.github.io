@@ -13,7 +13,8 @@ export default {
 		extend: {
 			animation: {
 				'police-car': 'movementRighToLeft',
-				flash: 'flash 1s infinite',
+				flash: 'flash 20s infinite',
+
 				robber: 'secondmovementRighToLeft',
 				spinSlightly: 'spinSlightly 4s infinite',
 			},
@@ -31,8 +32,8 @@ export default {
 					'100%': {transform: 'translateX(100%)'},
 				},
 				flash: {
-					'0%': {opacity: '0'},
-					'100%': {opacity: '1'},
+					'0%, 50%, 100%': {opacity: 1},
+					'25%, 75%': {opacity: 0},
 				},
 				spinSlightly: {
 					'0%': {transform: 'rotate(0deg)'},
