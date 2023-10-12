@@ -32,8 +32,8 @@ export default {
 					'100%': {transform: 'translateX(100%)'},
 				},
 				flash: {
-					'0%, 50%, 100%': {opacity: 1},
-					'25%, 75%': {opacity: 0},
+					'0%, 50%, 100%': {opacity: '1'},
+					'25%, 75%': {opacity: '0'},
 				},
 				spinSlightly: {
 					'0%': {transform: 'rotate(0deg)'},
