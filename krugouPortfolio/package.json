@@ -7,8 +7,8 @@
 		"dev": "vite --port 8080 --open  --host",
 		"devBrutal": "vite --port 8080 --open -d --force --host",
 		"devDebug": "vite --port 8080 --open -d --host",
-		"build": "vite build --outDir /a --minify --manifest  --sourcemap --base / ",
-		"buildWatch": "vite build --outDir /a  --minify --manifest  --sourcemap --base / --watch",
+		"build": "vite build --outDir ../ --minify --manifest  --sourcemap --base / ",
+		"buildWatch": "vite build --outDir ../  --minify --manifest  --sourcemap --base / --watch",
 		"lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
 		"preview": "vite preview",
 		"filter": "vite --filter  "
