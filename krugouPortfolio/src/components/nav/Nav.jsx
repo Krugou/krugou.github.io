@@ -3,11 +3,12 @@ import NavList from './ul/NavList';
 
 const Nav = () => {
 	return (
-		<nav>
-			<ul>
-				<NavList linkpath='/' />
-				<NavList linkpath='/about' />
-				<NavList linkpath='/projects' />
+		<nav className='bg-blue-500 p-4'>
+			<ul className='flex justify-around'>
+				<NavList linkpath='home' />
+				<NavList linkpath='about' />
+				<NavList linkpath='projects' />
+				<NavList linkpath='game' />
 			</ul>
 		</nav>
 	);
