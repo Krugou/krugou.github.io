@@ -1,15 +1,15 @@
-import react from 'react';
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
-const NavList = ( { linkpath } ) => {
-    
-    const navigate = useNavigate();
-    return (
-        <li onClick={() => navigate(linkpath)}>
-            
-        </li>
-    );
+const NavList = ({linkpath}) => {
+	const navigate = useNavigate();
+	return (
+		<li
+			className='text-black  cursor-pointer'
+			onClick={() => navigate('/' + linkpath)}>
+			{linkpath}
+		</li>
+	);
 };
 
 export default NavList;
-
