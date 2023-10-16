@@ -1,13 +1,12 @@
 import React from 'react';
+import IntroText from '../components/IntroText';
+import WelcomeTitle from '../components/WelcomeTitle';
 
 const LandingZone = () => {
 	return (
 		<main>
-			<div className='flex items-center justify-center  bg-gray-200'>
-				<h1 className='text-6xl font-bold text-center text-blue-500 animate-flash'>
-					Aleksi Nokelainen
-				</h1>
-			</div>
+			<WelcomeTitle />
+			<IntroText />
 		</main>
 	);
 };
