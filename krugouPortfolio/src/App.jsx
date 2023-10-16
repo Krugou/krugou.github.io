@@ -15,6 +15,10 @@ const App = () => {
 					element={<LandingZone />}
 				/>
 				<Route
+					path='/home'
+					element={<LandingZone />}
+				/>
+				<Route
 					path='/about'
 					element={<h1>About</h1>}
 				/>
