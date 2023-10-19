@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import ImmigrantsNav from '../components/immigrants/ImmigrantsNav';
+
 import MainView from '../components/immigrants/MainView';
 import StatusBar from '../components/immigrants/StatusBar';
 
 const Immigrants = () => {
-	const [gameData, setGameData] = useState(null);
+	const [gamedata, setGamedata] = useState(null);
 
 	// Development data for testing
 	const devData = {
@@ -19,22 +20,18 @@ const Immigrants = () => {
 		//     .then(response => response.json())
 		//     .then(data => setGameData(data))
 		//     .catch(error => console.error('Error:', error));
-		setGameData(devData);
+		setGamedata(devData);
 	}, []);
 
-	if (!gameData) {
+	if (!gamedata) {
 		return <div>Loading...</div>;
 	}
 
 	return (
 		<>
-			<StatusBar
-				health={gameData.health}
-				mana={gameData.mana}
-				experience={gameData.experience}
-			/>
+			<StatusBar gamedata={gamedata} />
 			<MainView />
-			<ImmigrantsNav gameData={gameData} />
+			<ImmigrantsNav gamedata={gamedata} />
 		</>
 	);
 };

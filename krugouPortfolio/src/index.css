@@ -5,7 +5,9 @@
 @tailwind utilities;
 
 @layer components {
- 
+ .aleksiBasic {
+    @apply bg-slate-700 text-white;
+ }
 }
 
 
