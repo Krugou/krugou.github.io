@@ -1,16 +1,12 @@
 class GameState {
-  double population;
-  double food;
-  double housing;
-  double happiness;
+  // Single resource: people
+  double people;
   
-  // Upgrade counts
-  int farms;
-  int houses;
-  int schools;
-  int hospitals;
-  int ports;
-  int workshops;
+  // Territory system
+  List<Territory> territories;
+  
+  // Event system
+  List<GameEvent> eventHistory;
   
   // Game statistics
   int totalImmigrants;
@@ -18,34 +14,27 @@ class GameState {
   DateTime lastSave;
   
   GameState({
-    this.population = 1.0,
-    this.food = 10.0,
-    this.housing = 5.0,
-    this.happiness = 50.0,
-    this.farms = 0,
-    this.houses = 0,
-    this.schools = 0,
-    this.hospitals = 0,
-    this.ports = 0,
-    this.workshops = 0,
+    this.people = 1.0,
+    List<Territory>? territories,
+    List<GameEvent>? eventHistory,
     this.totalImmigrants = 1,
     this.playTime = 0.0,
     DateTime? lastSave,
-  }) : lastSave = lastSave ?? DateTime.now();
+  }) : territories = territories ?? [Territory.initialTerritory()],
+       eventHistory = eventHistory ?? [],
+       lastSave = lastSave ?? DateTime.now();
+  
+  // Get total population across all territories
+  double get totalPopulation {
+    return territories.fold(0.0, (sum, territory) => sum + territory.population);
+  }
   
   // Convert to JSON for saving
   Map<String, dynamic> toJson() {
     return {
-      'population': population,
-      'food': food,
-      'housing': housing,
-      'happiness': happiness,
-      'farms': farms,
-      'houses': houses,
-      'schools': schools,
-      'hospitals': hospitals,
-      'ports': ports,
-      'workshops': workshops,
+      'people': people,
+      'territories': territories.map((t) => t.toJson()).toList(),
+      'eventHistory': eventHistory.map((e) => e.toJson()).toList(),
       'totalImmigrants': totalImmigrants,
       'playTime': playTime,
       'lastSave': lastSave.millisecondsSinceEpoch,
@@ -55,16 +44,13 @@ class GameState {
   // Create from JSON for loading
   factory GameState.fromJson(Map<String, dynamic> json) {
     return GameState(
-      population: json['population']?.toDouble() ?? 1.0,
-      food: json['food']?.toDouble() ?? 10.0,
-      housing: json['housing']?.toDouble() ?? 5.0,
-      happiness: json['happiness']?.toDouble() ?? 50.0,
-      farms: json['farms'] ?? 0,
-      houses: json['houses'] ?? 0,
-      schools: json['schools'] ?? 0,
-      hospitals: json['hospitals'] ?? 0,
-      ports: json['ports'] ?? 0,
-      workshops: json['workshops'] ?? 0,
+      people: json['people']?.toDouble() ?? 1.0,
+      territories: (json['territories'] as List<dynamic>?)
+          ?.map((t) => Territory.fromJson(t))
+          .toList() ?? [Territory.initialTerritory()],
+      eventHistory: (json['eventHistory'] as List<dynamic>?)
+          ?.map((e) => GameEvent.fromJson(e))
+          .toList() ?? [],
       totalImmigrants: json['totalImmigrants'] ?? 1,
       playTime: json['playTime']?.toDouble() ?? 0.0,
       lastSave: DateTime.fromMillisecondsSinceEpoch(
@@ -72,4 +58,130 @@ class GameState {
       ),
     );
   }
+}
+
+// Territory class for the territory system
+class Territory {
+  final String id;
+  final String name;
+  final String description;
+  final TerritoryType type;
+  double population;
+  double capacity;
+  bool isUnlocked;
+  
+  Territory({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.type,
+    this.population = 0.0,
+    this.capacity = 100.0,
+    this.isUnlocked = false,
+  });
+  
+  // Create the initial territory
+  factory Territory.initialTerritory() {
+    return Territory(
+      id: 'village',
+      name: 'Rural Village',
+      description: 'A small farming community where it all begins',
+      type: TerritoryType.rural,
+      population: 1.0,
+      capacity: 50.0,
+      isUnlocked: true,
+    );
+  }
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'type': type.name,
+      'population': population,
+      'capacity': capacity,
+      'isUnlocked': isUnlocked,
+    };
+  }
+  
+  factory Territory.fromJson(Map<String, dynamic> json) {
+    return Territory(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      type: TerritoryType.values.firstWhere(
+        (t) => t.name == json['type'],
+        orElse: () => TerritoryType.rural,
+      ),
+      population: json['population']?.toDouble() ?? 0.0,
+      capacity: json['capacity']?.toDouble() ?? 100.0,
+      isUnlocked: json['isUnlocked'] ?? false,
+    );
+  }
+}
+
+// Territory types
+enum TerritoryType {
+  rural,
+  urban,
+  border,
+  coastal,
+}
+
+// Game event class for the event system
+class GameEvent {
+  final String id;
+  final String title;
+  final String description;
+  final EventType type;
+  final double populationChange;
+  final String? targetTerritoryId;
+  final DateTime timestamp;
+  
+  GameEvent({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.type,
+    this.populationChange = 0.0,
+    this.targetTerritoryId,
+    DateTime? timestamp,
+  }) : timestamp = timestamp ?? DateTime.now();
+  
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'type': type.name,
+      'populationChange': populationChange,
+      'targetTerritoryId': targetTerritoryId,
+      'timestamp': timestamp.millisecondsSinceEpoch,
+    };
+  }
+  
+  factory GameEvent.fromJson(Map<String, dynamic> json) {
+    return GameEvent(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      type: EventType.values.firstWhere(
+        (t) => t.name == json['type'],
+        orElse: () => EventType.immigration,
+      ),
+      populationChange: json['populationChange']?.toDouble() ?? 0.0,
+      targetTerritoryId: json['targetTerritoryId'],
+      timestamp: DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
+    );
+  }
+}
+
+// Event types
+enum EventType {
+  immigration,
+  emigration,
+  disaster,
+  opportunity,
+  milestone,
 }

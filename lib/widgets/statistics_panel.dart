@@ -11,6 +11,9 @@ class StatisticsPanel extends StatelessWidget {
     return Consumer<GameProvider>(
       builder: (context, gameProvider, child) {
         final gameState = gameProvider.gameState;
+        final totalPopulation = gameState.totalPopulation;
+        final totalEvents = gameState.eventHistory.length;
+        final unlockedTerritories = gameState.territories.where((t) => t.isUnlocked).length;
         
         return Card(
           elevation: 4,
@@ -34,50 +37,62 @@ class StatisticsPanel extends StatelessWidget {
                 
                 _buildStatRow(
                   context,
-                  '🌾',
-                  'Farms',
-                  '${gameState.farms} (+${NumberFormatter.format(gameState.farms * 2.0)}/sec)',
+                  '👥',
+                  'Total Population',
+                  NumberFormatter.format(totalPopulation),
                 ),
                 const SizedBox(height: 8),
                 
                 _buildStatRow(
                   context,
-                  '🏠',
-                  'Houses',
-                  '${gameState.houses} (+${NumberFormatter.format(gameState.houses * 1.5)}/sec)',
+                  '🌍',
+                  'Total Immigrants',
+                  NumberFormatter.format(gameState.totalImmigrants),
                 ),
                 const SizedBox(height: 8),
                 
                 _buildStatRow(
                   context,
-                  '🏫',
-                  'Schools',
-                  '${gameState.schools} (+${NumberFormatter.format(gameState.schools * 5.0)} happiness)',
+                  '🏞️',
+                  'Territories Unlocked',
+                  '$unlockedTerritories / ${gameState.territories.length}',
                 ),
                 const SizedBox(height: 8),
                 
                 _buildStatRow(
                   context,
-                  '🏥',
-                  'Hospitals',
-                  '${gameState.hospitals} (-${NumberFormatter.formatPercentage(gameState.hospitals * 10)} consumption)',
+                  '📋',
+                  'Events Occurred',
+                  NumberFormatter.format(totalEvents),
                 ),
                 const SizedBox(height: 8),
                 
-                _buildStatRow(
-                  context,
-                  '🏛️',
-                  'Ports',
-                  '${gameState.ports} (+${NumberFormatter.formatPercentage(gameState.ports * 20)} immigration)',
+                // Territory breakdown
+                const Divider(),
+                Text(
+                  'Territory Population',
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 
-                _buildStatRow(
-                  context,
-                  '🔧',
-                  'Workshops',
-                  '${gameState.workshops} (+${NumberFormatter.formatPercentage(gameState.workshops * 50)} gathering)',
+                ...gameState.territories.where((t) => t.isUnlocked).map(
+                  (territory) => _buildTerritoryStatRow(
+                    context,
+                    territory.name,
+                    territory.population,
+                    territory.capacity,
+                  ),
                 ),
+                
+                if (gameState.territories.where((t) => t.isUnlocked).isEmpty) ...[
+                  const Text(
+                    'No territories unlocked yet',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -104,6 +119,32 @@ class StatisticsPanel extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+  
+  Widget _buildTerritoryStatRow(BuildContext context, String name, double population, double capacity) {
+    final percentage = (population / capacity * 100).toInt();
+    
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              name,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ),
+          Text(
+            '${NumberFormatter.format(population)} / ${NumberFormatter.format(capacity)} ($percentage%)',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: percentage > 80 ? Colors.orange : Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
