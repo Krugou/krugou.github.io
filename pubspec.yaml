@@ -13,11 +13,15 @@ dependencies:
   shared_preferences: ^2.2.2
   cupertino_icons: ^1.0.2
   # Firebase dependencies
-  firebase_core: ^2.24.2
-  firebase_auth: ^4.15.3
-  cloud_firestore: ^4.13.6
+  firebase_core: ^2.27.0
+  firebase_auth: ^4.17.8
+  cloud_firestore: ^4.15.8
   # JSON handling
   http: ^1.1.0
+  # Internationalization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +30,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/images/
     - assets/audio/

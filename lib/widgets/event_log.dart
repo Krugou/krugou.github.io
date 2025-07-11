@@ -12,7 +12,7 @@ class EventLog extends StatelessWidget {
     return Consumer<GameProvider>(
       builder: (context, gameProvider, child) {
         final recentEvents = gameProvider.getRecentEvents(limit: 10);
-        
+
         return Card(
           elevation: 4,
           child: Padding(
@@ -25,7 +25,6 @@ class EventLog extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 12),
-                
                 if (recentEvents.isEmpty) ...[
                   Container(
                     padding: const EdgeInsets.all(16),
@@ -45,7 +44,8 @@ class EventLog extends StatelessWidget {
                   ),
                 ] else ...[
                   // Event list
-                  ...recentEvents.map((event) => _buildEventItem(context, event, gameProvider)),
+                  ...recentEvents.map(
+                      (event) => _buildEventItem(context, event, gameProvider)),
                 ],
               ],
             ),
@@ -54,14 +54,15 @@ class EventLog extends StatelessWidget {
       },
     );
   }
-  
-  Widget _buildEventItem(BuildContext context, GameEvent event, GameProvider gameProvider) {
+
+  Widget _buildEventItem(
+      BuildContext context, GameEvent event, GameProvider gameProvider) {
     final isPositive = event.populationChange > 0;
     final isNegative = event.populationChange < 0;
-    final territory = event.targetTerritoryId != null 
+    final territory = event.targetTerritoryId != null
         ? gameProvider.getTerritory(event.targetTerritoryId!)
         : null;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
@@ -95,9 +96,12 @@ class EventLog extends StatelessWidget {
               ),
               if (event.populationChange != 0) ...[
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: isPositive ? Colors.green : (isNegative ? Colors.red : Colors.grey),
+                    color: isPositive
+                        ? Colors.green
+                        : (isNegative ? Colors.red : Colors.grey),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Text(
@@ -152,7 +156,7 @@ class EventLog extends StatelessWidget {
       ),
     );
   }
-  
+
   Color _getEventColor(EventType type) {
     switch (type) {
       case EventType.immigration:
@@ -167,7 +171,7 @@ class EventLog extends StatelessWidget {
         return Colors.purple;
     }
   }
-  
+
   IconData _getEventIcon(EventType type) {
     switch (type) {
       case EventType.immigration:
@@ -182,7 +186,7 @@ class EventLog extends StatelessWidget {
         return Icons.flag;
     }
   }
-  
+
   IconData _getTerritoryIcon(TerritoryType type) {
     switch (type) {
       case TerritoryType.rural:
@@ -193,13 +197,27 @@ class EventLog extends StatelessWidget {
         return Icons.border_all;
       case TerritoryType.coastal:
         return Icons.waves;
+      case TerritoryType.caves:
+        return Icons.landscape;
+      case TerritoryType.underground:
+        return Icons.subway;
+      case TerritoryType.mountains:
+        return Icons.terrain;
+      case TerritoryType.desert:
+        return Icons.wb_sunny;
+      case TerritoryType.arctic:
+        return Icons.ac_unit;
+      case TerritoryType.orbital:
+        return Icons.satellite;
+      case TerritoryType.spaceStation:
+        return Icons.rocket_launch;
     }
   }
-  
+
   String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
     final difference = now.difference(timestamp);
-    
+
     if (difference.inMinutes < 1) {
       return 'Just now';
     } else if (difference.inMinutes < 60) {

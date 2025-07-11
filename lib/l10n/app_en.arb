@@ -1,0 +1,148 @@
+{
+  "@@locale": "en",
+  "appTitle": "The Immigrants",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "territories": "Territories",
+  "@territories": {
+    "description": "Label for territories section"
+  },
+  "totalPopulation": "Total: {population}",
+  "@totalPopulation": {
+    "description": "Total population display",
+    "placeholders": {
+      "population": {
+        "type": "String"
+      }
+    }
+  },
+  "locked": "LOCKED",
+  "@locked": {
+    "description": "Label for locked territories"
+  },
+  "nextUnlock": "Next unlock: {territory} at {threshold} people",
+  "@nextUnlock": {
+    "description": "Next unlock information",
+    "placeholders": {
+      "territory": {
+        "type": "String"
+      },
+      "threshold": {
+        "type": "String"
+      }
+    }
+  },
+  "allTerritoriesUnlocked": "All territories unlocked!",
+  "@allTerritoriesUnlocked": {
+    "description": "Message when all territories are unlocked"
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu title"
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Language setting label"
+  },
+  "gameSpeed": "Game Speed",
+  "@gameSpeed": {
+    "description": "Game speed setting label"
+  },
+  "normalSpeed": "Normal",
+  "@normalSpeed": {
+    "description": "Normal game speed option"
+  },
+  "fastSpeed": "Fast",
+  "@fastSpeed": {
+    "description": "Fast game speed option"
+  },
+  "veryFastSpeed": "Very Fast",
+  "@veryFastSpeed": {
+    "description": "Very fast game speed option"
+  },
+  "slowSpeed": "Slow",
+  "@slowSpeed": {
+    "description": "Slow game speed option"
+  },
+  "territoryUrbanCenterName": "Urban Center",
+  "@territoryUrbanCenterName": {
+    "description": "Name for urban center territory"
+  },
+  "territoryUrbanCenterDescription": "A bustling city with job opportunities and cultural diversity",
+  "@territoryUrbanCenterDescription": {
+    "description": "Description for urban center territory"
+  },
+  "territoryBorderTownName": "Border Town",
+  "@territoryBorderTownName": {
+    "description": "Name for border town territory"
+  },
+  "territoryBorderTownDescription": "A strategic location for those seeking refuge and new beginnings",
+  "@territoryBorderTownDescription": {
+    "description": "Description for border town territory"
+  },
+  "territoryCoastalPortName": "Coastal Port",
+  "@territoryCoastalPortName": {
+    "description": "Name for coastal port territory"
+  },
+  "territoryCoastalPortDescription": "A maritime hub with fishing and trade opportunities",
+  "@territoryCoastalPortDescription": {
+    "description": "Description for coastal port territory"
+  },
+  "territoryCaveNetworkName": "Cave Network",
+  "@territoryCaveNetworkName": {
+    "description": "Name for cave network territory"
+  },
+  "territoryCaveNetworkDescription": "Underground caves providing shelter and protection",
+  "@territoryCaveNetworkDescription": {
+    "description": "Description for cave network territory"
+  },
+  "territoryUndergroundCityName": "Underground City",
+  "@territoryUndergroundCityName": {
+    "description": "Name for underground city territory"
+  },
+  "territoryUndergroundCityDescription": "A hidden city beneath the surface with advanced facilities",
+  "@territoryUndergroundCityDescription": {
+    "description": "Description for underground city territory"
+  },
+  "territoryMountainSettlementName": "Mountain Settlement",
+  "@territoryMountainSettlementName": {
+    "description": "Name for mountain settlement territory"
+  },
+  "territoryMountainSettlementDescription": "High-altitude community with stunning views and clean air",
+  "@territoryMountainSettlementDescription": {
+    "description": "Description for mountain settlement territory"
+  },
+  "territoryDesertOutpostName": "Desert Outpost",
+  "@territoryDesertOutpostName": {
+    "description": "Name for desert outpost territory"
+  },
+  "territoryDesertOutpostDescription": "Solar-powered settlement in the harsh desert environment",
+  "@territoryDesertOutpostDescription": {
+    "description": "Description for desert outpost territory"
+  },
+  "territoryArcticBaseName": "Arctic Base",
+  "@territoryArcticBaseName": {
+    "description": "Name for arctic base territory"
+  },
+  "territoryArcticBaseDescription": "Research and residential facilities in the frozen wilderness",
+  "@territoryArcticBaseDescription": {
+    "description": "Description for arctic base territory"
+  },
+  "territoryOrbitalPlatformName": "Orbital Platform",
+  "@territoryOrbitalPlatformName": {
+    "description": "Name for orbital platform territory"
+  },
+  "territoryOrbitalPlatformDescription": "Space-based habitat orbiting Earth",
+  "@territoryOrbitalPlatformDescription": {
+    "description": "Description for orbital platform territory"
+  },
+  "territorySpaceStationAlphaName": "Space Station Alpha",
+  "@territorySpaceStationAlphaName": {
+    "description": "Name for space station alpha territory"
+  },
+  "territorySpaceStationAlphaDescription": "Advanced interplanetary hub for deep space exploration",
+  "@territorySpaceStationAlphaDescription": {
+    "description": "Description for space station alpha territory"
+  }
+}

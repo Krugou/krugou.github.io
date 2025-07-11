@@ -1,23 +1,26 @@
 class GameState {
   // Single resource: people
   double people;
-  
+
   // Territory system
   List<Territory> territories;
-  
+
   // Event system
   List<GameEvent> eventHistory;
   List<String> achievedMilestones;
-  
+
   // Game statistics
   int totalImmigrants;
   double playTime;
   DateTime lastSave;
-  
+
   // User authentication state
   String? userId;
   bool isOnline;
-  
+
+  // Game speed multiplier
+  double gameSpeed;
+
   GameState({
     this.people = 1.0,
     List<Territory>? territories,
@@ -28,16 +31,18 @@ class GameState {
     DateTime? lastSave,
     this.userId,
     this.isOnline = false,
-  }) : territories = territories ?? [Territory.initialTerritory()],
-       eventHistory = eventHistory ?? [],
-       achievedMilestones = achievedMilestones ?? [],
-       lastSave = lastSave ?? DateTime.now();
-  
+    this.gameSpeed = 1.0,
+  })  : territories = territories ?? [Territory.initialTerritory()],
+        eventHistory = eventHistory ?? [],
+        achievedMilestones = achievedMilestones ?? [],
+        lastSave = lastSave ?? DateTime.now();
+
   // Get total population across all territories
   double get totalPopulation {
-    return territories.fold(0.0, (sum, territory) => sum + territory.population);
+    return territories.fold(
+        0.0, (sum, territory) => sum + territory.population);
   }
-  
+
   // Convert to JSON for saving
   Map<String, dynamic> toJson() {
     return {
@@ -50,21 +55,24 @@ class GameState {
       'lastSave': lastSave.millisecondsSinceEpoch,
       'userId': userId,
       'isOnline': isOnline,
+      'gameSpeed': gameSpeed,
     };
   }
-  
+
   // Create from JSON for loading
   factory GameState.fromJson(Map<String, dynamic> json) {
     return GameState(
       people: json['people']?.toDouble() ?? 1.0,
       territories: (json['territories'] as List<dynamic>?)
-          ?.map((t) => Territory.fromJson(t))
-          .toList() ?? [Territory.initialTerritory()],
+              ?.map((t) => Territory.fromJson(t))
+              .toList() ??
+          [Territory.initialTerritory()],
       eventHistory: (json['eventHistory'] as List<dynamic>?)
-          ?.map((e) => GameEvent.fromJson(e))
-          .toList() ?? [],
-      achievedMilestones: (json['achievedMilestones'] as List<dynamic>?)
-          ?.cast<String>() ?? [],
+              ?.map((e) => GameEvent.fromJson(e))
+              .toList() ??
+          [],
+      achievedMilestones:
+          (json['achievedMilestones'] as List<dynamic>?)?.cast<String>() ?? [],
       totalImmigrants: json['totalImmigrants'] ?? 1,
       playTime: json['playTime']?.toDouble() ?? 0.0,
       lastSave: DateTime.fromMillisecondsSinceEpoch(
@@ -72,6 +80,7 @@ class GameState {
       ),
       userId: json['userId'],
       isOnline: json['isOnline'] ?? false,
+      gameSpeed: json['gameSpeed']?.toDouble() ?? 1.0,
     );
   }
 }
@@ -85,7 +94,7 @@ class Territory {
   double population;
   double capacity;
   bool isUnlocked;
-  
+
   Territory({
     required this.id,
     required this.name,
@@ -95,7 +104,7 @@ class Territory {
     this.capacity = 100.0,
     this.isUnlocked = false,
   });
-  
+
   // Create the initial territory
   factory Territory.initialTerritory() {
     return Territory(
@@ -108,7 +117,7 @@ class Territory {
       isUnlocked: true,
     );
   }
-  
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -120,7 +129,7 @@ class Territory {
       'isUnlocked': isUnlocked,
     };
   }
-  
+
   factory Territory.fromJson(Map<String, dynamic> json) {
     return Territory(
       id: json['id'],
@@ -149,7 +158,7 @@ enum TerritoryType {
   desert,
   arctic,
   orbital,
-  space_station,
+  spaceStation,
 }
 
 // Game event class for the event system
@@ -162,7 +171,7 @@ class GameEvent {
   final String? targetTerritoryId;
   final DateTime timestamp;
   final String category;
-  
+
   GameEvent({
     required this.id,
     required this.title,
@@ -173,7 +182,7 @@ class GameEvent {
     DateTime? timestamp,
     this.category = 'opportunity',
   }) : timestamp = timestamp ?? DateTime.now();
-  
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -186,7 +195,7 @@ class GameEvent {
       'category': category,
     };
   }
-  
+
   factory GameEvent.fromJson(Map<String, dynamic> json) {
     return GameEvent(
       id: json['id'],
