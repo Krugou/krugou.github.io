@@ -7,6 +7,7 @@ import '../widgets/territory_display.dart';
 import '../widgets/event_log.dart';
 import '../widgets/action_buttons.dart';
 import '../widgets/statistics_panel.dart';
+import '../screens/auth/login_screen.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({Key? key}) : super(key: key);
@@ -39,6 +40,27 @@ class _GameScreenState extends State<GameScreen> {
         title: const Text('The Immigrants'),
         backgroundColor: Colors.indigo,
         actions: [
+          // Authentication button
+          Consumer<GameProvider>(
+            builder: (context, gameProvider, child) {
+              return IconButton(
+                icon: Icon(
+                  gameProvider.isAuthenticated ? Icons.account_circle : Icons.login,
+                ),
+                onPressed: () {
+                  if (gameProvider.isAuthenticated) {
+                    _showUserMenu(context, gameProvider);
+                  } else {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
+                  }
+                },
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.refresh),
             onPressed: () {
@@ -83,6 +105,30 @@ class _GameScreenState extends State<GameScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
+                      // User status indicator
+                      if (gameProvider.isAuthenticated)
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.cloud_done, color: Colors.green.shade700),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'Signed in as ${gameProvider.currentUser?.displayName ?? 'User'}',
+                                  style: TextStyle(color: Colors.green.shade700),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      
+                      if (gameProvider.isAuthenticated) const SizedBox(height: 16),
+                      
                       // Territory Display
                       const TerritoryDisplay(),
                       const SizedBox(height: 16),
@@ -104,6 +150,89 @@ class _GameScreenState extends State<GameScreen> {
             ],
           );
         },
+      ),
+    );
+  }
+  
+  void _showUserMenu(BuildContext context, GameProvider gameProvider) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: Text(gameProvider.currentUser?.displayName ?? 'User'),
+              subtitle: Text(gameProvider.currentUser?.email ?? ''),
+            ),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.leaderboard),
+              title: const Text('Leaderboard'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _showLeaderboard(context, gameProvider);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Sign Out'),
+              onTap: () {
+                Navigator.of(context).pop();
+                gameProvider.signOut();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  
+  void _showLeaderboard(BuildContext context, GameProvider gameProvider) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Leaderboard'),
+        content: FutureBuilder<List<Map<String, dynamic>>>(
+          future: gameProvider.getLeaderboard(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            
+            if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Text('No leaderboard data available.');
+            }
+            
+            final leaderboard = snapshot.data!;
+            return SizedBox(
+              width: double.maxFinite,
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: leaderboard.length,
+                itemBuilder: (context, index) {
+                  final entry = leaderboard[index];
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${index + 1}'),
+                    ),
+                    title: Text(entry['displayName']),
+                    subtitle: Text('Population: ${entry['totalPopulation']}'),
+                    trailing: Text('${entry['totalImmigrants']} immigrants'),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Close'),
+          ),
+        ],
       ),
     );
   }
