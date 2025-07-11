@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/preferences_service.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
@@ -9,7 +9,7 @@ class SettingsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Consumer<PreferencesService>(
       builder: (context, preferencesService, child) {
         return Card(
@@ -24,7 +24,7 @@ class SettingsWidget extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 12),
-                
+
                 // Language setting
                 ListTile(
                   leading: const Icon(Icons.language),
@@ -44,9 +44,9 @@ class SettingsWidget extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                
+
                 const Divider(),
-                
+
                 // Game speed setting
                 ListTile(
                   leading: const Icon(Icons.speed),
@@ -58,7 +58,8 @@ class SettingsWidget extends StatelessWidget {
                         preferencesService.updateGameSpeed(newSpeed);
                       }
                     },
-                    items: PreferencesService.gameSpeedOptions.entries.map((entry) {
+                    items: PreferencesService.gameSpeedOptions.entries
+                        .map((entry) {
                       return DropdownMenuItem<double>(
                         value: entry.value,
                         child: Text(_getGameSpeedName(context, entry.key)),
@@ -66,9 +67,9 @@ class SettingsWidget extends StatelessWidget {
                     }).toList(),
                   ),
                 ),
-                
+
                 const SizedBox(height: 8),
-                
+
                 // Game speed info
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -105,7 +106,7 @@ class SettingsWidget extends StatelessWidget {
       },
     );
   }
-  
+
   String _getLanguageName(Locale locale) {
     switch (locale.languageCode) {
       case 'en':
@@ -116,10 +117,10 @@ class SettingsWidget extends StatelessWidget {
         return locale.languageCode.toUpperCase();
     }
   }
-  
+
   String _getGameSpeedName(BuildContext context, String speedKey) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     switch (speedKey) {
       case 'slowSpeed':
         return localizations.slowSpeed;
