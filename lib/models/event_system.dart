@@ -2,17 +2,45 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'game_state.dart';
+import '../services/firebase_event_service.dart';
 
 class EventSystem {
   static final Random _random = Random();
   static Map<TerritoryType, List<EventTemplate>>? _territoryEvents;
   static List<EventTemplate>? _milestoneEvents;
   static bool _isInitialized = false;
+  static FirebaseEventService? _firebaseService;
   
-  // Initialize event system by loading JSON data
+  // Initialize event system by loading from Firebase (with JSON fallback)
   static Future<void> initialize() async {
     if (_isInitialized) return;
     
+    _firebaseService = FirebaseEventService();
+    
+    try {
+      // Try to load from Firebase first
+      print('Loading events from Firebase...');
+      final firebaseAvailable = await _firebaseService!.isFirebaseAvailable();
+      
+      if (firebaseAvailable) {
+        _territoryEvents = await _firebaseService!.loadTerritoryEvents();
+        _milestoneEvents = await _firebaseService!.loadMilestoneEvents();
+        print('Successfully loaded events from Firebase');
+      } else {
+        print('Firebase not available, loading from JSON...');
+        await _loadFromJson();
+      }
+      
+      _isInitialized = true;
+    } catch (e) {
+      print('Error loading events from Firebase: $e');
+      print('Falling back to JSON loading...');
+      await _loadFromJson();
+    }
+  }
+  
+  // Load events from JSON files (fallback method)
+  static Future<void> _loadFromJson() async {
     try {
       // Load territory events
       final territoryEventsJson = await rootBundle.loadString('assets/events/territory_events.json');
@@ -41,8 +69,9 @@ class EventSystem {
           .toList();
       
       _isInitialized = true;
+      print('Successfully loaded events from JSON');
     } catch (e) {
-      print('Error loading event data: $e');
+      print('Error loading event data from JSON: $e');
       // Fallback to hardcoded events if JSON loading fails
       _initializeHardcodedEvents();
     }
@@ -458,6 +487,78 @@ class EventSystem {
     }
     
     return events;
+  }
+  
+  // Firebase event management methods
+  static Future<void> addCustomEvent(EventTemplate event) async {
+    if (_firebaseService == null) return;
+    
+    try {
+      await _firebaseService!.addEvent(event, isCustom: true);
+      print('Custom event added successfully: ${event.id}');
+    } catch (e) {
+      print('Error adding custom event: $e');
+      rethrow;
+    }
+  }
+  
+  static Future<void> updateCustomEvent(EventTemplate event) async {
+    if (_firebaseService == null) return;
+    
+    try {
+      await _firebaseService!.updateEvent(event, isCustom: true);
+      print('Custom event updated successfully: ${event.id}');
+    } catch (e) {
+      print('Error updating custom event: $e');
+      rethrow;
+    }
+  }
+  
+  static Future<void> deleteCustomEvent(String eventId) async {
+    if (_firebaseService == null) return;
+    
+    try {
+      await _firebaseService!.deleteEvent(eventId, isCustom: true);
+      print('Custom event deleted successfully: $eventId');
+    } catch (e) {
+      print('Error deleting custom event: $e');
+      rethrow;
+    }
+  }
+  
+  static Future<List<EventTemplate>> getAllEvents() async {
+    if (_firebaseService == null) return [];
+    
+    try {
+      return await _firebaseService!.getAllEvents();
+    } catch (e) {
+      print('Error getting all events: $e');
+      return [];
+    }
+  }
+  
+  static Future<void> uploadJsonToFirebase() async {
+    if (_firebaseService == null) return;
+    
+    try {
+      await _firebaseService!.uploadJsonEventsToFirebase();
+      print('JSON events uploaded to Firebase successfully');
+    } catch (e) {
+      print('Error uploading JSON events to Firebase: $e');
+      rethrow;
+    }
+  }
+  
+  static Stream<List<EventTemplate>> getEventsStream() {
+    if (_firebaseService == null) {
+      return Stream.value([]);
+    }
+    return _firebaseService!.getEventsStream();
+  }
+  
+  static Future<bool> isFirebaseAvailable() async {
+    if (_firebaseService == null) return false;
+    return await _firebaseService!.isFirebaseAvailable();
   }
 }
 

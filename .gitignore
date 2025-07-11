@@ -154,3 +154,26 @@ web/favicon.png
 .buildlog/
 .history
 .svn/
+
+# Python backend
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/firebase_config.json
+backend/.env
+
+# Firebase
+firebase_config.json
+.env
+firebase-debug.log
+firestore-debug.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -8,32 +8,32 @@ import 'models/event_system.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: 'demo-api-key',
-      authDomain: 'demo-project.firebaseapp.com',
-      projectId: 'demo-project',
-      storageBucket: 'demo-project.appspot.com',
-      messagingSenderId: '123456789',
-      appId: '1:123456789:web:abcdef123456',
-    ),
+        apiKey: 'AIzaSyDQKYiEaLVmPBt9L-H2X-D7b_z2ENfu55I',
+        authDomain: 'immigrants-game.firebaseapp.com',
+        projectId: 'immigrants-game',
+        storageBucket: 'immigrants-game.firebasestorage.app',
+        messagingSenderId: '341726953439',
+        appId: '1:341726953439:web:33f0add1b7b56353904e6a',
+        measurementId: 'G-KD65KP4YST'),
   );
-  
+
   // Initialize shared preferences for save/load functionality
   final prefs = await SharedPreferences.getInstance();
-  
+
   // Initialize event system
   await EventSystem.initialize();
-  
+
   runApp(MyApp(prefs: prefs));
 }
 
 class MyApp extends StatelessWidget {
   final SharedPreferences prefs;
-  
-  const MyApp({Key? key, required this.prefs}) : super(key: key);
+
+  const MyApp({super.key, required this.prefs});
 
   @override
   Widget build(BuildContext context) {
