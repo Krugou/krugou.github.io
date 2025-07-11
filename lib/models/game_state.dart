@@ -7,21 +7,30 @@ class GameState {
   
   // Event system
   List<GameEvent> eventHistory;
+  List<String> achievedMilestones;
   
   // Game statistics
   int totalImmigrants;
   double playTime;
   DateTime lastSave;
   
+  // User authentication state
+  String? userId;
+  bool isOnline;
+  
   GameState({
     this.people = 1.0,
     List<Territory>? territories,
     List<GameEvent>? eventHistory,
+    List<String>? achievedMilestones,
     this.totalImmigrants = 1,
     this.playTime = 0.0,
     DateTime? lastSave,
+    this.userId,
+    this.isOnline = false,
   }) : territories = territories ?? [Territory.initialTerritory()],
        eventHistory = eventHistory ?? [],
+       achievedMilestones = achievedMilestones ?? [],
        lastSave = lastSave ?? DateTime.now();
   
   // Get total population across all territories
@@ -35,9 +44,12 @@ class GameState {
       'people': people,
       'territories': territories.map((t) => t.toJson()).toList(),
       'eventHistory': eventHistory.map((e) => e.toJson()).toList(),
+      'achievedMilestones': achievedMilestones,
       'totalImmigrants': totalImmigrants,
       'playTime': playTime,
       'lastSave': lastSave.millisecondsSinceEpoch,
+      'userId': userId,
+      'isOnline': isOnline,
     };
   }
   
@@ -51,11 +63,15 @@ class GameState {
       eventHistory: (json['eventHistory'] as List<dynamic>?)
           ?.map((e) => GameEvent.fromJson(e))
           .toList() ?? [],
+      achievedMilestones: (json['achievedMilestones'] as List<dynamic>?)
+          ?.cast<String>() ?? [],
       totalImmigrants: json['totalImmigrants'] ?? 1,
       playTime: json['playTime']?.toDouble() ?? 0.0,
       lastSave: DateTime.fromMillisecondsSinceEpoch(
         json['lastSave'] ?? DateTime.now().millisecondsSinceEpoch,
       ),
+      userId: json['userId'],
+      isOnline: json['isOnline'] ?? false,
     );
   }
 }
@@ -121,12 +137,19 @@ class Territory {
   }
 }
 
-// Territory types
+// Territory types - expanded progression from caves to space stations
 enum TerritoryType {
   rural,
   urban,
   border,
   coastal,
+  caves,
+  underground,
+  mountains,
+  desert,
+  arctic,
+  orbital,
+  space_station,
 }
 
 // Game event class for the event system
@@ -138,6 +161,7 @@ class GameEvent {
   final double populationChange;
   final String? targetTerritoryId;
   final DateTime timestamp;
+  final String category;
   
   GameEvent({
     required this.id,
@@ -147,6 +171,7 @@ class GameEvent {
     this.populationChange = 0.0,
     this.targetTerritoryId,
     DateTime? timestamp,
+    this.category = 'opportunity',
   }) : timestamp = timestamp ?? DateTime.now();
   
   Map<String, dynamic> toJson() {
@@ -158,6 +183,7 @@ class GameEvent {
       'populationChange': populationChange,
       'targetTerritoryId': targetTerritoryId,
       'timestamp': timestamp.millisecondsSinceEpoch,
+      'category': category,
     };
   }
   
@@ -173,6 +199,7 @@ class GameEvent {
       populationChange: json['populationChange']?.toDouble() ?? 0.0,
       targetTerritoryId: json['targetTerritoryId'],
       timestamp: DateTime.fromMillisecondsSinceEpoch(json['timestamp']),
+      category: json['category'] ?? 'opportunity',
     );
   }
 }
