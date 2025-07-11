@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Immigrants - Preview</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        .content {
+            padding: 30px;
+        }
+        .preview-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #4CAF50;
+        }
+        .preview-section h3 {
+            color: #4CAF50;
+            margin-top: 0;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-top: 3px solid #4CAF50;
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .upgrade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .upgrade-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .upgrade-card:hover {
+            transform: translateY(-3px);
+        }
+        .upgrade-icon {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #2196F3;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .info-box h4 {
+            color: #2196F3;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏘️ The Immigrants</h1>
+            <p>Build thriving immigrant communities</p>
+        </div>
+        
+        <div class="content">
+            <div class="info-box">
+                <h4>📱 Flutter Game Preview</h4>
+                <p>This is a preview of "The Immigrants" - a Flutter-based incremental game about building immigrant communities. The actual game will be built with Flutter and deployed as a web app.</p>
+            </div>
+            
+            <div class="preview-section">
+                <h3>👥 Population</h3>
+                <div class="stat-card">
+                    <div class="stat-value">42</div>
+                    <div>Current Population</div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h3>📊 Resources</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">🍞 156</div>
+                        <div>Food</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">🏠 89</div>
+                        <div>Housing</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">😊 76%</div>
+                        <div>Happiness</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h3>🎯 Actions</h3>
+                <button class="button">🌾 Gather Food</button>
+                <button class="button">👥 Welcome Immigrant</button>
+                <button class="button" disabled>🏗️ Build Shelter (Need 50 food)</button>
+            </div>
+            
+            <div class="preview-section">
+                <h3>⬆️ Community Upgrades</h3>
+                <div class="upgrade-grid">
+                    <div class="upgrade-card">
+                        <div class="upgrade-icon">🌾</div>
+                        <div><strong>Farm</strong></div>
+                        <div>Count: 3</div>
+                        <div>+6 food/sec</div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-icon">🏠</div>
+                        <div><strong>Houses</strong></div>
+                        <div>Count: 2</div>
+                        <div>+3 housing/sec</div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-icon">🏫</div>
+                        <div><strong>School</strong></div>
+                        <div>Count: 1</div>
+                        <div>+5 happiness</div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-icon">🏥</div>
+                        <div><strong>Hospital</strong></div>
+                        <div>Count: 1</div>
+                        <div>-10% consumption</div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-icon">🏛️</div>
+                        <div><strong>Port</strong></div>
+                        <div>Count: 0</div>
+                        <div>+20% immigration</div>
+                    </div>
+                    <div class="upgrade-card">
+                        <div class="upgrade-icon">🔧</div>
+                        <div><strong>Workshop</strong></div>
+                        <div>Count: 1</div>
+                        <div>+50% gathering</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="preview-section">
+                <h3>📈 Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">2h 15m</div>
+                        <div>Play Time</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">42</div>
+                        <div>Total Immigrants</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div>Total Upgrades</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <h4>🚀 Coming Soon</h4>
+                <p>The full Flutter game will feature:</p>
+                <ul>
+                    <li>Real-time resource generation and consumption</li>
+                    <li>Auto-save functionality with offline progress</li>
+                    <li>Responsive design for mobile and desktop</li>
+                    <li>Achievement system and milestones</li>
+                    <li>Progressive difficulty scaling</li>
+                    <li>Immigration-themed narrative elements</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
