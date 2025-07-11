@@ -10,7 +10,10 @@ class ActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GameProvider>(
       builder: (context, gameProvider, child) {
-        final canAffordImmigration = gameProvider.gameState.food >= 5.0;
+        final totalPopulation = gameProvider.gameState.totalPopulation;
+        final hasCapacity = gameProvider.gameState.territories.any(
+          (t) => t.isUnlocked && t.population < t.capacity
+        );
         
         return Card(
           elevation: 4,
@@ -24,70 +27,82 @@ class ActionButtons extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 
-                Row(
-                  children: [
-                    // Gather Food Button
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () => gameProvider.gatherFood(),
-                        icon: const Text('🌾', style: TextStyle(fontSize: 20)),
-                        label: const Text('Gather Food'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                // Manual Immigration Button
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    onPressed: hasCapacity
+                        ? () => gameProvider.manualImmigration()
+                        : null,
+                    icon: const Text('👥', style: TextStyle(fontSize: 24)),
+                    label: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Welcome Immigrant',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    ),
-                    
-                    const SizedBox(width: 12),
-                    
-                    // Manual Immigration Button
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: canAffordImmigration
-                            ? () => gameProvider.manualImmigration()
-                            : null,
-                        icon: const Text('👥', style: TextStyle(fontSize: 20)),
-                        label: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('Welcome Immigrant'),
-                            Text(
-                              'Cost: ${NumberFormatter.format(5.0)} food',
-                              style: const TextStyle(fontSize: 10),
-                            ),
-                          ],
+                        const SizedBox(height: 4),
+                        Text(
+                          hasCapacity 
+                              ? 'Help someone find a new home'
+                              : 'No available territory capacity',
+                          style: const TextStyle(fontSize: 12),
                         ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: canAffordImmigration
-                              ? Colors.blue
-                              : Colors.grey,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
-                ),
-                
-                const SizedBox(height: 12),
-                
-                // Workshop bonus display
-                if (gameProvider.gameState.workshops > 0)
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.green.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      'Workshop Bonus: +${NumberFormatter.formatPercentage(gameProvider.gameState.workshops * 50)}% food gathering',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.green,
-                      ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: hasCapacity
+                          ? Colors.blue
+                          : Colors.grey,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
                     ),
                   ),
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Population summary
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.indigo.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.indigo.withOpacity(0.3)),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Total Population',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.indigo.shade700,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        NumberFormatter.format(totalPopulation),
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.indigo.shade800,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Click the game area to welcome immigrants!',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.indigo.shade600,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
