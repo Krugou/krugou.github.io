@@ -79,10 +79,8 @@ class _GameScreenState extends State<GameScreen> {
           // Update game display
           _game.updatePopulation(gameProvider.gameState.totalPopulation);
           
-          // Update game speed when preferences change
-          if (gameProvider.gameState.gameSpeed != preferencesService.gameSpeed) {
-            gameProvider.updateGameSpeed(preferencesService.gameSpeed);
-          }
+          // Sync game speed with preferences
+          gameProvider.syncWithPreferences(preferencesService.gameSpeed);
           
           // Show recent event in game
           final recentEvents = gameProvider.getRecentEvents(limit: 1);

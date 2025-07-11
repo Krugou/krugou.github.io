@@ -40,6 +40,13 @@ class GameProvider extends ChangeNotifier {
     _startEventSystem();
   }
 
+  // Sync game speed with preferences
+  void syncWithPreferences(double gameSpeed) {
+    if (_gameState.gameSpeed != gameSpeed) {
+      updateGameSpeed(gameSpeed);
+    }
+  }
+
   // Getters
   GameState get gameState => _gameState;
   User? get currentUser => _currentUser;

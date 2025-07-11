@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'database_service.dart';
@@ -78,11 +79,7 @@ class PreferencesService extends ChangeNotifier {
       // Load from local storage first
       final localPrefsJson = _prefs.getString('user_preferences');
       if (localPrefsJson != null) {
-        final prefsMap = Map<String, dynamic>.from(
-          Map<String, dynamic>.from(
-            _parseJson(localPrefsJson),
-          ),
-        );
+        final prefsMap = jsonDecode(localPrefsJson) as Map<String, dynamic>;
         _preferences = UserPreferences.fromJson(prefsMap);
         notifyListeners();
       }
@@ -121,7 +118,7 @@ class PreferencesService extends ChangeNotifier {
   Future<void> _saveToLocal() async {
     try {
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      await _prefs.setString('user_preferences', _encodeJson(_preferences.toJson()));
+      await _prefs.setString('user_preferences', jsonEncode(_preferences.toJson()));
       await _prefs.setInt('preferences_timestamp', timestamp);
     } catch (e) {
       print('Error saving preferences locally: $e');
@@ -179,26 +176,5 @@ class PreferencesService extends ChangeNotifier {
         .firstWhere((entry) => entry.value == speed, orElse: () => const MapEntry('normalSpeed', 1.0))
         .key;
   }
-
-  /// Helper method to parse JSON safely
-  Map<String, dynamic> _parseJson(String jsonString) {
-    try {
-      return Map<String, dynamic>.from(
-        Map<String, dynamic>.from(
-          {'locale': 'en', 'gameSpeed': 1.0}
-        ),
-      );
-    } catch (e) {
-      return {'locale': 'en', 'gameSpeed': 1.0};
-    }
-  }
-
-  /// Helper method to encode JSON safely
-  String _encodeJson(Map<String, dynamic> map) {
-    try {
-      return map.entries.map((e) => '"${e.key}": ${e.value}').join(', ');
-    } catch (e) {
-      return '{"locale": "en", "gameSpeed": 1.0}';
-    }
-  }
+}
 }
