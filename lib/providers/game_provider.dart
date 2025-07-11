@@ -3,27 +3,182 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/game_state.dart';
 import '../models/event_system.dart';
 import '../utils/number_formatter.dart';
+import '../services/auth_service.dart';
+import '../services/database_service.dart';
 
 class GameProvider extends ChangeNotifier {
   final SharedPreferences _prefs;
   GameState _gameState = GameState();
   Timer? _gameTimer;
   Timer? _eventTimer;
+  Timer? _cloudSyncTimer;
+  
+  // Firebase services
+  final AuthService _authService = AuthService();
+  final DatabaseService _databaseService = DatabaseService();
+  
+  // Authentication state
+  User? _currentUser;
+  bool _isAuthenticated = false;
+  String? _authError;
   
   // Game constants
   static const double eventCheckInterval = 5.0; // Check for events every 5 seconds
   static const double baseEventProbability = 0.3; // 30% chance per check
+  static const double cloudSyncInterval = 30.0; // Sync with cloud every 30 seconds
   
   GameProvider(this._prefs) {
+    _initializeEventSystem();
+    _initializeAuthListener();
     _loadGame();
     _startGameLoop();
     _startEventSystem();
   }
   
+  // Getters
   GameState get gameState => _gameState;
+  User? get currentUser => _currentUser;
+  bool get isAuthenticated => _isAuthenticated;
+  String? get authError => _authError;
+  
+  // Initialize event system
+  Future<void> _initializeEventSystem() async {
+    try {
+      await EventSystem.initialize();
+    } catch (e) {
+      print('Error initializing event system: $e');
+    }
+  }
+  
+  // Initialize authentication listener
+  void _initializeAuthListener() {
+    _authService.authStateChanges.listen((User? user) {
+      _currentUser = user;
+      _isAuthenticated = user != null;
+      _gameState.userId = user?.uid;
+      _gameState.isOnline = _isAuthenticated;
+      
+      if (_isAuthenticated) {
+        _startCloudSync();
+        _loadCloudGameState();
+      } else {
+        _stopCloudSync();
+      }
+      
+      notifyListeners();
+    });
+  }
+  
+  // Authentication methods
+  Future<void> signUp({
+    required String email,
+    required String password,
+    required String displayName,
+  }) async {
+    try {
+      _authError = null;
+      final user = await _authService.signUp(
+        email: email,
+        password: password,
+        displayName: displayName,
+      );
+      
+      if (user != null) {
+        // Create user profile
+        await _databaseService.saveUserProfile(
+          displayName: displayName,
+          preferences: {
+            'theme': 'default',
+            'notifications': true,
+          },
+        );
+        
+        // Save current game state to cloud
+        await _saveCloudGameState();
+      }
+    } catch (e) {
+      _authError = e.toString();
+      notifyListeners();
+    }
+  }
+  
+  Future<void> signIn({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      _authError = null;
+      await _authService.signIn(email: email, password: password);
+    } catch (e) {
+      _authError = e.toString();
+      notifyListeners();
+    }
+  }
+  
+  Future<void> signOut() async {
+    try {
+      await _authService.signOut();
+    } catch (e) {
+      print('Error signing out: $e');
+    }
+  }
+  
+  Future<void> resetPassword({required String email}) async {
+    try {
+      _authError = null;
+      await _authService.resetPassword(email: email);
+    } catch (e) {
+      _authError = e.toString();
+      notifyListeners();
+    }
+  }
+  
+  // Cloud sync methods
+  void _startCloudSync() {
+    _cloudSyncTimer = Timer.periodic(
+      const Duration(seconds: cloudSyncInterval.toInt()),
+      (timer) => _saveCloudGameState(),
+    );
+  }
+  
+  void _stopCloudSync() {
+    _cloudSyncTimer?.cancel();
+    _cloudSyncTimer = null;
+  }
+  
+  Future<void> _saveCloudGameState() async {
+    if (!_isAuthenticated) return;
+    
+    try {
+      await _databaseService.saveGameState(_gameState);
+    } catch (e) {
+      print('Error saving to cloud: $e');
+    }
+  }
+  
+  Future<void> _loadCloudGameState() async {
+    if (!_isAuthenticated) return;
+    
+    try {
+      final cloudGameState = await _databaseService.loadGameState();
+      if (cloudGameState != null) {
+        // Merge with local state (use the one with more recent timestamp)
+        if (cloudGameState.lastSave.isAfter(_gameState.lastSave)) {
+          _gameState = cloudGameState;
+          notifyListeners();
+        } else {
+          // Local state is newer, save it to cloud
+          await _saveCloudGameState();
+        }
+      }
+    } catch (e) {
+      print('Error loading from cloud: $e');
+    }
+  }
   
   // Game loop - runs every second for basic updates
   void _startGameLoop() {
@@ -67,9 +222,17 @@ class GameProvider extends ChangeNotifier {
     
     // Check for milestone events
     final totalPopulation = _gameState.totalPopulation;
-    final milestoneEvent = EventSystem.checkMilestoneEvent(totalPopulation);
+    final milestoneEvent = EventSystem.checkMilestoneEvent(
+      totalPopulation,
+      _gameState.achievedMilestones,
+    );
     if (milestoneEvent != null) {
       _processEvent(milestoneEvent);
+      
+      // Add to achieved milestones
+      if (!_gameState.achievedMilestones.contains(milestoneEvent.id)) {
+        _gameState.achievedMilestones.add(milestoneEvent.id);
+      }
     }
   }
   
@@ -123,6 +286,7 @@ class GameProvider extends ChangeNotifier {
           type: EventType.milestone,
           populationChange: 0,
           targetTerritoryId: territory.id,
+          category: 'milestone',
         );
         
         _processEvent(unlockEvent);
@@ -149,6 +313,7 @@ class GameProvider extends ChangeNotifier {
       type: EventType.immigration,
       populationChange: 1,
       targetTerritoryId: availableTerritory.id,
+      category: 'opportunity',
     );
     
     _processEvent(manualEvent);
@@ -159,12 +324,34 @@ class GameProvider extends ChangeNotifier {
     return _gameState.eventHistory.reversed.take(limit).toList();
   }
   
+  // Get events by category
+  List<GameEvent> getEventsByCategory(String category, {int limit = 10}) {
+    return _gameState.eventHistory
+        .where((event) => event.category == category)
+        .toList()
+        .reversed
+        .take(limit)
+        .toList();
+  }
+  
   // Get territory by ID
   Territory? getTerritory(String id) {
     try {
       return _gameState.territories.firstWhere((t) => t.id == id);
     } catch (e) {
       return null;
+    }
+  }
+  
+  // Get leaderboard
+  Future<List<Map<String, dynamic>>> getLeaderboard() async {
+    if (!_isAuthenticated) return [];
+    
+    try {
+      return await _databaseService.getLeaderboard();
+    } catch (e) {
+      print('Error getting leaderboard: $e');
+      return [];
     }
   }
   
@@ -219,6 +406,7 @@ class GameProvider extends ChangeNotifier {
   void dispose() {
     _gameTimer?.cancel();
     _eventTimer?.cancel();
+    _cloudSyncTimer?.cancel();
     _saveGame();
     super.dispose();
   }
