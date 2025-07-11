@@ -13,8 +13,9 @@ class StatisticsPanel extends StatelessWidget {
         final gameState = gameProvider.gameState;
         final totalPopulation = gameState.totalPopulation;
         final totalEvents = gameState.eventHistory.length;
-        final unlockedTerritories = gameState.territories.where((t) => t.isUnlocked).length;
-        
+        final unlockedTerritories =
+            gameState.territories.where((t) => t.isUnlocked).length;
+
         return Card(
           elevation: 4,
           child: Padding(
@@ -26,7 +27,7 @@ class StatisticsPanel extends StatelessWidget {
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 16),
-                
+
                 _buildStatRow(
                   context,
                   '⏰',
@@ -34,7 +35,7 @@ class StatisticsPanel extends StatelessWidget {
                   NumberFormatter.formatTime(gameState.playTime),
                 ),
                 const SizedBox(height: 8),
-                
+
                 _buildStatRow(
                   context,
                   '👥',
@@ -42,15 +43,15 @@ class StatisticsPanel extends StatelessWidget {
                   NumberFormatter.format(totalPopulation),
                 ),
                 const SizedBox(height: 8),
-                
+
                 _buildStatRow(
                   context,
                   '🌍',
                   'Total Immigrants',
-                  NumberFormatter.format(gameState.totalImmigrants),
+                  NumberFormatter.format(gameState.totalImmigrants.toDouble()),
                 ),
                 const SizedBox(height: 8),
-                
+
                 _buildStatRow(
                   context,
                   '🏞️',
@@ -58,15 +59,15 @@ class StatisticsPanel extends StatelessWidget {
                   '$unlockedTerritories / ${gameState.territories.length}',
                 ),
                 const SizedBox(height: 8),
-                
+
                 _buildStatRow(
                   context,
                   '📋',
                   'Events Occurred',
-                  NumberFormatter.format(totalEvents),
+                  NumberFormatter.format(totalEvents.toDouble()),
                 ),
                 const SizedBox(height: 8),
-                
+
                 // Territory breakdown
                 const Divider(),
                 Text(
@@ -74,17 +75,19 @@ class StatisticsPanel extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
-                
+
                 ...gameState.territories.where((t) => t.isUnlocked).map(
-                  (territory) => _buildTerritoryStatRow(
-                    context,
-                    territory.name,
-                    territory.population,
-                    territory.capacity,
-                  ),
-                ),
-                
-                if (gameState.territories.where((t) => t.isUnlocked).isEmpty) ...[
+                      (territory) => _buildTerritoryStatRow(
+                        context,
+                        territory.name,
+                        territory.population,
+                        territory.capacity,
+                      ),
+                    ),
+
+                if (gameState.territories
+                    .where((t) => t.isUnlocked)
+                    .isEmpty) ...[
                   const Text(
                     'No territories unlocked yet',
                     style: TextStyle(
@@ -100,8 +103,9 @@ class StatisticsPanel extends StatelessWidget {
       },
     );
   }
-  
-  Widget _buildStatRow(BuildContext context, String icon, String label, String value) {
+
+  Widget _buildStatRow(
+      BuildContext context, String icon, String label, String value) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -115,16 +119,17 @@ class StatisticsPanel extends StatelessWidget {
         Text(
           value,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ],
     );
   }
-  
-  Widget _buildTerritoryStatRow(BuildContext context, String name, double population, double capacity) {
+
+  Widget _buildTerritoryStatRow(
+      BuildContext context, String name, double population, double capacity) {
     final percentage = (population / capacity * 100).toInt();
-    
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
       child: Row(
@@ -139,9 +144,9 @@ class StatisticsPanel extends StatelessWidget {
           Text(
             '${NumberFormatter.format(population)} / ${NumberFormatter.format(capacity)} ($percentage%)',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: percentage > 80 ? Colors.orange : Colors.black,
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: percentage > 80 ? Colors.orange : Colors.black,
+                ),
           ),
         ],
       ),
