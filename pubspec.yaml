@@ -18,6 +18,10 @@ dependencies:
   cloud_firestore: ^4.15.8
   # JSON handling
   http: ^1.1.0
+  # Internationalization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +30,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
   assets:
     - assets/images/
     - assets/audio/

@@ -134,6 +134,40 @@ class DatabaseService {
     }
   }
 
+  // Save user preferences
+  Future<void> saveUserPreferences(Map<String, dynamic> preferences) async {
+    if (_userId == null) return;
+
+    try {
+      await _firestore.collection('users').doc(_userId).set({
+        'preferences': preferences,
+        'lastUpdated': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print('Error saving user preferences: $e');
+      rethrow;
+    }
+  }
+
+  // Load user preferences
+  Future<Map<String, dynamic>?> loadUserPreferences() async {
+    if (_userId == null) return null;
+
+    try {
+      final doc = await _firestore.collection('users').doc(_userId).get();
+
+      if (doc.exists) {
+        final data = doc.data();
+        return data?['preferences'] as Map<String, dynamic>?;
+      }
+
+      return null;
+    } catch (e) {
+      print('Error loading user preferences: $e');
+      return null;
+    }
+  }
+
   // Delete user data
   Future<void> deleteUserData() async {
     if (_userId == null) return;

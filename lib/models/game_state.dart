@@ -18,6 +18,9 @@ class GameState {
   String? userId;
   bool isOnline;
 
+  // Game speed multiplier
+  double gameSpeed;
+
   GameState({
     this.people = 1.0,
     List<Territory>? territories,
@@ -28,6 +31,7 @@ class GameState {
     DateTime? lastSave,
     this.userId,
     this.isOnline = false,
+    this.gameSpeed = 1.0,
   })  : territories = territories ?? [Territory.initialTerritory()],
         eventHistory = eventHistory ?? [],
         achievedMilestones = achievedMilestones ?? [],
@@ -51,6 +55,7 @@ class GameState {
       'lastSave': lastSave.millisecondsSinceEpoch,
       'userId': userId,
       'isOnline': isOnline,
+      'gameSpeed': gameSpeed,
     };
   }
 
@@ -75,6 +80,7 @@ class GameState {
       ),
       userId: json['userId'],
       isOnline: json['isOnline'] ?? false,
+      gameSpeed: json['gameSpeed']?.toDouble() ?? 1.0,
     );
   }
 }

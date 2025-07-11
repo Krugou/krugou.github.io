@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flame/game.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../game/immigrants_game.dart';
 import '../widgets/territory_display.dart';
 import '../widgets/event_log.dart';
 import '../widgets/action_buttons.dart';
 import '../widgets/statistics_panel.dart';
+import '../widgets/settings_widget.dart';
 import '../screens/auth/login_screen.dart';
+import '../services/preferences_service.dart';
 
 class GameScreen extends StatefulWidget {
   const GameScreen({Key? key}) : super(key: key);
@@ -35,9 +38,11 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
-        title: const Text('The Immigrants'),
+        title: Text(localizations.appTitle),
         backgroundColor: Colors.indigo,
         actions: [
           // Authentication button
@@ -69,10 +74,15 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ],
       ),
-      body: Consumer<GameProvider>(
-        builder: (context, gameProvider, child) {
+      body: Consumer2<GameProvider, PreferencesService>(
+        builder: (context, gameProvider, preferencesService, child) {
           // Update game display
           _game.updatePopulation(gameProvider.gameState.totalPopulation);
+          
+          // Update game speed when preferences change
+          if (gameProvider.gameState.gameSpeed != preferencesService.gameSpeed) {
+            gameProvider.updateGameSpeed(preferencesService.gameSpeed);
+          }
           
           // Show recent event in game
           final recentEvents = gameProvider.getRecentEvents(limit: 1);
@@ -128,6 +138,10 @@ class _GameScreenState extends State<GameScreen> {
                         ),
                       
                       if (gameProvider.isAuthenticated) const SizedBox(height: 16),
+                      
+                      // Settings Widget
+                      const SettingsWidget(),
+                      const SizedBox(height: 16),
                       
                       // Territory Display
                       const TerritoryDisplay(),

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'game_state.dart';
+import 'territory_config.dart';
 import '../services/firebase_event_service.dart';
 
 class EventSystem {
@@ -384,117 +385,18 @@ class EventSystem {
 
   // Get available territories to unlock based on population with expanded progression
   static List<Territory> getAvailableTerritories(double totalPopulation) {
-    final availableTerritories = <Territory>[];
-    const capacityMultiplier = 1000.0;
-    const urbanThreshold = 25.0;
-    // Existing territories
-    if (totalPopulation >= urbanThreshold) {
-      availableTerritories.add(Territory(
-        id: 'urban_center',
-        name: 'Urban Center',
-        description:
-            'A bustling city with job opportunities and cultural diversity',
-        type: TerritoryType.urban,
-        capacity: urbanThreshold * 4 * capacityMultiplier,
-      ));
-    }
-    const borderThreshold = urbanThreshold * 4 * capacityMultiplier;
-    if (totalPopulation >= borderThreshold) {
-      availableTerritories.add(Territory(
-        id: 'border_town',
-        name: 'Border Town',
-        description:
-            'A strategic location for those seeking refuge and new beginnings',
-        type: TerritoryType.border,
-        capacity: borderThreshold * 3 * capacityMultiplier,
-      ));
-    }
-    const coastalThreshold = borderThreshold * 3 * capacityMultiplier;
-    if (totalPopulation >= coastalThreshold) {
-      availableTerritories.add(Territory(
-        id: 'coastal_port',
-        name: 'Coastal Port',
-        description: 'A maritime hub with fishing and trade opportunities',
-        type: TerritoryType.coastal,
-        capacity: coastalThreshold * 4 * capacityMultiplier,
-      ));
-    }
-
-    const caveThreshold = coastalThreshold * 4 * capacityMultiplier;
-    if (totalPopulation >= caveThreshold) {
-      availableTerritories.add(Territory(
-        id: 'cave_network',
-        name: 'Cave Network',
-        description: 'Underground caves providing shelter and protection',
-        type: TerritoryType.caves,
-        capacity: caveThreshold * 1.2 * capacityMultiplier,
-      ));
-    }
-    const undergroundThreshold = caveThreshold * 1.2 * capacityMultiplier;
-    if (totalPopulation >= undergroundThreshold) {
-      availableTerritories.add(Territory(
-        id: 'underground_city',
-        name: 'Underground City',
-        description:
-            'A hidden city beneath the surface with advanced facilities',
-        type: TerritoryType.underground,
-        capacity: undergroundThreshold * 1.5 * capacityMultiplier,
-      ));
-    }
-    const mountainThreshold = undergroundThreshold * 1.5 * capacityMultiplier;
-    if (totalPopulation >= mountainThreshold) {
-      availableTerritories.add(Territory(
-        id: 'mountain_settlement',
-        name: 'Mountain Settlement',
-        description:
-            'High-altitude community with stunning views and clean air',
-        type: TerritoryType.mountains,
-        capacity: mountainThreshold * 2 * capacityMultiplier,
-      ));
-    }
-    const desertThreshold = mountainThreshold * 2 * capacityMultiplier;
-    if (totalPopulation >= desertThreshold) {
-      availableTerritories.add(Territory(
-        id: 'desert_outpost',
-        name: 'Desert Outpost',
-        description: 'Solar-powered settlement in the harsh desert environment',
-        type: TerritoryType.desert,
-        capacity: desertThreshold * 3 * capacityMultiplier,
-      ));
-    }
-    const arcticThreshold = desertThreshold * 3 * capacityMultiplier;
-    if (totalPopulation >= arcticThreshold) {
-      availableTerritories.add(Territory(
-        id: 'arctic_base',
-        name: 'Arctic Base',
-        description:
-            'Research and residential facilities in the frozen wilderness',
-        type: TerritoryType.arctic,
-        capacity: arcticThreshold * 2 * capacityMultiplier,
-      ));
-    }
-    const orbitalThreshold = arcticThreshold * 2 * capacityMultiplier;
-    if (totalPopulation >= orbitalThreshold) {
-      availableTerritories.add(Territory(
-        id: 'orbital_platform',
-        name: 'Orbital Platform',
-        description: 'Space-based habitat orbiting Earth',
-        type: TerritoryType.orbital,
-        capacity: orbitalThreshold * 2 * capacityMultiplier,
-      ));
-    }
-    const spaceStationThreshold = orbitalThreshold * 2 * capacityMultiplier;
-    if (totalPopulation >= spaceStationThreshold) {
-      availableTerritories.add(Territory(
-        id: 'space_station_alpha',
-        name: 'Space Station Alpha',
-        description: 'Advanced interplanetary hub for deep space exploration',
-        type: TerritoryType.spaceStation,
-        capacity: spaceStationThreshold * 4 * capacityMultiplier,
-      ));
-    }
-
-    return availableTerritories;
+    // Import the territory configuration
+    final configs = TerritoryConfigManager.getAvailableConfigs(totalPopulation);
+    
+    return configs.map((config) => Territory(
+      id: config.id,
+      name: config.nameKey, // This will be localized later
+      description: config.descriptionKey, // This will be localized later  
+      type: config.type,
+      capacity: config.capacity,
+      population: 0.0,
+      isUnlocked: false,
+    )).toList();
   }
 
   // Get all available event categories

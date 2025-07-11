@@ -195,6 +195,29 @@ class GameProvider extends ChangeNotifier {
     });
   }
 
+  // Update game speed based on preferences
+  void updateGameSpeed(double speed) {
+    _gameState.gameSpeed = speed;
+    
+    // Restart timers with new speed
+    _gameTimer?.cancel();
+    _eventTimer?.cancel();
+    
+    // Apply speed multiplier to intervals
+    final gameInterval = Duration(milliseconds: (1000 / speed).round());
+    final eventInterval = Duration(milliseconds: (5000 / speed).round());
+    
+    _gameTimer = Timer.periodic(gameInterval, (timer) {
+      _updateGame(speed); // Pass speed as delta time multiplier
+    });
+    
+    _eventTimer = Timer.periodic(eventInterval, (timer) {
+      _checkForEvents();
+    });
+    
+    notifyListeners();
+  }
+
   void _updateGame(double deltaTime) {
     // Update play time
     _gameState.playTime += deltaTime;

@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'providers/game_provider.dart';
 import 'screens/game_screen.dart';
 import 'models/event_system.dart';
+import 'services/preferences_service.dart';
+import 'services/database_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,17 +41,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => GameProvider(prefs),
-      child: MaterialApp(
-        title: 'The Immigrants',
-        theme: ThemeData(
-          primarySwatch: Colors.indigo,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          useMaterial3: true,
-        ),
-        home: const GameScreen(),
-        debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => GameProvider(prefs)),
+        ChangeNotifierProvider(create: (context) => PreferencesService(prefs, DatabaseService())),
+      ],
+      child: Consumer<PreferencesService>(
+        builder: (context, preferencesService, child) {
+          return MaterialApp(
+            title: 'The Immigrants',
+            theme: ThemeData(
+              primarySwatch: Colors.indigo,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              useMaterial3: true,
+            ),
+            // Localization support
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: PreferencesService.supportedLocales,
+            locale: preferencesService.locale,
+            home: const GameScreen(),
+            debugShowCheckedModeBanner: false,
+          );
+        },
       ),
     );
   }
