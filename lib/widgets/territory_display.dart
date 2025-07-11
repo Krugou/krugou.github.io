@@ -5,7 +5,7 @@ import '../models/game_state.dart';
 import '../utils/number_formatter.dart';
 
 class TerritoryDisplay extends StatelessWidget {
-  const TerritoryDisplay({Key? key}) : super(key: key);
+  const TerritoryDisplay({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class TerritoryDisplay extends StatelessWidget {
       builder: (context, gameProvider, child) {
         final territories = gameProvider.gameState.territories;
         final totalPopulation = gameProvider.gameState.totalPopulation;
-        
+
         return Card(
           elevation: 4,
           child: Padding(
@@ -41,10 +41,11 @@ class TerritoryDisplay extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                
+
                 // Territory list
-                ...territories.map((territory) => _buildTerritoryItem(context, territory)),
-                
+                ...territories.map(
+                    (territory) => _buildTerritoryItem(context, territory)),
+
                 // Show next unlock threshold
                 _buildNextUnlockInfo(context, totalPopulation),
               ],
@@ -54,11 +55,11 @@ class TerritoryDisplay extends StatelessWidget {
       },
     );
   }
-  
+
   Widget _buildTerritoryItem(BuildContext context, Territory territory) {
     final isUnlocked = territory.isUnlocked;
     final populationPercentage = territory.population / territory.capacity;
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
@@ -104,7 +105,6 @@ class TerritoryDisplay extends StatelessWidget {
               ),
             ],
           ),
-          
           if (isUnlocked) ...[
             const SizedBox(height: 8),
             Row(
@@ -147,10 +147,10 @@ class TerritoryDisplay extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildNextUnlockInfo(BuildContext context, double totalPopulation) {
     String nextUnlockInfo = '';
-    
+
     if (totalPopulation < 25) {
       nextUnlockInfo = 'Next unlock: Urban Center at 25 people';
     } else if (totalPopulation < 50) {
@@ -160,7 +160,7 @@ class TerritoryDisplay extends StatelessWidget {
     } else {
       nextUnlockInfo = 'All territories unlocked!';
     }
-    
+
     return Container(
       margin: const EdgeInsets.only(top: 8),
       padding: const EdgeInsets.all(8),
@@ -191,7 +191,7 @@ class TerritoryDisplay extends StatelessWidget {
       ),
     );
   }
-  
+
   IconData _getTerritoryIcon(TerritoryType type) {
     switch (type) {
       case TerritoryType.rural:
@@ -202,6 +202,20 @@ class TerritoryDisplay extends StatelessWidget {
         return Icons.border_all;
       case TerritoryType.coastal:
         return Icons.waves;
+      case TerritoryType.caves:
+        return Icons.landscape;
+      case TerritoryType.underground:
+        return Icons.subway;
+      case TerritoryType.mountains:
+        return Icons.terrain;
+      case TerritoryType.desert:
+        return Icons.wb_sunny;
+      case TerritoryType.arctic:
+        return Icons.ac_unit;
+      case TerritoryType.orbital:
+        return Icons.satellite;
+      case TerritoryType.spaceStation:
+        return Icons.rocket_launch;
     }
   }
 }

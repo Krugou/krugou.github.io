@@ -6,6 +6,7 @@ A Python Qt application for managing game events in Firebase. This backend provi
 
 - **Firebase Integration**: Direct connection to Firebase Firestore
 - **Event Management**: Add, edit, delete, and view all game events
+- **Events Upload Script**: Automated script to upload JSON events to Firebase
 - **Responsive UI**: Clean, modern interface built with PyQt6
 - **Event Categories**: Support for all event types (immigration, disasters, milestones, etc.)
 - **Territory Management**: Events organized by territory types
@@ -41,7 +42,7 @@ A Python Qt application for managing game events in Firebase. This backend provi
    ```bash
    # Windows
    run_event_manager.bat
-   
+
    # macOS/Linux
    ./run_event_manager.sh
    ```
@@ -51,10 +52,10 @@ A Python Qt application for managing game events in Firebase. This backend provi
 1. **Create virtual environment:**
    ```bash
    python -m venv venv
-   
+
    # Windows
    venv\Scripts\activate
-   
+
    # macOS/Linux
    source venv/bin/activate
    ```
@@ -143,6 +144,29 @@ events/
     └── events/
         └── [individual event documents]
 ```
+
+## Firebase Events Upload
+
+This backend includes a powerful script to upload event data from JSON files to Firebase:
+
+### Quick Upload
+
+```bash
+# Windows
+upload_events_to_firebase.bat
+
+# Linux/Mac
+./upload_events_to_firebase.sh
+```
+
+### Upload Options
+
+- `--dry-run`: Preview upload without actually uploading
+- `--force`: Overwrite existing Firebase data
+- `--verbose`: Detailed logging
+- `--list-existing`: Show what's already in Firebase
+
+For detailed information, see [UPLOAD_EVENTS_GUIDE.md](UPLOAD_EVENTS_GUIDE.md).
 
 ## Integration with Flutter App
 
