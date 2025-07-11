@@ -1,0 +1,11 @@
+# Python Qt Event Management Backend Requirements
+
+# Core UI Framework
+PyQt6>=6.4.0
+
+# Firebase Integration
+firebase-admin>=6.0.0
+google-cloud-firestore>=2.7.0
+
+# Additional utilities
+python-dotenv>=1.0.0

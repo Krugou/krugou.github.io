@@ -13,12 +13,21 @@ Experience the dynamic world of migration as you manage population movement acro
 - **Cloud Save**: Your progress syncs across all devices
 - **Leaderboards**: Compete with other players globally
 - **Real-time Data**: Secure cloud storage for game state
+- **Event Management**: Events now stored and managed in Firebase
 
-### 📋 JSON Event System
-- **Flexible Events**: Events loaded from JSON files for easy customization
+### 🐍 Python Qt Backend
+- **Event Management GUI**: Responsive Python Qt application for managing events
+- **Firebase Integration**: Direct connection to Firebase for real-time updates
+- **CRUD Operations**: Add, edit, delete, and view all game events
+- **Event Validation**: Form validation and error handling
+- **Multi-platform**: Works on Windows, macOS, and Linux
+
+### 📋 Enhanced Event System
+- **Firebase Events**: Events loaded from Firebase with JSON fallback
+- **Flexible Events**: Events can be managed through Python backend
 - **Event Categories**: Opportunities, disasters, conflicts, epidemics, and more
 - **Extensive Library**: 50+ unique events across all territories
-- **Easy Expansion**: Add new events without code changes
+- **Real-time Updates**: Changes sync immediately between backend and game
 
 ### 🌍 Expanded Territory Progression
 - **11 Territory Types**: From rural villages to space stations
@@ -102,13 +111,21 @@ Experience the dynamic world of migration as you manage population movement acro
 - **Firebase**: Authentication, Firestore database, cloud functions
 - **Provider**: State management for real-time updates
 - **Flame**: Game engine for visual elements
-- **JSON**: Event data storage and loading
+- **Python Qt**: Backend event management GUI
+- **Firebase Admin SDK**: Server-side Firebase integration
 
 ### Architecture
-- **Event-Driven**: All game mechanics driven by event system
+- **Event-Driven**: All game mechanics driven by Firebase event system
 - **State Management**: Provider pattern for reactive UI updates
-- **Cloud Integration**: Firebase for user data and synchronization
+- **Cloud Integration**: Firebase for user data and event synchronization
 - **Modular Design**: Separate services for auth, database, and events
+- **Backend Management**: Python Qt GUI for event administration
+
+### Event Management Workflow
+1. **Python Backend**: Administrators manage events through Qt GUI
+2. **Firebase Storage**: Events stored in Firestore database
+3. **Flutter Loading**: Game loads events from Firebase with JSON fallback
+4. **Real-time Updates**: Changes sync immediately across all platforms
 
 ### Firebase Setup
 ```dart
@@ -128,6 +145,7 @@ FirebaseOptions(
 ### Prerequisites
 - Flutter SDK 3.16 or later
 - Firebase project (for cloud features)
+- Python 3.8+ (for event management backend)
 - Git for version control
 
 ### Installation
@@ -137,7 +155,7 @@ FirebaseOptions(
    cd krugou.github.io
    ```
 
-2. **Install dependencies**
+2. **Install Flutter dependencies**
    ```bash
    flutter pub get
    ```
@@ -147,7 +165,15 @@ FirebaseOptions(
    - Enable Authentication and Firestore
    - Update Firebase configuration in `lib/main.dart`
 
-4. **Run the application**
+4. **Set up Python Backend (Optional)**
+   ```bash
+   cd backend
+   python setup.py
+   ```
+   - Configure Firebase credentials as instructed
+   - Run the backend: `./run_event_manager.sh` (Linux/Mac) or `run_event_manager.bat` (Windows)
+
+5. **Run the Flutter application**
    ```bash
    # For web
    flutter run -d web
@@ -180,32 +206,41 @@ Use the provided development script for common tasks:
 
 ```
 lib/
-├── main.dart                 # App entry point with Firebase init
+├── main.dart                      # App entry point with Firebase init
 ├── models/
-│   ├── game_state.dart      # Game state management
-│   └── event_system.dart    # Enhanced event system
+│   ├── game_state.dart           # Game state management
+│   └── event_system.dart         # Enhanced event system with Firebase
 ├── providers/
-│   └── game_provider.dart   # Game logic with Firebase
+│   └── game_provider.dart        # Game logic with Firebase
 ├── services/
-│   ├── auth_service.dart    # Firebase authentication
-│   └── database_service.dart # Firestore operations
+│   ├── auth_service.dart         # Firebase authentication
+│   ├── database_service.dart     # Firestore operations
+│   └── firebase_event_service.dart # Firebase event management
 ├── screens/
-│   ├── game_screen.dart     # Main game interface
+│   ├── game_screen.dart          # Main game interface
 │   └── auth/
 │       ├── login_screen.dart
 │       └── signup_screen.dart
-├── widgets/                 # UI components
-└── utils/                   # Helper functions
+├── widgets/                      # UI components
+└── utils/                        # Helper functions
+
+backend/
+├── event_manager.py              # Python Qt event management GUI
+├── setup.py                      # Backend setup script
+├── test_backend.py               # Backend testing script
+├── requirements.txt              # Python dependencies
+├── firebase_config_template.json # Firebase configuration template
+└── README.md                     # Backend documentation
 
 assets/
 └── events/
-    ├── territory_events.json    # Territory-specific events
-    └── milestone_events.json    # Milestone events
+    ├── territory_events.json     # Territory-specific events (fallback)
+    └── milestone_events.json     # Milestone events (fallback)
 ```
 
 ## 🎮 JSON Event Format
 
-Events are defined in JSON files for easy customization:
+Events are defined in Firebase Firestore, with JSON fallback support:
 
 ```json
 {
@@ -231,6 +266,41 @@ Events are defined in JSON files for easy customization:
 - **populationChange**: Population impact (positive or negative)
 - **probability**: Chance of occurring (0.0 to 1.0)
 - **category**: Event category for filtering
+
+## 🐍 Python Backend Usage
+
+### Event Management GUI
+The Python Qt backend provides a user-friendly interface for managing events:
+
+1. **Launch Backend**:
+   ```bash
+   cd backend
+   ./run_event_manager.sh    # Linux/Mac
+   run_event_manager.bat     # Windows
+   ```
+
+2. **Connect to Firebase**:
+   - Enter path to Firebase credentials JSON
+   - Click "Connect"
+
+3. **Manage Events**:
+   - **Add**: Create new events with form validation
+   - **Edit**: Modify existing events
+   - **Delete**: Remove events from Firebase
+   - **Refresh**: Reload events from Firebase
+
+### Event Categories
+- **Opportunity**: Positive events that attract immigrants
+- **Disaster**: Natural disasters and accidents
+- **Conflict**: Political tensions and conflicts
+- **Epidemic**: Disease outbreaks and health issues
+- **Milestone**: Population milestone achievements
+
+### Territory Types
+Events can be assigned to different territories:
+- Rural, Urban, Border, Coastal, Caves, Underground
+- Mountains, Desert, Arctic, Orbital, Space Station
+- Milestone (for special achievement events)
 
 ## 🔧 Configuration
 
