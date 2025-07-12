@@ -65,6 +65,14 @@
   "@slowSpeed": {
     "description": "Slow game speed option"
   },
+  "territoryVillageName": "Village",
+  "@territoryVillageName": {
+    "description": "Name for village territory"
+  },
+  "territoryVillageDescription": "A small rural community with traditional values and close-knit families",
+  "@territoryVillageDescription": {
+    "description": "Description for village territory"
+  },
   "territoryUrbanCenterName": "Urban Center",
   "@territoryUrbanCenterName": {
     "description": "Name for urban center territory"

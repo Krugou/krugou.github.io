@@ -4,8 +4,7 @@ import '../providers/game_provider.dart';
 import '../models/game_state.dart';
 import '../models/territory_config.dart';
 import '../utils/number_formatter.dart';
-import '../services/preferences_service.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 
 class TerritoryDisplay extends StatelessWidget {
   const TerritoryDisplay({super.key});
@@ -13,7 +12,7 @@ class TerritoryDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Consumer<GameProvider>(
       builder: (context, gameProvider, child) {
         final territories = gameProvider.gameState.territories;
@@ -35,7 +34,8 @@ class TerritoryDisplay extends StatelessWidget {
                     ),
                     Chip(
                       label: Text(
-                        localizations.totalPopulation(NumberFormatter.format(totalPopulation)),
+                        localizations.totalPopulation(
+                            NumberFormatter.format(totalPopulation)),
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
@@ -68,7 +68,8 @@ class TerritoryDisplay extends StatelessWidget {
 
     // Get localized name and description
     final localizedName = _getLocalizedTerritoryName(context, territory.id);
-    final localizedDescription = _getLocalizedTerritoryDescription(context, territory.id);
+    final localizedDescription =
+        _getLocalizedTerritoryDescription(context, territory.id);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
@@ -160,16 +161,17 @@ class TerritoryDisplay extends StatelessWidget {
 
   Widget _buildNextUnlockInfo(BuildContext context, double totalPopulation) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     // Get the next territory to unlock using the new configuration system
-    final nextConfig = TerritoryConfigManager.getNextUnlockConfig(totalPopulation);
-    
+    final nextConfig =
+        TerritoryConfigManager.getNextUnlockConfig(totalPopulation);
+
     String nextUnlockInfo;
     if (nextConfig != null) {
       // Get localized territory name
       final territoryName = _getLocalizedTerritoryName(context, nextConfig.id);
       final threshold = NumberFormatter.format(nextConfig.threshold);
-      
+
       nextUnlockInfo = localizations.nextUnlock(territoryName, threshold);
     } else {
       nextUnlockInfo = localizations.allTerritoriesUnlocked;
@@ -209,8 +211,10 @@ class TerritoryDisplay extends StatelessWidget {
   /// Get localized territory name based on territory ID
   String _getLocalizedTerritoryName(BuildContext context, String territoryId) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     switch (territoryId) {
+      case 'village':
+        return localizations.territoryVillageName;
       case 'urban_center':
         return localizations.territoryUrbanCenterName;
       case 'border_town':
@@ -237,10 +241,13 @@ class TerritoryDisplay extends StatelessWidget {
   }
 
   /// Get localized territory description based on territory ID
-  String _getLocalizedTerritoryDescription(BuildContext context, String territoryId) {
+  String _getLocalizedTerritoryDescription(
+      BuildContext context, String territoryId) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     switch (territoryId) {
+      case 'village':
+        return localizations.territoryVillageDescription;
       case 'urban_center':
         return localizations.territoryUrbanCenterDescription;
       case 'border_town':

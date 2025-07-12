@@ -51,9 +51,9 @@ class UserPreferences {
 class PreferencesService extends ChangeNotifier {
   final SharedPreferences _prefs;
   final DatabaseService _databaseService;
-  
+
   UserPreferences _preferences = UserPreferences.defaultPreferences;
-  
+
   PreferencesService(this._prefs, this._databaseService) {
     _loadPreferences();
   }
@@ -99,7 +99,7 @@ class PreferencesService extends ChangeNotifier {
         // Compare timestamps if we have both local and cloud preferences
         final localTimestamp = _prefs.getInt('preferences_timestamp') ?? 0;
         final cloudTimestamp = cloudPrefs['timestamp'] ?? 0;
-        
+
         if (cloudTimestamp > localTimestamp) {
           _preferences = UserPreferences.fromJson(cloudPrefs);
           await _saveToLocal();
@@ -118,7 +118,8 @@ class PreferencesService extends ChangeNotifier {
   Future<void> _saveToLocal() async {
     try {
       final timestamp = DateTime.now().millisecondsSinceEpoch;
-      await _prefs.setString('user_preferences', jsonEncode(_preferences.toJson()));
+      await _prefs.setString(
+          'user_preferences', jsonEncode(_preferences.toJson()));
       await _prefs.setInt('preferences_timestamp', timestamp);
     } catch (e) {
       print('Error saving preferences locally: $e');
@@ -173,8 +174,8 @@ class PreferencesService extends ChangeNotifier {
   /// Get localized game speed name
   String getGameSpeedName(double speed) {
     return gameSpeedOptions.entries
-        .firstWhere((entry) => entry.value == speed, orElse: () => const MapEntry('normalSpeed', 1.0))
+        .firstWhere((entry) => entry.value == speed,
+            orElse: () => const MapEntry('normalSpeed', 1.0))
         .key;
   }
-}
 }

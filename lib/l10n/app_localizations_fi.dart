@@ -52,6 +52,13 @@ class AppLocalizationsFi extends AppLocalizations {
   String get slowSpeed => 'Hidas';
 
   @override
+  String get territoryVillageName => 'Kylä';
+
+  @override
+  String get territoryVillageDescription =>
+      'Pieni maaseutuyhteisö perinteisillä arvoilla ja tiiviillä perheillä';
+
+  @override
   String get territoryUrbanCenterName => 'Kaupunkikeskus';
 
   @override

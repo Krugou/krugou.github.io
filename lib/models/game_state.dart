@@ -113,7 +113,7 @@ class Territory {
       description: 'A small farming community where it all begins',
       type: TerritoryType.rural,
       population: 1.0,
-      capacity: 50.0,
+      capacity: 1200.0,
       isUnlocked: true,
     );
   }

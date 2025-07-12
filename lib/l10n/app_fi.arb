@@ -13,6 +13,8 @@
   "fastSpeed": "Nopea",
   "veryFastSpeed": "Hyvin nopea",
   "slowSpeed": "Hidas",
+  "territoryVillageName": "Kylä",
+  "territoryVillageDescription": "Pieni maaseutuyhteisö perinteisillä arvoilla ja tiiviillä perheillä",
   "territoryUrbanCenterName": "Kaupunkikeskus",
   "territoryUrbanCenterDescription": "Vilkas kaupunki työmahdollisuuksineen ja kulttuurisena monimuotoisuutena",
   "territoryBorderTownName": "Rajakaupunki",

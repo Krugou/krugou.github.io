@@ -176,6 +176,18 @@ abstract class AppLocalizations {
   /// **'Slow'**
   String get slowSpeed;
 
+  /// Name for village territory
+  ///
+  /// In en, this message translates to:
+  /// **'Village'**
+  String get territoryVillageName;
+
+  /// Description for village territory
+  ///
+  /// In en, this message translates to:
+  /// **'A small rural community with traditional values and close-knit families'**
+  String get territoryVillageDescription;
+
   /// Name for urban center territory
   ///
   /// In en, this message translates to:

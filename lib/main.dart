@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'l10n/app_localizations.dart';
 import 'providers/game_provider.dart';
 import 'screens/game_screen.dart';
 import 'models/event_system.dart';
@@ -44,7 +44,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => GameProvider(prefs)),
-        ChangeNotifierProvider(create: (context) => PreferencesService(prefs, DatabaseService())),
+        ChangeNotifierProvider(
+            create: (context) => PreferencesService(prefs, DatabaseService())),
       ],
       child: Consumer<PreferencesService>(
         builder: (context, preferencesService, child) {

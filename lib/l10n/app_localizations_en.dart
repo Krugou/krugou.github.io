@@ -52,6 +52,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get slowSpeed => 'Slow';
 
   @override
+  String get territoryVillageName => 'Village';
+
+  @override
+  String get territoryVillageDescription =>
+      'A small rural community with traditional values and close-knit families';
+
+  @override
   String get territoryUrbanCenterName => 'Urban Center';
 
   @override

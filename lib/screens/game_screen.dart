@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flame/game.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/game_provider.dart';
 import '../game/immigrants_game.dart';
 import '../widgets/territory_display.dart';
@@ -21,12 +21,12 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   late ImmigrantsGame _game;
-  
+
   @override
   void initState() {
     super.initState();
     _game = ImmigrantsGame();
-    
+
     // Set up game event callback
     _game.onGameEvent = (eventType) {
       final gameProvider = Provider.of<GameProvider>(context, listen: false);
@@ -39,7 +39,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.appTitle),
@@ -50,7 +50,9 @@ class _GameScreenState extends State<GameScreen> {
             builder: (context, gameProvider, child) {
               return IconButton(
                 icon: Icon(
-                  gameProvider.isAuthenticated ? Icons.account_circle : Icons.login,
+                  gameProvider.isAuthenticated
+                      ? Icons.account_circle
+                      : Icons.login,
                 ),
                 onPressed: () {
                   if (gameProvider.isAuthenticated) {
@@ -78,17 +80,17 @@ class _GameScreenState extends State<GameScreen> {
         builder: (context, gameProvider, preferencesService, child) {
           // Update game display
           _game.updatePopulation(gameProvider.gameState.totalPopulation);
-          
+
           // Sync game speed with preferences
           gameProvider.syncWithPreferences(preferencesService.gameSpeed);
-          
+
           // Show recent event in game
           final recentEvents = gameProvider.getRecentEvents(limit: 1);
           if (recentEvents.isNotEmpty) {
             _game.updateEvent(recentEvents.first.description);
             _game.showEventEffect(recentEvents.first.type.name);
           }
-          
+
           return Row(
             children: [
               // Flame Game View (left side)
@@ -105,7 +107,7 @@ class _GameScreenState extends State<GameScreen> {
                   ),
                 ),
               ),
-              
+
               // Game UI (right side)
               Expanded(
                 flex: 1,
@@ -123,36 +125,39 @@ class _GameScreenState extends State<GameScreen> {
                           ),
                           child: Row(
                             children: [
-                              Icon(Icons.cloud_done, color: Colors.green.shade700),
+                              Icon(Icons.cloud_done,
+                                  color: Colors.green.shade700),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   'Signed in as ${gameProvider.currentUser?.displayName ?? 'User'}',
-                                  style: TextStyle(color: Colors.green.shade700),
+                                  style:
+                                      TextStyle(color: Colors.green.shade700),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                      
-                      if (gameProvider.isAuthenticated) const SizedBox(height: 16),
-                      
+
+                      if (gameProvider.isAuthenticated)
+                        const SizedBox(height: 16),
+
                       // Settings Widget
                       const SettingsWidget(),
                       const SizedBox(height: 16),
-                      
+
                       // Territory Display
                       const TerritoryDisplay(),
                       const SizedBox(height: 16),
-                      
+
                       // Action Buttons
                       const ActionButtons(),
                       const SizedBox(height: 16),
-                      
+
                       // Event Log
                       const EventLog(),
                       const SizedBox(height: 16),
-                      
+
                       // Statistics Panel
                       const StatisticsPanel(),
                     ],
@@ -165,7 +170,7 @@ class _GameScreenState extends State<GameScreen> {
       ),
     );
   }
-  
+
   void _showUserMenu(BuildContext context, GameProvider gameProvider) {
     showModalBottomSheet(
       context: context,
@@ -201,7 +206,7 @@ class _GameScreenState extends State<GameScreen> {
       ),
     );
   }
-  
+
   void _showLeaderboard(BuildContext context, GameProvider gameProvider) {
     showDialog(
       context: context,
@@ -213,11 +218,13 @@ class _GameScreenState extends State<GameScreen> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             }
-            
-            if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+
+            if (snapshot.hasError ||
+                !snapshot.hasData ||
+                snapshot.data!.isEmpty) {
               return const Text('No leaderboard data available.');
             }
-            
+
             final leaderboard = snapshot.data!;
             return SizedBox(
               width: double.maxFinite,
@@ -248,14 +255,15 @@ class _GameScreenState extends State<GameScreen> {
       ),
     );
   }
-  
+
   void _showResetDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Reset Game'),
-          content: const Text('Are you sure you want to reset your progress? This cannot be undone.'),
+          content: const Text(
+              'Are you sure you want to reset your progress? This cannot be undone.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),

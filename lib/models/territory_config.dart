@@ -21,24 +21,51 @@ class TerritoryConfig {
   });
 
   /// Calculate the capacity for this territory based on the threshold
-  double get capacity => threshold * capacityMultiplier * capacityBaseMultiplier;
+  double get capacity =>
+      threshold * capacityMultiplier * capacityBaseMultiplier;
 }
 
 /// Configuration for all territories with their unlock thresholds
 class TerritoryConfigManager {
   static const double _capacityMultiplier = 1000.0;
   static const double _urbanThreshold = 25.0;
+  static const double _nextTerritoryThresholdMultiplier = 0.6;
 
   // Calculate thresholds based on the original formula to maintain exact same numbers
-  static const double _borderThreshold = _urbanThreshold * 4 * _capacityMultiplier; // 100,000
-  static const double _coastalThreshold = _borderThreshold * 3 * _capacityMultiplier; // 300,000,000
-  static const double _caveThreshold = _coastalThreshold * 4 * _capacityMultiplier; // 1,200,000,000,000
-  static const double _undergroundThreshold = _caveThreshold * 1.2 * _capacityMultiplier; // 1,440,000,000,000,000
-  static const double _mountainThreshold = _undergroundThreshold * 1.5 * _capacityMultiplier; // 2,160,000,000,000,000,000
-  static const double _desertThreshold = _mountainThreshold * 2 * _capacityMultiplier; // 4,320,000,000,000,000,000,000
-  static const double _arcticThreshold = _desertThreshold * 3 * _capacityMultiplier; // 12,960,000,000,000,000,000,000,000
-  static const double _orbitalThreshold = _arcticThreshold * 2 * _capacityMultiplier; // 25,920,000,000,000,000,000,000,000,000
-  static const double _spaceStationThreshold = _orbitalThreshold * 2 * _capacityMultiplier; // 51,840,000,000,000,000,000,000,000,000,000
+  static const double _borderThreshold = _urbanThreshold *
+      4 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 100,000
+  static const double _coastalThreshold = _borderThreshold *
+      3 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 300,000,000
+  static const double _caveThreshold = _coastalThreshold *
+      4 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 1,200,000,000,000
+  static const double _undergroundThreshold =
+      _caveThreshold * 1.2 * _capacityMultiplier; // 1,440,000,000,000,000
+  static const double _mountainThreshold = _undergroundThreshold *
+      1.5 *
+      _nextTerritoryThresholdMultiplier *
+      _capacityMultiplier; // 2,160,000,000,000,000,000
+  static const double _desertThreshold = _mountainThreshold *
+      2 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 4,320,000,000,000,000,000,000
+  static const double _arcticThreshold = _desertThreshold *
+      3 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 12,960,000,000,000,000,000,000,000
+  static const double _orbitalThreshold = _arcticThreshold *
+      2 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 25,920,000,000,000,000,000,000,000,000
+  static const double _spaceStationThreshold = _orbitalThreshold *
+      2 *
+      _capacityMultiplier *
+      _nextTerritoryThresholdMultiplier; // 51,840,000,000,000,000,000,000,000,000,000
 
   static const List<TerritoryConfig> territoryConfigs = [
     TerritoryConfig(

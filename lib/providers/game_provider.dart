@@ -205,23 +205,23 @@ class GameProvider extends ChangeNotifier {
   // Update game speed based on preferences
   void updateGameSpeed(double speed) {
     _gameState.gameSpeed = speed;
-    
+
     // Restart timers with new speed
     _gameTimer?.cancel();
     _eventTimer?.cancel();
-    
+
     // Apply speed multiplier to intervals
     final gameInterval = Duration(milliseconds: (1000 / speed).round());
     final eventInterval = Duration(milliseconds: (5000 / speed).round());
-    
+
     _gameTimer = Timer.periodic(gameInterval, (timer) {
       _updateGame(speed); // Pass speed as delta time multiplier
     });
-    
+
     _eventTimer = Timer.periodic(eventInterval, (timer) {
       _checkForEvents();
     });
-    
+
     notifyListeners();
   }
 
@@ -335,18 +335,22 @@ class GameProvider extends ChangeNotifier {
       (t) => t.isUnlocked && t.population < t.capacity,
       orElse: () => _gameState.territories.first,
     );
+// TODO: make this more robust by checking if any territory is available
+    // Calculate immigration amount based on current population
+    final immigrationAmount =
+        (_gameState.totalPopulation * 0.01).ceil().clamp(1, 1000000);
 
-    availableTerritory.population += 1;
-    _gameState.totalImmigrants += 1;
+    availableTerritory.population += immigrationAmount;
+    _gameState.totalImmigrants += immigrationAmount;
 
     // Create manual immigration event
     final manualEvent = GameEvent(
       id: 'manual_${DateTime.now().millisecondsSinceEpoch}',
       title: 'Manual Immigration',
       description:
-          'You helped a new immigrant settle in ${availableTerritory.name}',
+          'You helped $immigrationAmount new immigrants settle in ${availableTerritory.name}',
       type: EventType.immigration,
-      populationChange: 1,
+      populationChange: immigrationAmount.toDouble(),
       targetTerritoryId: availableTerritory.id,
       category: 'opportunity',
     );
