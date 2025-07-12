@@ -45,7 +45,7 @@ goto :end
 
 :web
 echo 🌐 Running on web...
-flutter run -d web-server --web-port 8080
+flutter run -d web-server --web-port 8082 --web-hostname localhost
 goto :end
 
 :android
