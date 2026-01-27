@@ -1,5 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion
+chcp 65001 >nul
 
 REM Development script for The Immigrants Flutter game
 
@@ -7,7 +8,7 @@ echo 🎮 The Immigrants - Flutter Game Development
 echo ===========================================
 
 REM Check if Flutter is installed
-flutter --version >nul 2>&1
+call flutter --version >nul 2>&1
 if errorlevel 1 (
     echo ❌ Flutter is not installed. Please install Flutter first.
     echo    Visit: https://flutter.dev/docs/get-started/install
@@ -35,7 +36,7 @@ goto :show_help
 
 :setup
 echo 📦 Installing dependencies...
-flutter pub get
+call flutter pub get
 if errorlevel 1 (
     echo ❌ Failed to install dependencies
     exit /b 1
@@ -45,12 +46,12 @@ goto :end
 
 :web
 echo 🌐 Running on web...
-flutter run -d web-server --web-port 8082 --web-hostname localhost
+call flutter run -d web-server --web-port 8082 --web-hostname localhost
 goto :end
 
 :android
 echo 📱 Running on Android...
-flutter run
+call flutter run
 goto :end
 
 :ios
@@ -61,7 +62,7 @@ goto :end
 
 :build
 echo 🏗️ Building for web production...
-flutter build web --base-href /krugou.github.io/
+call flutter build web --base-href /krugou.github.io/
 if errorlevel 1 (
     echo ❌ Build failed
     exit /b 1
@@ -71,13 +72,13 @@ goto :end
 
 :test
 echo 🧪 Running tests...
-flutter test
+call flutter test
 goto :end
 
 :clean
 echo 🧹 Cleaning build files...
-flutter clean
-flutter pub get
+call flutter clean
+call flutter pub get
 if errorlevel 1 (
     echo ❌ Clean operation failed
     exit /b 1

@@ -149,7 +149,9 @@ class Territory {
 // Territory types - expanded progression from caves to space stations
 enum TerritoryType {
   rural,
+  suburbs,
   urban,
+  metropolis,
   border,
   coastal,
   caves,
@@ -157,8 +159,10 @@ enum TerritoryType {
   mountains,
   desert,
   arctic,
+  moon,
   orbital,
   spaceStation,
+  interstellar,
 }
 
 // Game event class for the event system

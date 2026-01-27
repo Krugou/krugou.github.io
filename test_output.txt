@@ -1,0 +1,183 @@
+00:00 +0: loading C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart
+00:00 +0: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Territory unlock progression should work correctly
+00:00 +0 -1: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Territory unlock progression should work correctly [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -1: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Game speed functionality should work correctly
+00:00 +0 -2: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Game speed functionality should work correctly [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -2: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Language preferences should work correctly
+00:00 +0 -3: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Language preferences should work correctly [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -3: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Territory configuration should maintain original thresholds
+00:00 +0 -4: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Territory configuration should maintain original thresholds [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -4: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Next unlock information should be dynamic
+00:00 +0 -5: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Next unlock information should be dynamic [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -5: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Game state serialization should include new fields
+00:00 +0 -6: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Game state serialization should include new fields [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -6: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Event system integration should work with new territories
+00:00 +0 -7: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Event system integration should work with new territories [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -7: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Preferences service should handle errors gracefully
+00:00 +0 -8: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Preferences service should handle errors gracefully [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -8: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Manual immigration should work with new territory system
+00:00 +0 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Manual immigration should work with new territory system [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\integration_test.dart 20:22                                                                main.<fn>.<fn>
+  
+00:00 +0 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Performance Tests Territory configuration lookup should be efficient
+00:00 +1 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests Territory thresholds should match new enhanced progression
+00:00 +2 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests getAvailableConfigs should return territories based on population
+00:00 +3 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests getNextUnlockConfig should return next territory to unlock
+00:00 +4 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests EventSystem.getAvailableTerritories should work with new configuration
+00:00 +5 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests Territory types should be correctly assigned
+00:00 +6 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests All territory configs should have localization keys
+00:00 +7 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game State Tests GameState should initialize with correct default values
+00:00 +8 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game State Tests GameState should serialize and deserialize correctly
+00:00 +9 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game State Tests GameState should calculate total population correctly
+00:00 +10 -9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests Territory thresholds should be correctly defined
+00:00 +10 -10: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests Territory thresholds should be correctly defined [E]
+  Expected: 'urban_center'
+    Actual: 'suburbs'
+     Which: is different.
+            Expected: urban_cent ...
+              Actual: suburbs
+                      ^
+             Differ at offset 0
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 474:18  expect
+  test\widget_test.dart 60:7                          main.<fn>.<fn>
+  
+00:00 +10 -10: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests getAvailableConfigs should work correctly
+00:00 +10 -11: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests getAvailableConfigs should work correctly [E]
+  Expected: an object with length of <1>
+    Actual: []
+     Which: has length of <0>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 474:18  expect
+  test\widget_test.dart 67:7                          main.<fn>.<fn>
+  
+00:00 +10 -11: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests getNextUnlockConfig should work correctly
+00:00 +10 -12: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests getNextUnlockConfig should work correctly [E]
+  Expected: 'urban_center'
+    Actual: 'suburbs'
+     Which: is different.
+            Expected: urban_cent ...
+              Actual: suburbs
+                      ^
+             Differ at offset 0
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 474:18  expect
+  test\widget_test.dart 75:7                          main.<fn>.<fn>
+  
+00:00 +10 -12: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Number Formatter Tests Should format numbers correctly
+00:00 +11 -12: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Number Formatter Tests Should format time correctly
+00:00 +12 -12: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Number Formatter Tests Should format percentage correctly
+00:00 +13 -12: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should initialize with default game state
+00:00 +13 -13: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should initialize with default game state [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\widget_test.dart 105:22                                                                    main.<fn>.<fn>
+  
+00:00 +13 -13: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Manual immigration should work
+00:00 +13 -14: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Manual immigration should work [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\widget_test.dart 105:22                                                                    main.<fn>.<fn>
+  
+00:00 +13 -14: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should be able to get recent events
+00:00 +13 -15: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should be able to get recent events [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\widget_test.dart 105:22                                                                    main.<fn>.<fn>
+  
+00:00 +13 -15: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should be able to get territory by ID
+00:00 +13 -16: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should be able to get territory by ID [E]
+  [core/no-app] No Firebase App '[DEFAULT]' has been created - call Firebase.initializeApp()
+  package:firebase_core_platform_interface/src/method_channel/method_channel_firebase.dart 195:5  MethodChannelFirebase.app
+  package:firebase_core/src/firebase.dart 56:41                                                   Firebase.app
+  package:firebase_auth/src/firebase_auth.dart 38:47                                              FirebaseAuth.instance
+  package:the_immigrants/services/auth_service.dart 4:51                                          new AuthService
+  package:the_immigrants/providers/game_provider.dart 20:36                                       new GameProvider
+  test\widget_test.dart 105:22                                                                    main.<fn>.<fn>
+  
+00:00 +13 -16: Some tests failed.

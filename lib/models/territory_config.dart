@@ -27,136 +27,152 @@ class TerritoryConfig {
 
 /// Configuration for all territories with their unlock thresholds
 class TerritoryConfigManager {
-  static const double _capacityMultiplier = 1000.0;
-  static const double _urbanThreshold = 25.0;
-  static const double _nextTerritoryThresholdMultiplier = 0.6;
-
-  // Calculate thresholds based on the original formula to maintain exact same numbers
-  static const double _borderThreshold = _urbanThreshold *
-      4 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 100,000
-  static const double _coastalThreshold = _borderThreshold *
-      3 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 300,000,000
-  static const double _caveThreshold = _coastalThreshold *
-      4 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 1,200,000,000,000
-  static const double _undergroundThreshold =
-      _caveThreshold * 1.2 * _capacityMultiplier; // 1,440,000,000,000,000
-  static const double _mountainThreshold = _undergroundThreshold *
-      1.5 *
-      _nextTerritoryThresholdMultiplier *
-      _capacityMultiplier; // 2,160,000,000,000,000,000
-  static const double _desertThreshold = _mountainThreshold *
-      2 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 4,320,000,000,000,000,000,000
-  static const double _arcticThreshold = _desertThreshold *
-      3 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 12,960,000,000,000,000,000,000,000
-  static const double _orbitalThreshold = _arcticThreshold *
-      2 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 25,920,000,000,000,000,000,000,000,000
-  static const double _spaceStationThreshold = _orbitalThreshold *
-      2 *
-      _capacityMultiplier *
-      _nextTerritoryThresholdMultiplier; // 51,840,000,000,000,000,000,000,000,000,000
+  // Simplified constants for cleaner progression
+  static const double _thousand = 1000.0;
+  static const double _million = 1000000.0;
+  static const double _billion = 1000000000.0;
+  static const double _trillion = 1000000000000.0;
 
   static const List<TerritoryConfig> territoryConfigs = [
+    // 1. Suburbs: Unlock at 500, Cap ~12k
+    TerritoryConfig(
+      id: 'suburbs',
+      nameKey: 'territory.suburbs.name',
+      descriptionKey: 'territory.suburbs.description',
+      type: TerritoryType.suburbs,
+      threshold: 500,
+      capacityMultiplier: 25,
+      capacityBaseMultiplier: 1,
+    ),
+    // 2. Urban Center: Unlock at 5k, Cap ~200k
     TerritoryConfig(
       id: 'urban_center',
       nameKey: 'territory.urban_center.name',
       descriptionKey: 'territory.urban_center.description',
       type: TerritoryType.urban,
-      threshold: _urbanThreshold,
-      capacityMultiplier: 4,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 5 * _thousand,
+      capacityMultiplier: 40,
+      capacityBaseMultiplier: 1,
     ),
+     // 3. Metropolis: Unlock at 100k, Cap ~2M
+    TerritoryConfig(
+      id: 'metropolis',
+      nameKey: 'territory.metropolis.name',
+      descriptionKey: 'territory.metropolis.description',
+      type: TerritoryType.metropolis,
+      threshold: 100 * _thousand,
+      capacityMultiplier: 20,
+      capacityBaseMultiplier: 1,
+    ),
+    // 4. Border Town: Unlock at 1M, Cap ~10M
     TerritoryConfig(
       id: 'border_town',
       nameKey: 'territory.border_town.name',
       descriptionKey: 'territory.border_town.description',
       type: TerritoryType.border,
-      threshold: _borderThreshold,
-      capacityMultiplier: 3,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 1 * _million,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 5. Coastal Port: Unlock at 5M, Cap ~50M
     TerritoryConfig(
       id: 'coastal_port',
       nameKey: 'territory.coastal_port.name',
       descriptionKey: 'territory.coastal_port.description',
       type: TerritoryType.coastal,
-      threshold: _coastalThreshold,
-      capacityMultiplier: 4,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 5 * _million,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 6. Cave Network: Unlock at 25M, Cap ~250M
     TerritoryConfig(
       id: 'cave_network',
       nameKey: 'territory.cave_network.name',
       descriptionKey: 'territory.cave_network.description',
       type: TerritoryType.caves,
-      threshold: _caveThreshold,
-      capacityMultiplier: 1.2,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 25 * _million,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 7. Underground City: Unlock at 100M, Cap ~1B
     TerritoryConfig(
       id: 'underground_city',
       nameKey: 'territory.underground_city.name',
       descriptionKey: 'territory.underground_city.description',
       type: TerritoryType.underground,
-      threshold: _undergroundThreshold,
-      capacityMultiplier: 1.5,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 100 * _million,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 8. Mountain Settlement: Unlock at 500M, Cap ~5B
     TerritoryConfig(
       id: 'mountain_settlement',
       nameKey: 'territory.mountain_settlement.name',
       descriptionKey: 'territory.mountain_settlement.description',
       type: TerritoryType.mountains,
-      threshold: _mountainThreshold,
-      capacityMultiplier: 2,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 500 * _million,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 9. Desert Outpost: Unlock at 2.5B, Cap ~25B
     TerritoryConfig(
       id: 'desert_outpost',
       nameKey: 'territory.desert_outpost.name',
       descriptionKey: 'territory.desert_outpost.description',
       type: TerritoryType.desert,
-      threshold: _desertThreshold,
-      capacityMultiplier: 3,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 2.5 * _billion,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 10. Arctic Base: Unlock at 10B, Cap ~100B
     TerritoryConfig(
       id: 'arctic_base',
       nameKey: 'territory.arctic_base.name',
       descriptionKey: 'territory.arctic_base.description',
       type: TerritoryType.arctic,
-      threshold: _arcticThreshold,
-      capacityMultiplier: 2,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 10 * _billion,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 11. Moon Colony: Unlock at 50B, Cap ~500B
+    TerritoryConfig(
+      id: 'moon_colony',
+      nameKey: 'territory.moon_colony.name',
+      descriptionKey: 'territory.moon_colony.description',
+      type: TerritoryType.moon,
+      threshold: 50 * _billion,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
+    ),
+    // 12. Orbital Platform: Unlock at 250B, Cap ~2.5T
     TerritoryConfig(
       id: 'orbital_platform',
       nameKey: 'territory.orbital_platform.name',
       descriptionKey: 'territory.orbital_platform.description',
       type: TerritoryType.orbital,
-      threshold: _orbitalThreshold,
-      capacityMultiplier: 2,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 250 * _billion,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
     ),
+    // 13. Space Station Alpha: Unlock at 1T, Cap ~10T
     TerritoryConfig(
       id: 'space_station_alpha',
       nameKey: 'territory.space_station_alpha.name',
       descriptionKey: 'territory.space_station_alpha.description',
       type: TerritoryType.spaceStation,
-      threshold: _spaceStationThreshold,
-      capacityMultiplier: 4,
-      capacityBaseMultiplier: _capacityMultiplier,
+      threshold: 1 * _trillion,
+      capacityMultiplier: 10,
+      capacityBaseMultiplier: 1,
+    ),
+    // 14. Interstellar Ark: Unlock at 10T, Cap ~Infinity
+    TerritoryConfig(
+      id: 'interstellar_ark',
+      nameKey: 'territory.interstellar_ark.name',
+      descriptionKey: 'territory.interstellar_ark.description',
+      type: TerritoryType.interstellar,
+      threshold: 10 * _trillion,
+      capacityMultiplier: 100,
+      capacityBaseMultiplier: 1,
     ),
   ];
 

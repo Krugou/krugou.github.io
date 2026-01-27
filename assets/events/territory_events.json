@@ -397,7 +397,67 @@
       "category": "epidemic"
     }
   ],
-  "space_station": [
+  "suburbs": [
+    {
+      "id": "suburbs_expansion",
+      "title": "Suburban Expansion",
+      "description": "City dwellers move to the outskirts for affordable housing.",
+      "type": "immigration",
+      "populationChange": 10.0,
+      "probability": 0.4,
+      "category": "opportunity"
+    },
+    {
+      "id": "suburbs_commute",
+      "title": "Traffic Congestion",
+      "description": "Poor infrastructure makes commuting a nightmare, forcing some to leave.",
+      "type": "emigration",
+      "populationChange": -5.0,
+      "probability": 0.2,
+      "category": "conflict"
+    }
+  ],
+  "metropolis": [
+    {
+      "id": "metropolis_hub",
+      "title": "Global Hub",
+      "description": "The city becomes a global financial and cultural center.",
+      "type": "immigration",
+      "populationChange": 100.0,
+      "probability": 0.5,
+      "category": "opportunity"
+    },
+    {
+      "id": "metropolis_pollution",
+      "title": "Smog Alert",
+      "description": "Severe air pollution causes health issues and emigration.",
+      "type": "emigration",
+      "populationChange": -50.0,
+      "probability": 0.3,
+      "category": "disaster"
+    }
+  ],
+  "moon": [
+    {
+      "id": "moon_helium3",
+      "title": "Helium-3 Rush",
+      "description": "Discovery of Helium-3 deposits sparks a mining boom.",
+      "type": "immigration",
+      "populationChange": 20.0,
+      "probability": 0.4,
+      "category": "opportunity"
+    },
+    {
+      "id": "moon_low_g",
+      "title": "Bone Density Loss",
+      "description": "Long-term low gravity causes health problems.",
+      "type": "emigration",
+      "populationChange": -10.0,
+      "probability": 0.2,
+      "category": "epidemic"
+    }
+  ],
+  "spaceStation": [
     {
       "id": "space_station_trade",
       "title": "Interplanetary Trade",
@@ -442,6 +502,26 @@
       "populationChange": -4.0,
       "probability": 0.1,
       "category": "epidemic"
+    }
+  ],
+  "interstellar": [
+    {
+      "id": "interstellar_warp",
+      "title": "Warp Drive Breakthrough",
+      "description": "Faster-than-light travel brings colonists from distant systems.",
+      "type": "immigration",
+      "populationChange": 1000.0,
+      "probability": 0.6,
+      "category": "opportunity"
+    },
+    {
+      "id": "interstellar_void",
+      "title": "Lost in the Void",
+      "description": "A navigation error causes a colony ship to disappear.",
+      "type": "emigration",
+      "populationChange": -500.0,
+      "probability": 0.1,
+      "category": "disaster"
     }
   ]
 }
