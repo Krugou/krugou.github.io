@@ -101,3 +101,7 @@ We maintain high standards through:
 ## 🛡️ Admin Dashboard
 
 Access the administrative interface at `/admin` (local: `http://localhost:3000/admin`). This allows for managing territory events and milestones via the internal API.
+
+## 🌟 Development Standards
+
+For a comprehensive guide on architecture, UI/UX standards, and the roadmap to maximum potential, see [INSTRUCTIONS.md](file:///c:/Users/moxch/Documents/GitHub/krugou.github.io/.agent/INSTRUCTIONS.md).
