@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
 import PolicySelector from '../../components/admin/PolicySelector';
+import TechSelector from '../../components/admin/TechSelector';
 import EventTable from '../../components/admin/EventTable';
 import EventForm from '../../components/admin/EventForm';
 
@@ -23,7 +24,7 @@ import { useGame } from '../../context/GameContext';
 
 const AdminPage = () => {
   const { t } = useTranslation();
-  const { gameState, togglePolicy, simulateTicks } = useGame();
+  const { gameState, togglePolicy, toggleTech, simulateTicks } = useGame();
   const [events, setEvents] = useState<EventTemplate[]>([]);
   const [editing, setEditing] = useState<EventTemplate | null>(null);
   const [form, setForm] = useState<Partial<EventTemplate>>({});
@@ -109,6 +110,7 @@ const AdminPage = () => {
         </button>
       </div>
       <PolicySelector activePolicies={gameState.policies} togglePolicy={togglePolicy} />
+      <TechSelector unlockedTechs={gameState.techs} toggleTech={toggleTech} />
       <EventTable events={events} startEdit={startEdit} remove={remove} />
       <EventForm
         editing={editing}

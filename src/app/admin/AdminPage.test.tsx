@@ -7,8 +7,9 @@ vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (k: string) => k }
 
 // provide a fake game context
 const fakeContext = {
-  gameState: { policies: [] },
+  gameState: { policies: [], techs: [] },
   togglePolicy: vi.fn(),
+  toggleTech: vi.fn(),
   simulateTicks: vi.fn(),
 };
 
@@ -31,5 +32,13 @@ describe('AdminPage', () => {
     expect(fakeContext.simulateTicks).toHaveBeenCalledWith(720);
     // notification should appear
     expect(screen.getByText('admin.simulated', { exact: false })).toBeInTheDocument();
+  });
+
+  it('shows tech selector checkboxes', () => {
+    render(<AdminPage />);
+    expect(screen.getByText('tech.advancedAgriculture')).toBeInTheDocument();
+    const checkbox = screen.getByLabelText('tech.advancedAgriculture');
+    fireEvent.click(checkbox);
+    expect(fakeContext.toggleTech).toHaveBeenCalledWith('advancedAgriculture');
   });
 });

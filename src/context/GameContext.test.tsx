@@ -26,4 +26,35 @@ describe('GameContext', () => {
 
     expect(result.current.tickCount).toBe(5);
   });
+
+  it('toggleTech unlocks tech and boosts immigration', () => {
+    const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+      <GameProvider>{children}</GameProvider>
+    );
+    const { result } = renderHook(() => useGame(), { wrapper });
+
+    // initial population
+    const initialPeople = result.current.gameState.people;
+
+    // manual immigration without tech
+    act(() => {
+      result.current.manualImmigration();
+    });
+    const afterNoTech = result.current.gameState.people;
+    expect(afterNoTech).toBeGreaterThan(initialPeople);
+
+    // reset and add tech
+    act(() => {
+      result.current.resetGame();
+      result.current.toggleTech('advancedAgriculture');
+    });
+
+    const baseline = result.current.gameState.people;
+    act(() => {
+      result.current.manualImmigration();
+    });
+    const afterWithTech = result.current.gameState.people;
+
+    expect(afterWithTech - baseline).toBeGreaterThan(afterNoTech - initialPeople);
+  });
 });

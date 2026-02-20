@@ -10,6 +10,7 @@ import {
   EventType,
   EventCategory,
   PolicyId,
+  TechId,
 } from '../models/types';
 import { getAvailableConfigs } from '../models/territoryConfig';
 import { generateEventForTerritory, checkMilestoneEvent } from '../services/eventSystem';
@@ -17,12 +18,14 @@ import { detectNewEra } from '../models/eraConfig';
 import { PopulationService } from '../services/PopulationService';
 import { PolicyService } from '../services/PolicyService';
 import { ModifierService } from '../services/ModifierService';
+import { TechService } from '../services/TechService';
 import StorageModal from '../components/StorageModal';
 
 interface GameContextType {
   gameState: GameState;
   manualImmigration: () => void;
   togglePolicy: (id: PolicyId) => void;
+  toggleTech: (id: TechId) => void;
   resetGame: () => void;
   openStorageSettings: () => void;
   activeEra: { name: string; quote: string; image: string } | null;
@@ -114,6 +117,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
       ? newState.territories.find((t) => t.id === event.targetTerritoryId) || undefined
       : undefined;
     let modifiedEvent = ModifierService.applyModifiers(event, territory);
+
+    // apply technology bonuses (global multipliers)
+    const techMult = TechService.populationMultiplier(state);
+    if (techMult !== 1) {
+      modifiedEvent = {
+        ...modifiedEvent,
+        populationChange: modifiedEvent.populationChange * techMult,
+      };
+    }
 
     // apply policy modifiers (immigration only for now)
     if (modifiedEvent.type === EventType.immigration) {
@@ -317,6 +329,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setGameState((prev) => PolicyService.togglePolicy(prev, id));
   }, []);
 
+  const toggleTech = useCallback((id: TechId) => {
+    setGameState((prev) => TechService.toggleTech(prev, id));
+  }, []);
+
   const simulateTicks = useCallback(
     (count: number) => {
       // run both game and event ticks sequentially for deterministic testing
@@ -334,6 +350,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         gameState,
         manualImmigration,
         togglePolicy,
+        toggleTech,
         resetGame,
         openStorageSettings,
         activeEra,

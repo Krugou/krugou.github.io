@@ -57,6 +57,20 @@ export enum PolicyId {
   closedBorders = 'closedBorders',
 }
 
+export enum TechId {
+  advancedAgriculture = 'advancedAgriculture',
+  efficientTransport = 'efficientTransport',
+  universalHealthcare = 'universalHealthcare',
+}
+
+export interface TechNode {
+  id: TechId;
+  name: string;
+  description: string;
+  // multiplier applied to population change events (generic example)
+  populationMultiplier: number;
+}
+
 export interface PolicyCard {
   id: PolicyId;
   name: string;
@@ -78,6 +92,7 @@ export interface GameState {
   isOnline: boolean;
   gameSpeed: number;
   policies: PolicyId[]; // active policy cards
+  techs: TechId[]; // unlocked technologies
 }
 
 export const createInitialTerritory = (): Territory => ({
@@ -102,4 +117,5 @@ export const createInitialGameState = (): GameState => ({
   isOnline: false,
   gameSpeed: 1.0,
   policies: [],
+  techs: [],
 });

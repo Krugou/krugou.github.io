@@ -14,9 +14,7 @@ export class ModifierService {
     // policy multipliers are applied higher in the pipeline (see GameContext.processEvent)
     // this service only handles territory/tech/etc.
 
-    // Tech bonuses or other global modifiers could be added here
-    // e.g. change *= TechService.getMultiplier(event.category);
-
+    // Tech bonuses or other global modifiers are applied higher in GameContext
     return { ...event, populationChange: change };
   }
 

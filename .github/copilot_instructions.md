@@ -1,5 +1,7 @@
 # The Immigrants - Incremental Game Development Instructions
 
+> **Agent workflow note:** After completing each step or adding any code, automatically stage, commit, and push your changes to the `main` branch. Keep the remote in sync so future agents have the latest state.
+
 ## Project Overview
 
 You are helping develop "The Immigrants", a Flutter web/Android incremental game about population movement and territory expansion. The game features a single resource (people) that increases/decreases as immigrants move into new territories through random events.
