@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/krugou/krugou.github.io/compare/v1.1.0...v1.1.1) (2026-02-20)
+
+### Bug Fixes
+
+- remove unused import and tighten test types ([2071f2c](https://github.com/krugou/krugou.github.io/commit/2071f2c1f02ac3fedb1eb56f206144a6edc105d3))
+
 # [1.1.0](https://github.com/krugou/krugou.github.io/compare/v1.0.0...v1.1.0) (2026-02-20)
 
 ### Features
