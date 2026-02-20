@@ -9,14 +9,10 @@ export interface ModalProps {
   maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
-const Modal = ({
-  isOpen,
-  onClose,
-  title,
-  children,
-  maxWidth = 'md',
-}: ModalProps) => {
-  if (!isOpen) {return null;}
+const Modal = ({ isOpen, onClose, title, children, maxWidth = 'md' }: ModalProps) => {
+  if (!isOpen) {
+    return null;
+  }
 
   const maxWidthClasses = {
     sm: 'max-w-sm',
@@ -29,7 +25,12 @@ const Modal = ({
   const maxWidthClass = maxWidthClasses[maxWidth] || maxWidthClasses.md;
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4">
+    <div
+      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={title ? 'modal-title' : undefined}
+    >
       <div className={`cinematic-card relative w-full ${maxWidthClass}`}>
         {onClose && (
           <button
@@ -42,7 +43,7 @@ const Modal = ({
         )}
 
         {title && (
-          <h2 className="text-2xl font-bold text-center text-white mb-6">
+          <h2 id="modal-title" className="text-2xl font-bold text-center text-white mb-6">
             {title}
           </h2>
         )}

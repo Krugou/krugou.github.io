@@ -10,7 +10,9 @@ const handle = app.getRequestHandler();
 
 // initialize Firebase admin with credentials passed via environment
 const initFirebase = () => {
-  if (admin.apps.length) {return;}
+  if (admin.apps.length) {
+    return;
+  }
 
   // try service account JSON string first
   let serviceAccount: Record<string, unknown> | undefined;
@@ -39,12 +41,12 @@ const initFirebase = () => {
     admin.initializeApp();
     console.warn('Firebase admin initialized with default credentials');
   }
-}
+};
 
 const getDb = () => {
   initFirebase();
   return admin.firestore();
-}
+};
 
 app.prepare().then(() => {
   const server = express();
@@ -57,10 +59,7 @@ app.prepare().then(() => {
       const db = getDb();
       const events: Record<string, unknown>[] = [];
 
-      const territoryDoc = await db
-        .collection('events')
-        .doc('territory_events')
-        .get();
+      const territoryDoc = await db.collection('events').doc('territory_events').get();
       if (territoryDoc.exists) {
         const territoryData = territoryDoc.data() || {};
         for (const [territoryType, evList] of Object.entries(territoryData)) {
@@ -73,10 +72,7 @@ app.prepare().then(() => {
         }
       }
 
-      const milestoneDoc = await db
-        .collection('events')
-        .doc('milestone_events')
-        .get();
+      const milestoneDoc = await db.collection('events').doc('milestone_events').get();
       if (milestoneDoc.exists) {
         const milestoneData = milestoneDoc.data();
         if (milestoneData && Array.isArray(milestoneData.milestones)) {
@@ -101,9 +97,7 @@ app.prepare().then(() => {
   server.post('/api/admin/events', async (req: Request, res: Response) => {
     const { event, territoryType } = req.body;
     if (!event || !territoryType) {
-      return res
-        .status(400)
-        .json({ error: 'event and territoryType are required' });
+      return res.status(400).json({ error: 'event and territoryType are required' });
     }
     try {
       const db = getDb();
@@ -139,9 +133,7 @@ app.prepare().then(() => {
   server.put('/api/admin/events', async (req: Request, res: Response) => {
     const { event, territoryType } = req.body;
     if (!event || !territoryType || !event.id) {
-      return res
-        .status(400)
-        .json({ error: 'event with id and territoryType are required' });
+      return res.status(400).json({ error: 'event with id and territoryType are required' });
     }
     try {
       const db = getDb();
@@ -181,9 +173,7 @@ app.prepare().then(() => {
   server.delete('/api/admin/events', async (req: Request, res: Response) => {
     const { eventId, territoryType } = req.body;
     if (!eventId || !territoryType) {
-      return res
-        .status(400)
-        .json({ error: 'eventId and territoryType are required' });
+      return res.status(400).json({ error: 'eventId and territoryType are required' });
     }
     try {
       const db = getDb();
@@ -200,18 +190,12 @@ app.prepare().then(() => {
   });
 
   // helper for remove
-  const removeEvent = async (
-    db: admin.firestore.Firestore,
-    id: string,
-    territoryType: string,
-  ) => {
+  const removeEvent = async (db: admin.firestore.Firestore, id: string, territoryType: string) => {
     if (territoryType === 'milestone') {
       const mileRef = db.collection('events').doc('milestone_events');
       const doc = await mileRef.get();
       const data = doc.exists ? doc.data()! : { milestones: [] };
-      data.milestones = (data.milestones || []).filter(
-        (e: Record<string, unknown>) => e.id !== id,
-      );
+      data.milestones = (data.milestones || []).filter((e: Record<string, unknown>) => e.id !== id);
       await mileRef.set(data);
     } else {
       const terrRef = db.collection('events').doc('territory_events');
@@ -224,14 +208,16 @@ app.prepare().then(() => {
         await terrRef.set(data);
       }
     }
-  }
+  };
 
   // everything else handled by Next
   server.all('*', (req: Request, res: Response) => handle(req, res));
 
   const port = process.env.PORT || 3000;
   server.listen(port, (err?: unknown) => {
-    if (err) {throw err;}
+    if (err) {
+      throw err;
+    }
     console.log(`> Ready on http://localhost:${port}`);
   });
 });

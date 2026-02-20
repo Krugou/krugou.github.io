@@ -144,27 +144,19 @@ export const territoryConfigs: TerritoryConfig[] = [
   },
 ];
 
-export const getCapacity = (config: TerritoryConfig): number => (
-    config.threshold * config.capacityMultiplier * config.capacityBaseMultiplier
-  );
+export const getCapacity = (config: TerritoryConfig): number =>
+  config.threshold * config.capacityMultiplier * config.capacityBaseMultiplier;
 
-export const getAvailableConfigs = (
-  totalPopulation: number,
-): TerritoryConfig[] => territoryConfigs.filter(
-    (config) => totalPopulation >= config.threshold,
-  );
+export const getAvailableConfigs = (totalPopulation: number): TerritoryConfig[] =>
+  territoryConfigs.filter((config) => totalPopulation >= config.threshold);
 
-export const getNextUnlockConfig = (
-  totalPopulation: number,
-): TerritoryConfig | null => {
-  const nextTarget = territoryConfigs.find(
-    (config) => totalPopulation < config.threshold,
-  );
+export const getNextUnlockConfig = (totalPopulation: number): TerritoryConfig | null => {
+  const nextTarget = territoryConfigs.find((config) => totalPopulation < config.threshold);
   return nextTarget || null;
 };
 
-export const getConfigById = (id: string): TerritoryConfig | null => territoryConfigs.find((config) => config.id === id) || null;
+export const getConfigById = (id: string): TerritoryConfig | null =>
+  territoryConfigs.find((config) => config.id === id) || null;
 
-export const getConfigByType = (
-  type: TerritoryType,
-): TerritoryConfig | null => territoryConfigs.find((config) => config.type === type) || null;
+export const getConfigByType = (type: TerritoryType): TerritoryConfig | null =>
+  territoryConfigs.find((config) => config.type === type) || null;

@@ -3,11 +3,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase';
-import {
-  onAuthStateChanged,
-  User,
-  signOut as firebaseSignOut,
-} from 'firebase/auth';
+import { onAuthStateChanged, User, signOut as firebaseSignOut } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 interface AuthContextType {
@@ -20,9 +16,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +50,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const saveGameStateToCloud = async (state: unknown) => {
-    if (!user) {return;}
+    if (!user) {
+      return;
+    }
     try {
       const stateRef = doc(db, 'saves', user.uid);
       await setDoc(stateRef, state);
@@ -66,7 +62,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const loadGameStateFromCloud = async () => {
-    if (!user) {return null;}
+    if (!user) {
+      return null;
+    }
     try {
       const stateRef = doc(db, 'saves', user.uid);
       const stateSnap = await getDoc(stateRef);

@@ -15,16 +15,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      className = '',
-      variant = 'primary',
-      fullWidth = false,
-      children,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className = '', variant = 'primary', fullWidth = false, children, ...props }, ref) => {
     // Determine the variant utility class from globals.css
     const variantClass = variant === 'secondary' ? 'btn-secondary' : 'btn-primary';
 
@@ -34,15 +25,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     } ${className}`.trim();
 
     return (
-      <button
-        ref={ref}
-        className={combinedClassName}
-        {...props}
-      >
+      <button ref={ref} className={combinedClassName} {...props}>
         {children}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = 'Button';

@@ -19,13 +19,13 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => (
   <html lang="en">
-      <body
-        className={`${inter.className} min-h-screen bg-cinematic-bg text-slate-100 overflow-x-hidden pt-8`}
-      >
-        <AuthProvider>
-          <GameProvider>{children}</GameProvider>
-        </AuthProvider>
-      </body>
+    <body
+      className={`${inter.className} min-h-screen bg-cinematic-bg text-slate-100 overflow-x-hidden pt-8`}
+    >
+      <AuthProvider>
+        <GameProvider>{children}</GameProvider>
+      </AuthProvider>
+    </body>
   </html>
 );
 

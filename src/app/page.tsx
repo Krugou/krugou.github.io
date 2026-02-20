@@ -9,32 +9,32 @@ import AuthModal from '../components/AuthModal';
 import TerritoryCard from '../components/TerritoryCard';
 import EventLog from '../components/EventLog';
 import { useTranslation } from 'react-i18next';
+import LoadingScreen from '../components/common/LoadingScreen';
+import Logo from '../components/common/Logo';
 
 const Home = () => {
   const { t, i18n } = useTranslation();
   const { gameState, manualImmigration } = useGame();
   const { user, signOut, saveGameStateToCloud } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
 
   const totalPopulation = Math.floor(
     gameState.territories.reduce((acc, t) => acc + t.population, 0),
   );
-  const totalCapacity = gameState.territories.reduce(
-    (acc, t) => acc + t.capacity,
-    0,
-  );
+  const totalCapacity = gameState.territories.reduce((acc, t) => acc + t.capacity, 0);
   const capacityPercentage =
     Math.min(100, Math.round((totalPopulation / totalCapacity) * 100)) || 0;
 
   return (
     <div className="container mx-auto px-4 lg:px-8 animate-fade-in max-w-7xl relative pb-20">
+      {isInitialLoading && <LoadingScreen onFinished={() => setIsInitialLoading(false)} />}
+
       {/* Header */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-cinematic-border gap-4">
         <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2 text-white">
-            {t('appTitle')}
-          </h1>
-          <p className="text-slate-400 m-0 text-lg">{t('ui.subtitle')}</p>
+          <Logo className="w-64 md:w-80 -ml-4" />
+          <p className="text-slate-400 m-0 text-lg mt-1">{t('ui.subtitle')}</p>
         </div>
 
         <div className="flex gap-4 items-center">
@@ -57,25 +57,19 @@ const Home = () => {
               >
                 <Save size={16} /> {t('ui.save')}
               </button>
-              <button
-                className="btn btn-secondary px-3 py-2"
-                onClick={signOut}
-                title="Sign Out"
-              >
+              <button className="btn btn-secondary px-3 py-2" onClick={signOut} title="Sign Out">
                 <LogOut size={16} />
               </button>
             </div>
           ) : (
-            <button
-              className="btn btn-primary px-6 py-2"
-              onClick={() => setShowAuth(true)}
-            >
+            <button className="btn btn-primary px-6 py-2" onClick={() => setShowAuth(true)}>
               {t('ui.signInUp')}
             </button>
           )}
           <select
             className="bg-cinematic-surface border border-cinematic-border text-white px-2 py-1 rounded"
             value={i18n.language}
+            aria-label="Select Language"
             onChange={(e) => i18n.changeLanguage(e.target.value)}
           >
             <option value="en">EN</option>
@@ -88,17 +82,14 @@ const Home = () => {
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto">
           <div>
             <div className="text-sm text-slate-400 flex items-center gap-2 mb-1">
-              <Users size={16} />{' '}
-              {t('totalPopulation', { population: '' }).replace(':', '').trim()}
+              <Users size={16} /> {t('totalPopulation', { population: '' }).replace(':', '').trim()}
             </div>
             <div className="text-5xl md:text-6xl font-extrabold text-brand-primary leading-none">
               {totalPopulation.toLocaleString()}
             </div>
           </div>
           <div className="md:pl-8 md:border-l border-cinematic-border pt-4 md:pt-0 border-t md:border-t-0 w-full md:w-auto">
-            <div className="text-sm text-slate-400 mb-1">
-              {t('ui.totalImmigrants')}
-            </div>
+            <div className="text-sm text-slate-400 mb-1">{t('ui.totalImmigrants')}</div>
             <div className="text-3xl font-bold text-slate-200">
               {gameState.totalImmigrants.toLocaleString()}
             </div>
@@ -162,9 +153,7 @@ const Home = () => {
 
         {/* Right Column: Event Log */}
         <div className="flex flex-col h-full">
-          <h2 className="text-2xl font-bold text-white mb-6">
-            {t('ui.eventLog')}
-          </h2>
+          <h2 className="text-2xl font-bold text-white mb-6">{t('ui.eventLog')}</h2>
           <EventLog events={gameState.eventHistory} />
         </div>
       </div>

@@ -54,7 +54,9 @@ const EventLog = ({ events }: Props) => {
   if (events.length === 0) {
     return (
       <div className="cinematic-card h-full min-h-[400px] flex items-center justify-center border-dashed border-cinematic-border">
-        <Text as="p" variant="muted" className="text-sm italic">{t('ui.awaiting')}</Text>
+        <Text as="p" variant="muted" className="text-sm italic">
+          {t('ui.awaiting')}
+        </Text>
       </div>
     );
   }
@@ -89,8 +91,7 @@ const EventLog = ({ events }: Props) => {
             {e.populationChange !== 0 && (
               <div className={`text-xs font-bold ${style.textColor}`}>
                 {e.populationChange > 0 ? '+' : ''}
-                {Math.floor(e.populationChange).toLocaleString()}{' '}
-                {t('ui.population')}
+                {Math.floor(e.populationChange).toLocaleString()} {t('ui.population')}
               </div>
             )}
           </div>

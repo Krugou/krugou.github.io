@@ -33,9 +33,7 @@ const AdminPage = () => {
   }, [fetchEvents]);
 
   const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
@@ -112,16 +110,10 @@ const AdminPage = () => {
                 <td className="p-2">{e.category}</td>
                 <td className="p-2">{e.threshold ?? ''}</td>
                 <td className="p-2 flex gap-2">
-                  <button
-                    className="text-brand-primary"
-                    onClick={() => startEdit(e)}
-                  >
+                  <button className="text-brand-primary" onClick={() => startEdit(e)}>
                     Edit
                   </button>
-                  <button
-                    className="text-brand-danger"
-                    onClick={() => remove(e)}
-                  >
+                  <button className="text-brand-danger" onClick={() => remove(e)}>
                     Delete
                   </button>
                 </td>
@@ -132,9 +124,7 @@ const AdminPage = () => {
       </div>
 
       <div className="cinematic-card max-w-2xl">
-        <h2 className="text-2xl font-bold mb-4">
-          {editing ? 'Edit event' : 'New event'}
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">{editing ? 'Edit event' : 'New event'}</h2>
         <form
           className="flex flex-col gap-4"
           onSubmit={(e) => {
@@ -144,19 +134,11 @@ const AdminPage = () => {
         >
           <div className="flex flex-col gap-1.5">
             <Label>ID</Label>
-            <Input
-              name="id"
-              value={form.id || ''}
-              onChange={handleChange}
-            />
+            <Input name="id" value={form.id || ''} onChange={handleChange} />
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>Title</Label>
-            <Input
-              name="title"
-              value={form.title || ''}
-              onChange={handleChange}
-            />
+            <Input name="title" value={form.title || ''} onChange={handleChange} />
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>Description</Label>
@@ -183,11 +165,7 @@ const AdminPage = () => {
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>Territory</Label>
-            <Input
-              name="territoryType"
-              value={form.territoryType || ''}
-              onChange={handleChange}
-            />
+            <Input name="territoryType" value={form.territoryType || ''} onChange={handleChange} />
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>Population Change</Label>
@@ -211,11 +189,7 @@ const AdminPage = () => {
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>Category</Label>
-            <Input
-              name="category"
-              value={form.category || ''}
-              onChange={handleChange}
-            />
+            <Input name="category" value={form.category || ''} onChange={handleChange} />
           </div>
           <div className="flex flex-col gap-1.5">
             <Label>Threshold</Label>
@@ -230,11 +204,7 @@ const AdminPage = () => {
             <button className="btn btn-primary w-full" type="submit">
               Save
             </button>
-            <button
-              className="btn btn-secondary w-full"
-              type="button"
-              onClick={resetForm}
-            >
+            <button className="btn btn-secondary w-full" type="button" onClick={resetForm}>
               Cancel
             </button>
           </div>

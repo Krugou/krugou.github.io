@@ -1,24 +1,10 @@
 /* eslint-disable no-console */
 'use client';
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from 'react';
-import {
-  GameState,
-  createInitialGameState,
-  GameEvent,
-  Territory,
-} from '../models/types';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { GameState, createInitialGameState, GameEvent, Territory } from '../models/types';
 import { getAvailableConfigs } from '../models/territoryConfig';
-import {
-  generateEventForTerritory,
-  checkMilestoneEvent,
-} from '../services/eventSystem';
+import { generateEventForTerritory, checkMilestoneEvent } from '../services/eventSystem';
 import StorageModal from '../components/StorageModal';
 
 interface GameContextType {
@@ -36,12 +22,8 @@ const STORAGE_KEY = 'immigrants_game_save';
 
 // track whether player chose local or cloud persistence; `null` means prompt not answered yet
 
-export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [gameState, setGameState] = useState<GameState>(
-    createInitialGameState(),
-  );
+export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [gameState, setGameState] = useState<GameState>(createInitialGameState());
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Determine where to store game: cloud vs local.  a real cloud
@@ -84,7 +66,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Save game on interval to whichever storage was chosen
   useEffect(() => {
-    if (!isLoaded) {return;}
+    if (!isLoaded) {
+      return;
+    }
     const saveInterval = setInterval(() => {
       setGameState((prev) => {
         const updated = { ...prev, lastSave: Date.now() };
@@ -100,52 +84,43 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     return () => clearInterval(saveInterval);
   }, [isLoaded, useCloud]);
 
-  const processEvent = useCallback(
-    (state: GameState, event: GameEvent): GameState => {
-      const newState = { ...state };
-      newState.eventHistory = [event, ...newState.eventHistory].slice(0, 50); // Keep last 50
+  const processEvent = useCallback((state: GameState, event: GameEvent): GameState => {
+    const newState = { ...state };
+    newState.eventHistory = [event, ...newState.eventHistory].slice(0, 50); // Keep last 50
 
-      if (event.targetTerritoryId) {
-        const tIndex = newState.territories.findIndex(
-          (t) => t.id === event.targetTerritoryId,
+    if (event.targetTerritoryId) {
+      const tIndex = newState.territories.findIndex((t) => t.id === event.targetTerritoryId);
+      if (tIndex >= 0) {
+        const territory = { ...newState.territories[tIndex] };
+        territory.population = Math.max(
+          0,
+          Math.min(territory.capacity, territory.population + event.populationChange),
         );
-        if (tIndex >= 0) {
-          const territory = { ...newState.territories[tIndex] };
-          territory.population = Math.max(
-            0,
-            Math.min(
-              territory.capacity,
-              territory.population + event.populationChange,
-            ),
-          );
-          newState.territories = [...newState.territories];
-          newState.territories[tIndex] = territory;
-        }
-      } else {
-        newState.people = Math.max(0, newState.people + event.populationChange);
+        newState.territories = [...newState.territories];
+        newState.territories[tIndex] = territory;
       }
+    } else {
+      newState.people = Math.max(0, newState.people + event.populationChange);
+    }
 
-      if (event.populationChange > 0) {
-        newState.totalImmigrants += Math.floor(event.populationChange);
-      }
+    if (event.populationChange > 0) {
+      newState.totalImmigrants += Math.floor(event.populationChange);
+    }
 
-      return newState;
-    },
-    [],
-  );
+    return newState;
+  }, []);
 
   // Core Game Loop
   useEffect(() => {
-    if (!isLoaded) {return;}
+    if (!isLoaded) {
+      return;
+    }
 
     // Tick every 1 second
     const gameTimer = setInterval(() => {
       setGameState((prev) => {
         let newState = { ...prev, playTime: prev.playTime + prev.gameSpeed };
-        const currentTotalPop = newState.territories.reduce(
-          (sum, t) => sum + t.population,
-          0,
-        );
+        const currentTotalPop = newState.territories.reduce((sum, t) => sum + t.population, 0);
 
         // Check locks
         const availableConfigs = getAvailableConfigs(currentTotalPop);
@@ -157,9 +132,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
               description: config.descriptionKey,
               type: config.type,
               capacity:
-                config.threshold *
-                config.capacityMultiplier *
-                config.capacityBaseMultiplier,
+                config.threshold * config.capacityMultiplier * config.capacityBaseMultiplier,
               population: 0,
               isUnlocked: true,
             };
@@ -188,23 +161,14 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
     const eventTimer = setInterval(() => {
       setGameState((prev) => {
         let newState = { ...prev };
-        const currentTotalPop = newState.territories.reduce(
-          (sum, t) => sum + t.population,
-          0,
-        );
+        const currentTotalPop = newState.territories.reduce((sum, t) => sum + t.population, 0);
 
         // Check milestones
-        const milestoneEvent = checkMilestoneEvent(
-          currentTotalPop,
-          newState.achievedMilestones,
-        );
+        const milestoneEvent = checkMilestoneEvent(currentTotalPop, newState.achievedMilestones);
         if (milestoneEvent) {
           newState = processEvent(newState, milestoneEvent);
           if (!newState.achievedMilestones.includes(milestoneEvent.id)) {
-            newState.achievedMilestones = [
-              ...newState.achievedMilestones,
-              milestoneEvent.id,
-            ];
+            newState.achievedMilestones = [...newState.achievedMilestones, milestoneEvent.id];
           }
         }
 
@@ -230,17 +194,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
   const manualImmigration = useCallback(() => {
     setGameState((prev) => {
       const available =
-        prev.territories.find(
-          (t) => t.isUnlocked && t.population < t.capacity,
-        ) || prev.territories[0];
-      const currentPop = prev.territories.reduce(
-        (sum, t) => sum + t.population,
-        0,
-      );
-      const amount = Math.max(
-        1,
-        Math.min(1000000, Math.ceil(currentPop * 0.01)),
-      );
+        prev.territories.find((t) => t.isUnlocked && t.population < t.capacity) ||
+        prev.territories[0];
+      const currentPop = prev.territories.reduce((sum, t) => sum + t.population, 0);
+      const amount = Math.max(1, Math.min(1000000, Math.ceil(currentPop * 0.01)));
 
       const manualEvent: GameEvent = {
         id: `manual_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
@@ -288,7 +245,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({
           setShowStorageModal(false);
         }}
         onReset={() => {
-          if (window.confirm('Are you absolutely sure you want to reset all game data? This cannot be undone.')) {
+          if (
+            window.confirm(
+              'Are you absolutely sure you want to reset all game data? This cannot be undone.',
+            )
+          ) {
             resetGame();
             setShowStorageModal(false);
           }

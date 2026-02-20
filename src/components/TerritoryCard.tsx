@@ -46,10 +46,7 @@ const getIconForType = (type: TerritoryType) => {
       return <Snowflake size={20} className="text-brand-primary" />;
     case TerritoryType.moon:
       return (
-        <Moon
-          size={20}
-          className="text-slate-200 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-        />
+        <Moon size={20} className="text-slate-200 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
       );
     case TerritoryType.orbital:
       return <Rocket size={20} className="text-brand-primary" />;
@@ -64,10 +61,7 @@ const getIconForType = (type: TerritoryType) => {
 
 const TerritoryCard = ({ territory }: Props) => {
   const { t } = useTranslation();
-  const percentage = Math.min(
-    100,
-    (territory.population / territory.capacity) * 100,
-  );
+  const percentage = Math.min(100, (territory.population / territory.capacity) * 100);
   const isDanger = percentage >= 90;
 
   return (
@@ -92,9 +86,15 @@ const TerritoryCard = ({ territory }: Props) => {
           <Text as="span" className="font-medium tracking-wide">
             {t('ui.population')}
           </Text>
-          <Text as="span" variant="base" className="font-bold bg-slate-800 px-2 py-0.5 rounded-md border border-cinematic-border">
+          <Text
+            as="span"
+            variant="base"
+            className="font-bold bg-slate-800 px-2 py-0.5 rounded-md border border-cinematic-border"
+          >
             {Math.floor(territory.population).toLocaleString()}{' '}
-            <Text as="span" variant="muted" className="mx-1">/</Text>{' '}
+            <Text as="span" variant="muted" className="mx-1">
+              /
+            </Text>{' '}
             {territory.capacity.toLocaleString()}
           </Text>
         </div>

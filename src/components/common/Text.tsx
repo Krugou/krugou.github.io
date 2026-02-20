@@ -5,7 +5,13 @@ export interface TextProps extends HTMLAttributes<HTMLParagraphElement | HTMLSpa
   variant?: 'base' | 'muted' | 'title' | 'subtitle' | 'error';
 }
 
-const Text = ({ as: Component = 'p', variant = 'base', className = '', children, ...props }: TextProps) => {
+const Text = ({
+  as: Component = 'p',
+  variant = 'base',
+  className = '',
+  children,
+  ...props
+}: TextProps) => {
   const baseClasses = {
     base: 'text-white',
     muted: 'text-slate-400',

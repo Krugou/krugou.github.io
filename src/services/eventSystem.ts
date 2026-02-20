@@ -16,16 +16,18 @@ export interface EventTemplate {
 }
 
 // Asserting the imported JSON perfectly matches the template types
-const territoryEvents: Record<string, EventTemplate[]> =
-  territoryEventsData as unknown as Record<string, EventTemplate[]>;
+const territoryEvents: Record<string, EventTemplate[]> = territoryEventsData as unknown as Record<
+  string,
+  EventTemplate[]
+>;
 const milestoneEvents: EventTemplate[] =
   milestoneEventsData.milestones as unknown as EventTemplate[];
 
-export const generateEventForTerritory = (
-  territory: Territory,
-): GameEvent | null => {
+export const generateEventForTerritory = (territory: Territory): GameEvent | null => {
   const eventPool = territoryEvents[territory.type] || [];
-  if (eventPool.length === 0) {return null;}
+  if (eventPool.length === 0) {
+    return null;
+  }
 
   for (const template of eventPool) {
     if (Math.random() < template.probability) {
@@ -55,15 +57,15 @@ export const createEventFromTemplate = (
   template: EventTemplate,
   territory: Territory | null,
 ): GameEvent => ({
-    id: `${template.id}_${Date.now()}`,
-    title: template.title,
-    description: template.description,
-    type: template.type,
-    populationChange: template.populationChange,
-    targetTerritoryId: territory?.id || null,
-    timestamp: Date.now(),
-    category: template.category,
-  });
+  id: `${template.id}_${Date.now()}`,
+  title: template.title,
+  description: template.description,
+  type: template.type,
+  populationChange: template.populationChange,
+  targetTerritoryId: territory?.id || null,
+  timestamp: Date.now(),
+  category: template.category,
+});
 
 export const getEventsByCategory = (category: string): EventTemplate[] => {
   const events: EventTemplate[] = [];

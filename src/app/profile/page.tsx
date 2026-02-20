@@ -24,17 +24,11 @@ const Profile = () => {
   if (!user) {
     return (
       <div className="container mx-auto px-4 lg:px-8 py-20 flex flex-col items-center justify-center min-h-[70vh] text-center animate-fade-in">
-        <h2 className="text-3xl font-bold mb-4">
-          Command Authorization Required
-        </h2>
+        <h2 className="text-3xl font-bold mb-4">Command Authorization Required</h2>
         <p className="text-slate-400 mb-8 max-w-md">
-          You must be linked to the network database to view your historical
-          command statistics.
+          You must be linked to the network database to view your historical command statistics.
         </p>
-        <button
-          className="btn btn-primary px-8 py-3"
-          onClick={() => setShowAuth(true)}
-        >
+        <button className="btn btn-primary px-8 py-3" onClick={() => setShowAuth(true)}>
           Initialize Link
         </button>
         {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
@@ -50,10 +44,7 @@ const Profile = () => {
           href="/"
           className="inline-flex items-center text-slate-400 hover:text-white transition-colors mb-6 group"
         >
-          <ArrowLeft
-            size={16}
-            className="mr-2 group-hover:-translate-x-1 transition-transform"
-          />
+          <ArrowLeft size={16} className="mr-2 group-hover:-translate-x-1 transition-transform" />
           Return to Command Center
         </Link>
         <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2 text-white">
@@ -74,9 +65,7 @@ const Profile = () => {
             <div className="text-sm text-slate-400 font-medium mb-1 tracking-wider uppercase">
               Current Population
             </div>
-            <div className="text-4xl font-bold text-white">
-              {totalPopulation.toLocaleString()}
-            </div>
+            <div className="text-4xl font-bold text-white">{totalPopulation.toLocaleString()}</div>
           </div>
         </div>
 
@@ -103,8 +92,7 @@ const Profile = () => {
               Territories Subjugated
             </div>
             <div className="text-4xl font-bold text-slate-200">
-              {territoryCount}{' '}
-              <span className="text-lg text-slate-500 font-normal">/ 14</span>
+              {territoryCount} <span className="text-lg text-slate-500 font-normal">/ 14</span>
             </div>
           </div>
         </div>
@@ -143,10 +131,7 @@ const Profile = () => {
               key={idx}
               className="cinematic-card p-4 flex gap-4 items-center ring-1 ring-brand-warning/20"
             >
-              <Star
-                size={24}
-                className="text-brand-warning fill-brand-warning/20"
-              />
+              <Star size={24} className="text-brand-warning fill-brand-warning/20" />
               <span className="font-bold tracking-wide">{milestone}</span>
             </div>
           ))}

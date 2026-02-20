@@ -4,7 +4,5 @@
   "flutter.enableWebRendering": "canvaskit",
   "dart.flutterCreateAndroidLanguage": "kotlin",
   "dart.flutterCreateIOSLanguage": "swift",
-  "i18n-ally.localesPaths": [
-    "src/locales"
-  ]
+  "i18n-ally.localesPaths": ["src/locales"]
 }

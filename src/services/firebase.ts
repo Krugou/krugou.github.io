@@ -8,8 +8,7 @@ const firebaseConfig = {
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'dummy',
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || 'dummy',
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || 'dummy',
-  messagingSenderId:
-    process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || 'dummy',
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || 'dummy',
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || 'dummy',
 };
 
