@@ -2,6 +2,10 @@
 
 This document serves as the "source of truth" for bringing **The Immigrants** to its maximum potential. Every update should align with these cinematic and technical standards.
 
+## 📦 Package Policy
+
+- **Always accept new packages.** If a feature or improvement benefits from a new npm dependency (e.g., `framer-motion`, `react-virtuoso`, `howler`), install it without hesitation. Do not skip improvements because they require a new package.
+
 ## 🏛️ Architecture & Clean Code
 
 - **Domain-Driven Contexts**: Move game logic into dedicated service classes (e.g., `PopulationService`, `EraService`) to keep `GameContext` clean.

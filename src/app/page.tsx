@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useGame } from '../context/GameContext';
 import { useAuth } from '../context/AuthContext';
-import { Users, LogOut, Save, Zap, UserCircle } from 'lucide-react';
+import { Users, LogOut, Save, Zap, UserCircle, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import AuthModal from '../components/AuthModal';
 import TerritoryCard from '../components/TerritoryCard';
@@ -11,24 +11,74 @@ import EventLog from '../components/EventLog';
 import { useTranslation } from 'react-i18next';
 import LoadingScreen from '../components/common/LoadingScreen';
 import Logo from '../components/common/Logo';
+import EraOverlay from '../components/common/EraOverlay';
+import StarField from '../components/common/StarField';
+import { getNextUnlockConfig } from '../models/territoryConfig';
+import { useSoundEngine } from '../hooks/useSoundEngine';
 
 const Home = () => {
   const { t, i18n } = useTranslation();
-  const { gameState, manualImmigration } = useGame();
+  const { gameState, manualImmigration, activeEra, completeEra } = useGame();
   const { user, signOut, saveGameStateToCloud } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
+  const { isMuted, toggleMute, playClick, playEraChime } = useSoundEngine();
 
-  const totalPopulation = Math.floor(
-    gameState.territories.reduce((acc, t) => acc + t.population, 0),
+  const totalPopulation = useMemo(
+    () => Math.floor(gameState.territories.reduce((acc, t) => acc + t.population, 0)),
+    [gameState.territories],
   );
-  const totalCapacity = gameState.territories.reduce((acc, t) => acc + t.capacity, 0);
-  const capacityPercentage =
-    Math.min(100, Math.round((totalPopulation / totalCapacity) * 100)) || 0;
+  const totalCapacity = useMemo(
+    () => gameState.territories.reduce((acc, t) => acc + t.capacity, 0),
+    [gameState.territories],
+  );
+  const capacityPercentage = useMemo(
+    () => Math.min(100, Math.round((totalPopulation / totalCapacity) * 100)) || 0,
+    [totalPopulation, totalCapacity],
+  );
+  const nextUnlock = useMemo(() => getNextUnlockConfig(totalPopulation), [totalPopulation]);
+  const nextUnlockProgress = useMemo(
+    () =>
+      nextUnlock ? Math.min(100, Math.round((totalPopulation / nextUnlock.threshold) * 100)) : 100,
+    [totalPopulation, nextUnlock],
+  );
+
+  // Keyboard shortcut: Space to trigger manual immigration
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.code === 'Space' && e.target === document.body) {
+        e.preventDefault();
+        manualImmigration();
+        playClick();
+      }
+    },
+    [manualImmigration, playClick],
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <div className="container mx-auto px-4 lg:px-8 animate-fade-in max-w-7xl relative pb-20">
+      <StarField population={totalPopulation} territoryCount={gameState.territories.length} />
       {isInitialLoading && <LoadingScreen onFinished={() => setIsInitialLoading(false)} />}
+
+      {activeEra && (
+        <EraOverlay
+          eraName={activeEra.name}
+          quote={activeEra.quote}
+          imagePath={activeEra.image}
+          onFinished={() => {
+            completeEra();
+            playEraChime();
+          }}
+        />
+      )}
+
+      {/* Screen-reader heading */}
+      <h1 className="sr-only">{t('appTitle')}</h1>
 
       {/* Header */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-cinematic-border gap-4">
@@ -75,6 +125,14 @@ const Home = () => {
             <option value="en">EN</option>
             <option value="fi">FI</option>
           </select>
+          <button
+            onClick={toggleMute}
+            className="btn btn-secondary px-2 py-2"
+            aria-label={isMuted ? 'Unmute sounds' : 'Mute sounds'}
+            title={isMuted ? 'Unmute' : 'Mute'}
+          >
+            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          </button>
         </div>
       </header>
 
@@ -84,7 +142,11 @@ const Home = () => {
             <div className="text-sm text-slate-400 flex items-center gap-2 mb-1">
               <Users size={16} /> {t('totalPopulation', { population: '' }).replace(':', '').trim()}
             </div>
-            <div className="text-5xl md:text-6xl font-extrabold text-brand-primary leading-none">
+            <div
+              className="text-5xl md:text-6xl font-extrabold text-brand-primary leading-none hud-glow relative"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               {totalPopulation.toLocaleString()}
             </div>
           </div>
@@ -100,7 +162,10 @@ const Home = () => {
           <div className="flex flex-col w-full gap-2">
             <button
               className="btn btn-primary w-full p-4 text-lg animate-pulse hover:animate-none"
-              onClick={() => manualImmigration()}
+              onClick={() => {
+                manualImmigration();
+                playClick();
+              }}
             >
               <Zap size={20} /> {t('ui.guideImmigrants')}
             </button>
@@ -130,6 +195,23 @@ const Home = () => {
               />
             </div>
           </div>
+
+          {nextUnlock && (
+            <div className="mt-3 w-full">
+              <div className="flex justify-between text-xs text-slate-400 mb-1">
+                <span className="font-mono tracking-wide">
+                  Next: {nextUnlock.nameKey.split('.').pop()}
+                </span>
+                <span>{nextUnlockProgress}%</span>
+              </div>
+              <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-brand-warning/70 transition-all duration-500"
+                  style={{ width: `${nextUnlockProgress}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

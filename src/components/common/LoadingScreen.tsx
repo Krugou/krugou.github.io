@@ -71,7 +71,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
       <div
         className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("/coverimage.jpg")',
+          backgroundImage: 'url("/cover.png")',
           filter: 'brightness(0.3) blur(4px)',
         }}
       />

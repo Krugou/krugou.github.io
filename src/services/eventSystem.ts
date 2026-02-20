@@ -1,4 +1,4 @@
-import { EventType, GameEvent, Territory } from '../models/types';
+import { EventType, GameEvent, Territory, EventCategory } from '../models/types';
 import territoryEventsData from '../data/events/territory_events.json';
 import milestoneEventsData from '../data/events/milestone_events.json';
 
@@ -9,7 +9,7 @@ export interface EventTemplate {
   type: EventType;
   populationChange: number;
   probability: number;
-  category: string;
+  category: EventCategory;
   threshold?: number;
   trigger?: string;
   territoryType?: string;
@@ -64,7 +64,7 @@ export const createEventFromTemplate = (
   populationChange: template.populationChange,
   targetTerritoryId: territory?.id || null,
   timestamp: Date.now(),
-  category: template.category,
+  category: template.category as EventCategory,
 });
 
 export const getEventsByCategory = (category: string): EventTemplate[] => {

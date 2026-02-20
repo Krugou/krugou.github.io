@@ -49,7 +49,7 @@ const getEventStyles = (type: EventType) => {
   }
 };
 
-const EventLog = ({ events }: Props) => {
+const EventLog = React.memo(({ events }: Props) => {
   const { t } = useTranslation();
   if (events.length === 0) {
     return (
@@ -62,7 +62,12 @@ const EventLog = ({ events }: Props) => {
   }
 
   return (
-    <div className="cinematic-card h-full max-h-[600px] overflow-y-auto flex flex-col gap-3 scroll-smooth">
+    <div
+      role="log"
+      aria-live="polite"
+      aria-label="Game event log"
+      className="cinematic-card h-full max-h-[600px] overflow-y-auto flex flex-col gap-3 scroll-smooth"
+    >
       {events.map((e) => {
         const style = getEventStyles(e.type);
         const timeStr = new Date(e.timestamp).toLocaleTimeString();
@@ -70,7 +75,7 @@ const EventLog = ({ events }: Props) => {
         return (
           <div
             key={e.id}
-            className={`animate-fade-in p-3 rounded-md border-l-4 ${style.bgColor} ${style.borderColor} transition-all hover:brightness-110`}
+            className={`animate-slide-up p-3 rounded-md border-l-4 ${style.bgColor} ${style.borderColor} transition-all hover:brightness-110`}
           >
             <div className="flex justify-between items-center mb-1">
               <div className="flex items-center gap-2">
@@ -99,6 +104,8 @@ const EventLog = ({ events }: Props) => {
       })}
     </div>
   );
-};
+});
+
+EventLog.displayName = 'EventLog';
 
 export default EventLog;

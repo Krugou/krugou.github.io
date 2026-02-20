@@ -59,13 +59,17 @@ const getIconForType = (type: TerritoryType) => {
   }
 };
 
-const TerritoryCard = ({ territory }: Props) => {
+const TerritoryCard = React.memo(({ territory }: Props) => {
   const { t } = useTranslation();
   const percentage = Math.min(100, (territory.population / territory.capacity) * 100);
   const isDanger = percentage >= 90;
 
   return (
-    <div className="cinematic-card flex flex-col gap-4 group">
+    <div
+      className="cinematic-card flex flex-col gap-4 group"
+      role="article"
+      aria-label={`Territory: ${territory.name}`}
+    >
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-slate-700 transition-colors border border-cinematic-border">
@@ -107,6 +111,8 @@ const TerritoryCard = ({ territory }: Props) => {
       </div>
     </div>
   );
-};
+});
+
+TerritoryCard.displayName = 'TerritoryCard';
 
 export default TerritoryCard;

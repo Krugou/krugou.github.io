@@ -30,6 +30,11 @@ const Modal = ({ isOpen, onClose, title, children, maxWidth = 'md' }: ModalProps
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
+      onKeyDown={(e) => {
+        if (e.key === 'Escape' && onClose) {
+          onClose();
+        }
+      }}
     >
       <div className={`cinematic-card relative w-full ${maxWidthClass}`}>
         {onClose && (

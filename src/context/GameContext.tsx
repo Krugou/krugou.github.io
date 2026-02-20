@@ -2,9 +2,17 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { GameState, createInitialGameState, GameEvent, Territory } from '../models/types';
+import {
+  GameState,
+  createInitialGameState,
+  GameEvent,
+  Territory,
+  EventType,
+  EventCategory,
+} from '../models/types';
 import { getAvailableConfigs } from '../models/territoryConfig';
 import { generateEventForTerritory, checkMilestoneEvent } from '../services/eventSystem';
+import { detectNewEra } from '../models/eraConfig';
 import StorageModal from '../components/StorageModal';
 
 interface GameContextType {
@@ -12,6 +20,8 @@ interface GameContextType {
   manualImmigration: () => void;
   resetGame: () => void;
   openStorageSettings: () => void;
+  activeEra: { name: string; quote: string; image: string } | null;
+  completeEra: () => void;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -32,6 +42,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // session.  null indicates the user hasn't chosen yet.
   const [useCloud, setUseCloud] = useState<boolean | null>(null);
   const [showStorageModal, setShowStorageModal] = useState(false);
+  const [activeEra, setActiveEra] = useState<{ name: string; quote: string; image: string } | null>(
+    null,
+  );
 
   useEffect(() => {
     if (useCloud === null) {
@@ -142,15 +155,26 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
               id: `unlock_${config.id}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
               title: 'Territory Unlocked',
               description: `New territory available: ${config.nameKey}`,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              type: 'milestone' as any,
+              type: EventType.milestone,
               populationChange: 0,
               targetTerritoryId: config.id,
               timestamp: Date.now(),
-              category: 'milestone',
+              category: EventCategory.milestone,
             };
             newState = processEvent(newState, unlockEvent);
           }
+        }
+
+        // Era Detection (centralized)
+        const territoryIds = newState.territories.map((t) => t.id);
+        const newEra = detectNewEra(territoryIds, newState.achievedEras);
+        if (newEra) {
+          newState.achievedEras = [...newState.achievedEras, newEra.id];
+          setActiveEra({
+            name: newEra.name,
+            quote: newEra.quote,
+            image: newEra.image,
+          });
         }
 
         return newState;
@@ -203,12 +227,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: `manual_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
         title: 'Manual Immigration',
         description: `You helped ${amount} new immigrants settle in ${available.name}`,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        type: 'immigration' as any,
+        type: EventType.immigration,
         populationChange: amount,
         targetTerritoryId: available.id,
         timestamp: Date.now(),
-        category: 'opportunity',
+        category: EventCategory.opportunity,
       };
 
       return processEvent(prev, manualEvent);
@@ -229,8 +252,21 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setShowStorageModal(true);
   }, []);
 
+  const completeEra = useCallback(() => {
+    setActiveEra(null);
+  }, []);
+
   return (
-    <GameContext.Provider value={{ gameState, manualImmigration, resetGame, openStorageSettings }}>
+    <GameContext.Provider
+      value={{
+        gameState,
+        manualImmigration,
+        resetGame,
+        openStorageSettings,
+        activeEra,
+        completeEra,
+      }}
+    >
       {children}
       <StorageModal
         isOpen={showStorageModal}

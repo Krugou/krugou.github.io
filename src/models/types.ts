@@ -24,6 +24,13 @@ export enum EventType {
   milestone = 'milestone',
 }
 
+export enum EventCategory {
+  opportunity = 'opportunity',
+  disaster = 'disaster',
+  milestone = 'milestone',
+  neutral = 'neutral',
+}
+
 export interface Territory {
   id: string;
   name: string;
@@ -42,7 +49,7 @@ export interface GameEvent {
   populationChange: number;
   targetTerritoryId?: string | null;
   timestamp: number; // Stored as milliseconds since epoch
-  category: string;
+  category: EventCategory;
 }
 
 export interface GameState {
@@ -50,6 +57,7 @@ export interface GameState {
   territories: Territory[];
   eventHistory: GameEvent[];
   achievedMilestones: string[];
+  achievedEras: string[];
   totalImmigrants: number;
   playTime: number;
   lastSave: number; // Stored as milliseconds since epoch
@@ -73,6 +81,7 @@ export const createInitialGameState = (): GameState => ({
   territories: [createInitialTerritory()],
   eventHistory: [],
   achievedMilestones: [],
+  achievedEras: [],
   totalImmigrants: 1,
   playTime: 0.0,
   lastSave: Date.now(),
