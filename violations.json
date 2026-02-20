@@ -34,7 +34,9 @@
             "relatedNodes": [
               {
                 "html": "<button class=\"btn btn-primary px-6 py-2\">ui.signInUp</button>",
-                "target": [".px-6"]
+                "target": [
+                  ".px-6"
+                ]
               }
             ],
             "impact": "serious",
@@ -45,7 +47,9 @@
         "none": [],
         "impact": "serious",
         "html": "<button class=\"btn btn-primary px-6 py-2\">ui.signInUp</button>",
-        "target": [".px-6"],
+        "target": [
+          ".px-6"
+        ],
         "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.52 (foreground color: #ffffff, background color: #58a6ff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
       }
     ]

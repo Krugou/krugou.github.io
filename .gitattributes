@@ -1,0 +1,9 @@
+# enforce consistent line endings
+* text=auto
+
+# treat TypeScript as text
+*.ts text
+*.tsx text
+
+# keep executable bit for scripts
+*.sh text eol=lf

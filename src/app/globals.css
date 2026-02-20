@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-brand-primary: #58a6ff;
-  --color-brand-hover: #3182ce;
+  /* brand colors chosen for WCAG AA contrast vs white */
+  --color-brand-primary: #2563eb; /* deeper blue (contrast ≈4.6:1) */
+  --color-brand-hover: #1d4ed8;
   --color-brand-success: #3fb950;
   --color-brand-danger: #f85149;
   --color-brand-warning: #d29922;
@@ -51,6 +52,18 @@
     box-shadow: theme('boxShadow.sm');
     position: relative;
     overflow: hidden;
+  }
+
+  /* Glass-grain noise overlay — high-tech terminal texture */
+  .cinematic-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: overlay;
   }
 
   .cinematic-card::after {
@@ -181,5 +194,104 @@
     background: linear-gradient(90deg, transparent, rgba(88, 166, 255, 0.05), transparent);
     animation: scan-line 4s ease-in-out infinite;
     pointer-events: none;
+  }
+}
+
+/* Disaster glitch effect for HUD */
+@keyframes glitch-flicker {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translate(0);
+    filter: none;
+  }
+  10% {
+    opacity: 0.8;
+    transform: translate(-2px, 1px);
+    filter: hue-rotate(90deg);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(2px, -1px);
+    filter: none;
+  }
+  30% {
+    opacity: 0.9;
+    transform: translate(-1px, 0);
+    filter: hue-rotate(-30deg);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(0);
+    filter: none;
+  }
+}
+
+@layer utilities {
+  .hud-glitch {
+    animation: glitch-flicker 0.4s ease-in-out;
+  }
+}
+
+/* Heartbeat pulse for the 5-second event tick */
+@keyframes heartbeat-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(88, 166, 255, 0.4);
+    border-color: var(--color-cinematic-border);
+  }
+  30% {
+    box-shadow: 0 0 15px 2px rgba(88, 166, 255, 0.3);
+    border-color: rgba(88, 166, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(88, 166, 255, 0);
+    border-color: var(--color-cinematic-border);
+  }
+}
+
+@layer utilities {
+  .hud-heartbeat {
+    animation: heartbeat-pulse 0.8s ease-out;
+  }
+
+  /* Scanner sweep — horizontal light beam across container */
+  .scanner-sweep {
+    position: relative;
+  }
+  .scanner-sweep::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(88, 166, 255, 0.4) 50%,
+      transparent 100%
+    );
+    box-shadow: 0 0 8px 2px rgba(88, 166, 255, 0.15);
+    animation: scanner-vertical 10s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 10;
+  }
+}
+
+@keyframes scanner-vertical {
+  0%,
+  100% {
+    top: -1px;
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  50% {
+    top: 100%;
+    opacity: 1;
+  }
+  55% {
+    opacity: 0;
   }
 }

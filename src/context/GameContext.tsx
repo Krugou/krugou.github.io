@@ -13,6 +13,7 @@ import {
 import { getAvailableConfigs } from '../models/territoryConfig';
 import { generateEventForTerritory, checkMilestoneEvent } from '../services/eventSystem';
 import { detectNewEra } from '../models/eraConfig';
+import { PopulationService } from '../services/PopulationService';
 import StorageModal from '../components/StorageModal';
 
 interface GameContextType {
@@ -22,6 +23,8 @@ interface GameContextType {
   openStorageSettings: () => void;
   activeEra: { name: string; quote: string; image: string } | null;
   completeEra: () => void;
+  latestEvent: GameEvent | null;
+  tickCount: number;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -45,6 +48,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [activeEra, setActiveEra] = useState<{ name: string; quote: string; image: string } | null>(
     null,
   );
+  const [latestEvent, setLatestEvent] = useState<GameEvent | null>(null);
+  const [tickCount, setTickCount] = useState(0);
 
   useEffect(() => {
     if (useCloud === null) {
@@ -104,13 +109,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (event.targetTerritoryId) {
       const tIndex = newState.territories.findIndex((t) => t.id === event.targetTerritoryId);
       if (tIndex >= 0) {
-        const territory = { ...newState.territories[tIndex] };
-        territory.population = Math.max(
-          0,
-          Math.min(territory.capacity, territory.population + event.populationChange),
-        );
         newState.territories = [...newState.territories];
-        newState.territories[tIndex] = territory;
+        newState.territories[tIndex] = PopulationService.applyPopulationDelta(
+          newState.territories[tIndex],
+          event.populationChange,
+        );
       }
     } else {
       newState.people = Math.max(0, newState.people + event.populationChange);
@@ -123,105 +126,135 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return newState;
   }, []);
 
+  // Helper functions used by both worker messages and inline intervals
+  const runGameTick = useCallback(() => {
+    setGameState((prev) => {
+      let newState = { ...prev, playTime: prev.playTime + prev.gameSpeed };
+      const currentTotalPop = PopulationService.totalPopulation(newState.territories);
+
+      // Check locks
+      const availableConfigs = getAvailableConfigs(currentTotalPop);
+      for (const config of availableConfigs) {
+        if (!newState.territories.find((t) => t.id === config.id)) {
+          const newTerritory: Territory = {
+            id: config.id,
+            name: config.nameKey,
+            description: config.descriptionKey,
+            type: config.type,
+            capacity: config.threshold * config.capacityMultiplier * config.capacityBaseMultiplier,
+            population: 0,
+            isUnlocked: true,
+          };
+          newState.territories = [...newState.territories, newTerritory];
+
+          const unlockEvent: GameEvent = {
+            id: `unlock_${config.id}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+            title: 'Territory Unlocked',
+            description: `New territory available: ${config.nameKey}`,
+            type: EventType.milestone,
+            populationChange: 0,
+            targetTerritoryId: config.id,
+            timestamp: Date.now(),
+            category: EventCategory.milestone,
+          };
+          newState = processEvent(newState, unlockEvent);
+        }
+      }
+
+      // Era Detection (centralized)
+      const territoryIds = newState.territories.map((t) => t.id);
+      const newEra = detectNewEra(territoryIds, newState.achievedEras);
+      if (newEra) {
+        newState.achievedEras = [...newState.achievedEras, newEra.id];
+        setActiveEra({
+          name: newEra.name,
+          quote: newEra.quote,
+          image: newEra.image,
+        });
+        PopulationService.triggerMilestoneHaptic();
+      }
+
+      return newState;
+    });
+  }, [processEvent]);
+
+  const runEventTick = useCallback(() => {
+    let lastEvt: GameEvent | null = null;
+    setGameState((prev) => {
+      let newState = { ...prev };
+      const currentTotalPop = PopulationService.totalPopulation(newState.territories);
+
+      // Check milestones
+      const milestoneEvent = checkMilestoneEvent(currentTotalPop, newState.achievedMilestones);
+      if (milestoneEvent) {
+        newState = processEvent(newState, milestoneEvent);
+        if (!newState.achievedMilestones.includes(milestoneEvent.id)) {
+          newState.achievedMilestones = [...newState.achievedMilestones, milestoneEvent.id];
+        }
+        PopulationService.triggerHaptic();
+        lastEvt = milestoneEvent;
+      }
+
+      // Territory events
+      for (const territory of newState.territories) {
+        if (territory.isUnlocked) {
+          const event = generateEventForTerritory(territory);
+          if (event) {
+            newState = processEvent(newState, event);
+            lastEvt = event;
+          }
+        }
+      }
+
+      return newState;
+    });
+
+    if (lastEvt) {
+      setLatestEvent(lastEvt);
+    }
+    setTickCount((c) => c + 1);
+  }, [processEvent]);
+
   // Core Game Loop
   useEffect(() => {
     if (!isLoaded) {
       return;
     }
 
-    // Tick every 1 second
-    const gameTimer = setInterval(() => {
-      setGameState((prev) => {
-        let newState = { ...prev, playTime: prev.playTime + prev.gameSpeed };
-        const currentTotalPop = newState.territories.reduce((sum, t) => sum + t.population, 0);
+    let gameTimer: number;
+    let eventTimer: number;
+    let worker: Worker | null = null;
 
-        // Check locks
-        const availableConfigs = getAvailableConfigs(currentTotalPop);
-        for (const config of availableConfigs) {
-          if (!newState.territories.find((t) => t.id === config.id)) {
-            const newTerritory: Territory = {
-              id: config.id,
-              name: config.nameKey,
-              description: config.descriptionKey,
-              type: config.type,
-              capacity:
-                config.threshold * config.capacityMultiplier * config.capacityBaseMultiplier,
-              population: 0,
-              isUnlocked: true,
-            };
-            newState.territories = [...newState.territories, newTerritory];
-
-            const unlockEvent: GameEvent = {
-              id: `unlock_${config.id}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
-              title: 'Territory Unlocked',
-              description: `New territory available: ${config.nameKey}`,
-              type: EventType.milestone,
-              populationChange: 0,
-              targetTerritoryId: config.id,
-              timestamp: Date.now(),
-              category: EventCategory.milestone,
-            };
-            newState = processEvent(newState, unlockEvent);
-          }
+    if (typeof window !== 'undefined' && 'Worker' in window) {
+      worker = new Worker(new URL('../workers/gameLoop.worker.ts', import.meta.url));
+      worker.onmessage = (e) => {
+        if (e.data.type === 'gameTick') {
+          runGameTick();
+        } else if (e.data.type === 'eventTick') {
+          runEventTick();
         }
-
-        // Era Detection (centralized)
-        const territoryIds = newState.territories.map((t) => t.id);
-        const newEra = detectNewEra(territoryIds, newState.achievedEras);
-        if (newEra) {
-          newState.achievedEras = [...newState.achievedEras, newEra.id];
-          setActiveEra({
-            name: newEra.name,
-            quote: newEra.quote,
-            image: newEra.image,
-          });
-        }
-
-        return newState;
-      });
-    }, 1000);
-
-    // Event Loop every 5 seconds
-    const eventTimer = setInterval(() => {
-      setGameState((prev) => {
-        let newState = { ...prev };
-        const currentTotalPop = newState.territories.reduce((sum, t) => sum + t.population, 0);
-
-        // Check milestones
-        const milestoneEvent = checkMilestoneEvent(currentTotalPop, newState.achievedMilestones);
-        if (milestoneEvent) {
-          newState = processEvent(newState, milestoneEvent);
-          if (!newState.achievedMilestones.includes(milestoneEvent.id)) {
-            newState.achievedMilestones = [...newState.achievedMilestones, milestoneEvent.id];
-          }
-        }
-
-        // Territory events
-        for (const territory of newState.territories) {
-          if (territory.isUnlocked) {
-            const event = generateEventForTerritory(territory);
-            if (event) {
-              newState = processEvent(newState, event);
-            }
-          }
-        }
-        return newState;
-      });
-    }, 5000);
+      };
+      worker.postMessage({ action: 'start' });
+    } else {
+      gameTimer = window.setInterval(runGameTick, 1000);
+      eventTimer = window.setInterval(runEventTick, 5000);
+    }
 
     return () => {
-      clearInterval(gameTimer);
-      clearInterval(eventTimer);
+      if (worker) {
+        worker.postMessage({ action: 'stop' });
+        worker.terminate();
+      } else {
+        clearInterval(gameTimer);
+        clearInterval(eventTimer);
+      }
     };
-  }, [isLoaded, processEvent]);
+  }, [isLoaded, runGameTick, runEventTick]);
 
   const manualImmigration = useCallback(() => {
     setGameState((prev) => {
-      const available =
-        prev.territories.find((t) => t.isUnlocked && t.population < t.capacity) ||
-        prev.territories[0];
-      const currentPop = prev.territories.reduce((sum, t) => sum + t.population, 0);
-      const amount = Math.max(1, Math.min(1000000, Math.ceil(currentPop * 0.01)));
+      const available = PopulationService.bestAvailableTerritory(prev.territories);
+      const amount = PopulationService.manualImmigrationAmount(prev.territories);
 
       const manualEvent: GameEvent = {
         id: `manual_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
@@ -265,6 +298,8 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         openStorageSettings,
         activeEra,
         completeEra,
+        latestEvent,
+        tickCount,
       }}
     >
       {children}

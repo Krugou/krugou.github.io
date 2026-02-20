@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, Medal, Users, Earth, Star } from 'lucide-react';
 import Link from 'next/link';
 import AuthModal from '../../components/AuthModal';
 import { useState } from 'react';
+import { PopulationService } from '../../services/PopulationService';
 
 const Profile = () => {
   const { gameState } = useGame();
@@ -14,9 +15,7 @@ const Profile = () => {
   const [showAuth, setShowAuth] = useState(false);
 
   // Derive useful stats
-  const totalPopulation = Math.floor(
-    gameState.territories.reduce((acc, t) => acc + t.population, 0),
-  );
+  const totalPopulation = Math.floor(PopulationService.totalPopulation(gameState.territories));
 
   const territoryCount = gameState.territories.length;
   const playTimeMinutes = Math.floor(gameState.playTime / 60);

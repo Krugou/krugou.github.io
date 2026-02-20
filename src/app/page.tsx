@@ -13,28 +13,32 @@ import LoadingScreen from '../components/common/LoadingScreen';
 import Logo from '../components/common/Logo';
 import EraOverlay from '../components/common/EraOverlay';
 import StarField from '../components/common/StarField';
+import OdometerCounter from '../components/common/OdometerCounter';
 import { getNextUnlockConfig } from '../models/territoryConfig';
 import { useSoundEngine } from '../hooks/useSoundEngine';
+import { PopulationService } from '../services/PopulationService';
+import { EventType } from '../models/types';
 
 const Home = () => {
   const { t, i18n } = useTranslation();
-  const { gameState, manualImmigration, activeEra, completeEra } = useGame();
+  const { gameState, manualImmigration, activeEra, completeEra, latestEvent, tickCount } =
+    useGame();
   const { user, signOut, saveGameStateToCloud } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const { isMuted, toggleMute, playClick, playEraChime } = useSoundEngine();
+  const { isMuted, toggleMute, playClick, playEraChime, playDisaster, playImmigration } =
+    useSoundEngine();
+
+  // HUD reactivity state
+  const [hudEffect, setHudEffect] = useState<'glitch' | 'glow' | null>(null);
 
   const totalPopulation = useMemo(
-    () => Math.floor(gameState.territories.reduce((acc, t) => acc + t.population, 0)),
-    [gameState.territories],
-  );
-  const totalCapacity = useMemo(
-    () => gameState.territories.reduce((acc, t) => acc + t.capacity, 0),
+    () => Math.floor(PopulationService.totalPopulation(gameState.territories)),
     [gameState.territories],
   );
   const capacityPercentage = useMemo(
-    () => Math.min(100, Math.round((totalPopulation / totalCapacity) * 100)) || 0,
-    [totalPopulation, totalCapacity],
+    () => PopulationService.capacityPercentage(gameState.territories),
+    [gameState.territories],
   );
   const nextUnlock = useMemo(() => getNextUnlockConfig(totalPopulation), [totalPopulation]);
   const nextUnlockProgress = useMemo(
@@ -59,6 +63,36 @@ const Home = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
+
+  // ── HUD reactivity: respond to latest event ──────────────────────────
+  useEffect(() => {
+    if (!latestEvent) {
+      return;
+    }
+    if (latestEvent.type === EventType.disaster || latestEvent.type === EventType.emigration) {
+      queueMicrotask(() => setHudEffect('glitch'));
+      playDisaster();
+    } else if (
+      latestEvent.type === EventType.immigration ||
+      latestEvent.type === EventType.opportunity
+    ) {
+      queueMicrotask(() => setHudEffect('glow'));
+      playImmigration();
+    }
+    const timer = setTimeout(() => setHudEffect(null), 600);
+    return () => clearTimeout(timer);
+  }, [latestEvent, playDisaster, playImmigration]);
+
+  // Build dynamic HUD classes — tickCount drives heartbeat via key-based re-mount
+  const hudClasses = useMemo(() => {
+    const base =
+      'cinematic-card mb-8 flex flex-col md:flex-row justify-between items-center gap-8 bg-linear-to-br from-slate-800/80 to-slate-900 border-brand-primary/30 shadow-[0_0_20px_rgba(88,166,255,0.05)]';
+    const effects: string[] = ['hud-heartbeat'];
+    if (hudEffect === 'glitch') {
+      effects.push('hud-glitch');
+    }
+    return `${base} ${effects.join(' ')}`;
+  }, [hudEffect]);
 
   return (
     <div className="container mx-auto px-4 lg:px-8 animate-fade-in max-w-7xl relative pb-20">
@@ -136,18 +170,20 @@ const Home = () => {
         </div>
       </header>
 
-      <div className="cinematic-card mb-8 flex flex-col md:flex-row justify-between items-center gap-8 bg-linear-to-br from-slate-800/80 to-slate-900 border-brand-primary/30 shadow-[0_0_20px_rgba(88,166,255,0.05)]">
+      <div key={`hud-${tickCount}`} className={hudClasses}>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto">
           <div>
             <div className="text-sm text-slate-400 flex items-center gap-2 mb-1">
               <Users size={16} /> {t('totalPopulation', { population: '' }).replace(':', '').trim()}
             </div>
             <div
-              className="text-5xl md:text-6xl font-extrabold text-brand-primary leading-none hud-glow relative"
+              className={`text-5xl md:text-6xl font-extrabold leading-none hud-glow relative ${
+                hudEffect === 'glow' ? 'text-brand-success' : 'text-brand-primary'
+              }`}
               aria-live="polite"
               aria-atomic="true"
             >
-              {totalPopulation.toLocaleString()}
+              <OdometerCounter value={totalPopulation} />
             </div>
           </div>
           <div className="md:pl-8 md:border-l border-cinematic-border pt-4 md:pt-0 border-t md:border-t-0 w-full md:w-auto">
@@ -226,7 +262,7 @@ const Home = () => {
               </span>
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 scanner-sweep relative">
             {gameState.territories.map((territory) => (
               <TerritoryCard key={territory.id} territory={territory} />
             ))}

@@ -100,5 +100,49 @@ export const useSoundEngine = () => {
     });
   }, [isMuted, getCtx]);
 
-  return { isMuted, toggleMute, playClick, playEraChime, playMilestone };
+  /** Low rumble for disaster events — sawtooth wave at ~120Hz */
+  const playDisaster = useCallback(() => {
+    if (isMuted) {
+      return;
+    }
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(120, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(60, ctx.currentTime + 0.4);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.55);
+  }, [isMuted, getCtx]);
+
+  /** Warm chime for immigration events — sine at ~660Hz */
+  const playImmigration = useCallback(() => {
+    if (isMuted) {
+      return;
+    }
+    const ctx = getCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(660, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.25);
+  }, [isMuted, getCtx]);
+
+  return {
+    isMuted,
+    toggleMute,
+    playClick,
+    playEraChime,
+    playMilestone,
+    playDisaster,
+    playImmigration,
+  };
 };

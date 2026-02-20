@@ -3,10 +3,18 @@ import express, { Request, Response } from 'express';
 import next from 'next';
 import admin from 'firebase-admin';
 import fs from 'fs';
+import https from 'https';
+import path from 'path';
 
 const dev = process.env.NODE_ENV !== 'production';
+const useHttps = process.argv.includes('--https');
 const app = next({ dev });
 const handle = app.getRequestHandler();
+
+// ─── SSL Certificate Paths ───────────────────────────────────────────
+const CERT_DIR = path.join(process.cwd(), 'certs');
+const CERT_KEY = path.join(CERT_DIR, 'localhost-key.pem');
+const CERT_FILE = path.join(CERT_DIR, 'localhost.pem');
 
 // initialize Firebase admin with credentials passed via environment
 const initFirebase = () => {
@@ -137,10 +145,7 @@ app.prepare().then(() => {
     }
     try {
       const db = getDb();
-      // delete old then add new (simple approach)
-      // reuse delete logic below
       await removeEvent(db, event.id, territoryType);
-      // add updated
       if (territoryType === 'milestone') {
         const mileRef = db.collection('events').doc('milestone_events');
         const doc = await mileRef.get();
@@ -213,11 +218,34 @@ app.prepare().then(() => {
   // everything else handled by Next
   server.all('*', (req: Request, res: Response) => handle(req, res));
 
-  const port = process.env.PORT || 3000;
-  server.listen(port, (err?: unknown) => {
-    if (err) {
-      throw err;
+  const port = Number(process.env.PORT ?? 3000);
+  const httpsPort = Number(process.env.HTTPS_PORT ?? 3443);
+
+  // ─── Start HTTP server ──────────────────────────────────────────────
+  if (!useHttps) {
+    server.listen(port, () => {
+      console.log(`\n  🚀 HTTP server ready`);
+      console.log(`     Local:   http://localhost:${port}`);
+      console.log(`     Tip:     run  npm run dev:https  for HTTPS\n`);
+    });
+  }
+
+  // ─── Start HTTPS server (when certs exist) ──────────────────────────
+  if (useHttps || (fs.existsSync(CERT_KEY) && fs.existsSync(CERT_FILE))) {
+    if (!fs.existsSync(CERT_KEY) || !fs.existsSync(CERT_FILE)) {
+      console.error(
+        `\n  ⚠️  HTTPS requested but certificates not found.` +
+          `\n     Run:  npm run certs:generate\n`,
+      );
+    } else {
+      const sslOptions = {
+        key: fs.readFileSync(CERT_KEY),
+        cert: fs.readFileSync(CERT_FILE),
+      };
+      https.createServer(sslOptions, server).listen(httpsPort, () => {
+        console.log(`\n  🔒 HTTPS server ready`);
+        console.log(`     Local:   https://localhost:${httpsPort}\n`);
+      });
     }
-    console.log(`> Ready on http://localhost:${port}`);
-  });
+  }
 });

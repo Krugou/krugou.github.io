@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import fs from 'fs';
 import path from 'path';
+/* eslint-disable no-console -- logging violations useful in tests */
 
 test.describe('Accessibility', () => {
   test('should not have any automatically detectable accessibility issues', async ({ page }) => {

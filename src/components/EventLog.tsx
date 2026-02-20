@@ -49,6 +49,8 @@ const getEventStyles = (type: EventType) => {
   }
 };
 
+import { Virtuoso } from 'react-virtuoso';
+
 const EventLog = React.memo(({ events }: Props) => {
   const { t } = useTranslation();
   if (events.length === 0) {
@@ -61,6 +63,60 @@ const EventLog = React.memo(({ events }: Props) => {
     );
   }
 
+  // render helper extracted for reuse with virtualization
+  const renderItem = (e: GameEvent) => {
+    const style = getEventStyles(e.type);
+    const timeStr = new Date(e.timestamp).toLocaleTimeString();
+
+    return (
+      <div
+        key={e.id}
+        className={`animate-slide-up p-3 rounded-md border-l-4 ${style.bgColor} ${style.borderColor} transition-all hover:brightness-110`}
+      >
+        <div className="flex justify-between items-center mb-1">
+          <div className="flex items-center gap-2">
+            {style.icon}
+            <Text as="span" variant="base" className="text-sm font-bold tracking-wide">
+              {e.title}
+            </Text>
+          </div>
+          <Text as="span" variant="muted" className="text-xs font-mono">
+            {timeStr}
+          </Text>
+        </div>
+
+        <Text as="p" className="text-xs text-slate-300 my-2 leading-relaxed">
+          {e.description}
+        </Text>
+
+        {e.populationChange !== 0 && (
+          <div className={`text-xs font-bold ${style.textColor}`}>
+            {e.populationChange > 0 ? '+' : ''}
+            {Math.floor(e.populationChange).toLocaleString()} {t('ui.population')}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  // choose virtualization threshold
+  if (events.length > 100) {
+    return (
+      <div
+        role="log"
+        aria-live="polite"
+        aria-label="Game event log"
+        className="cinematic-card h-full overflow-hidden"
+      >
+        <Virtuoso
+          data={events}
+          itemContent={(index, e) => renderItem(e)}
+          style={{ height: '600px' }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       role="log"
@@ -68,40 +124,7 @@ const EventLog = React.memo(({ events }: Props) => {
       aria-label="Game event log"
       className="cinematic-card h-full max-h-[600px] overflow-y-auto flex flex-col gap-3 scroll-smooth"
     >
-      {events.map((e) => {
-        const style = getEventStyles(e.type);
-        const timeStr = new Date(e.timestamp).toLocaleTimeString();
-
-        return (
-          <div
-            key={e.id}
-            className={`animate-slide-up p-3 rounded-md border-l-4 ${style.bgColor} ${style.borderColor} transition-all hover:brightness-110`}
-          >
-            <div className="flex justify-between items-center mb-1">
-              <div className="flex items-center gap-2">
-                {style.icon}
-                <Text as="span" variant="base" className="text-sm font-bold tracking-wide">
-                  {e.title}
-                </Text>
-              </div>
-              <Text as="span" variant="muted" className="text-xs font-mono">
-                {timeStr}
-              </Text>
-            </div>
-
-            <Text as="p" className="text-xs text-slate-300 my-2 leading-relaxed">
-              {e.description}
-            </Text>
-
-            {e.populationChange !== 0 && (
-              <div className={`text-xs font-bold ${style.textColor}`}>
-                {e.populationChange > 0 ? '+' : ''}
-                {Math.floor(e.populationChange).toLocaleString()} {t('ui.population')}
-              </div>
-            )}
-          </div>
-        );
-      })}
+      {events.map((e) => renderItem(e))}
     </div>
   );
 });
