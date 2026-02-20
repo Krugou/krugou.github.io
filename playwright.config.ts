@@ -21,10 +21,9 @@ export default defineConfig({
     { name: 'Mobile Safari', use: { ...devices['iPhone 12'] } },
   ],
   webServer: {
-    // build a production version before testing for faster, deterministic results
+    // build & start in production mode so HMR/recompile reloads don’t crash tests
     command: 'npm run build && npm run start',
     url: 'http://localhost:3000',
-    reuseExistingServer: false,
-    timeout: 120000,
+    reuseExistingServer: !process.env.CI,
   },
 });

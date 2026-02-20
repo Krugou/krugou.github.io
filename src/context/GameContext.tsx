@@ -51,7 +51,18 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // option would involve an auth/login flow and API calls; here we
   // simply ask once via confirm and use a flag for the rest of the
   // session.  null indicates the user hasn't chosen yet.
-  const [useCloud, setUseCloud] = useState<boolean | null>(null);
+  const [useCloud, setUseCloud] = useState<boolean | null>(() => {
+    if (typeof window !== 'undefined') {
+      const choice = localStorage.getItem('useCloudChoice');
+      if (choice === 'true') {
+        return true;
+      }
+      if (choice === 'false') {
+        return false;
+      }
+    }
+    return null;
+  });
   const [showStorageModal, setShowStorageModal] = useState(false);
   const [activeEra, setActiveEra] = useState<{ name: string; quote: string; image: string } | null>(
     null,
