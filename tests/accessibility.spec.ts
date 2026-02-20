@@ -21,4 +21,20 @@ test.describe('Accessibility', () => {
     }
     expect(results.violations).toEqual([]);
   });
+
+  test('can toggle high contrast mode', async ({ page }) => {
+    await page.goto('/');
+    // toggle via button
+    await page.click('button[data-testid="contrast-toggle"]');
+    const hasClass = await page.evaluate(() =>
+      document.documentElement.classList.contains('high-contrast'),
+    );
+    expect(hasClass).toBe(true);
+    // toggle back using keyboard shortcut
+    await page.keyboard.press('Control+H');
+    const noClass = await page.evaluate(() =>
+      document.documentElement.classList.contains('high-contrast'),
+    );
+    expect(noClass).toBe(false);
+  });
 });

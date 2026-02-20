@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useGame } from '../context/GameContext';
 import { useAuth } from '../context/AuthContext';
+import { useHighContrast } from '../hooks/useHighContrast';
 import { Users, LogOut, Save, Zap, UserCircle, Volume2, VolumeX } from 'lucide-react';
 import Link from 'next/link';
 import AuthModal from '../components/AuthModal';
@@ -31,6 +32,7 @@ const Home = () => {
 
   // HUD reactivity state
   const [hudEffect, setHudEffect] = useState<'glitch' | 'glow' | null>(null);
+  const { toggle: toggleContrast } = useHighContrast();
 
   const totalPopulation = useMemo(
     () => Math.floor(PopulationService.totalPopulation(gameState.territories)),
@@ -47,7 +49,7 @@ const Home = () => {
     [totalPopulation, nextUnlock],
   );
 
-  // Keyboard shortcut: Space to trigger manual immigration
+  // Keyboard shortcuts: Space -> manual immigration, Ctrl+H -> high-contrast
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.code === 'Space' && e.target === document.body) {
@@ -55,8 +57,12 @@ const Home = () => {
         manualImmigration();
         playClick();
       }
+      if (e.ctrlKey && e.key.toLowerCase() === 'h') {
+        e.preventDefault();
+        toggleContrast();
+      }
     },
-    [manualImmigration, playClick],
+    [manualImmigration, playClick, toggleContrast],
   );
 
   useEffect(() => {
@@ -115,6 +121,16 @@ const Home = () => {
       <h1 className="sr-only">{t('appTitle')}</h1>
 
       {/* Header */}
+      {process.env.NODE_ENV !== 'production' && (
+        <div className="mb-4 text-right">
+          <Link
+            href="/admin"
+            className="text-xs text-brand-warning underline hover:text-brand-primary"
+          >
+            Admin Dashboard
+          </Link>
+        </div>
+      )}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-cinematic-border gap-4">
         <div>
           <Logo className="w-64 md:w-80 -ml-4" />
@@ -166,6 +182,15 @@ const Home = () => {
             title={isMuted ? 'Unmute' : 'Mute'}
           >
             {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          </button>
+          <button
+            data-testid="contrast-toggle"
+            onClick={toggleContrast}
+            className="btn btn-secondary px-2 py-2 ml-2"
+            aria-label="Toggle high contrast mode"
+            title="High Contrast (Ctrl+H)"
+          >
+            HC
           </button>
         </div>
       </header>
