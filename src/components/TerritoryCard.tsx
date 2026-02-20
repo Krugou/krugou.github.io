@@ -1,6 +1,6 @@
 import React from "react";
 import { Territory, TerritoryType } from "../models/types";
-import { Building2, Home, Trees, Waves, Mountain, Sun, Snowflake, Moon, Space, Rocket, AlertCircle, Tent } from "lucide-react";
+import { Building2, Home, Trees, Waves, Mountain, Sun, Snowflake, Moon, Rocket, AlertCircle, Tent } from "lucide-react";
 
 interface Props {
   territory: Territory;

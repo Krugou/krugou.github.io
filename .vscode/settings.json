@@ -1,0 +1,7 @@
+{
+  "task.allowAutomaticTasks": "on",
+  "task.runAutomaticTasks": "on",
+  "flutter.enableWebRendering": "canvaskit",
+  "dart.flutterCreateAndroidLanguage": "kotlin",
+  "dart.flutterCreateIOSLanguage": "swift"
+}

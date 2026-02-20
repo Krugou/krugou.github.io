@@ -9,8 +9,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   signOut: () => Promise<void>;
-  saveGameStateToCloud: (state: any) => Promise<void>;
-  loadGameStateFromCloud: () => Promise<any>;
+  saveGameStateToCloud: (state: unknown) => Promise<void>;
+  loadGameStateFromCloud: () => Promise<unknown | null>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -48,7 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const saveGameStateToCloud = async (state: any) => {
+  const saveGameStateToCloud = async (state: unknown) => {
     if (!user) return;
     try {
       const stateRef = doc(db, "saves", user.uid);

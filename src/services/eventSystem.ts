@@ -1,4 +1,4 @@
-import { TerritoryType, EventType, GameEvent, Territory } from "../models/types";
+import { EventType, GameEvent, Territory } from "../models/types";
 import territoryEventsData from "../data/events/territory_events.json";
 import milestoneEventsData from "../data/events/milestone_events.json";
 
@@ -16,8 +16,8 @@ export interface EventTemplate {
 }
 
 // Asserting the imported JSON perfectly matches the template types
-const territoryEvents: Record<string, EventTemplate[]> = territoryEventsData as any;
-const milestoneEvents: EventTemplate[] = milestoneEventsData.milestones as any;
+const territoryEvents: Record<string, EventTemplate[]> = territoryEventsData as unknown as Record<string, EventTemplate[]>;
+const milestoneEvents: EventTemplate[] = milestoneEventsData.milestones as unknown as EventTemplate[];
 
 export const generateEventForTerritory = (territory: Territory): GameEvent | null => {
   const eventPool = territoryEvents[territory.type] || [];

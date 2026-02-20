@@ -1,6 +1,6 @@
 import React from "react";
 import { GameEvent, EventType } from "../models/types";
-import { AlertTriangle, TrendingUp, TrendingDown, Star, Activity } from "lucide-react";
+import { TrendingUp, TrendingDown, Star, Activity } from "lucide-react";
 
 interface Props {
   events: GameEvent[];
