@@ -1,16 +1,25 @@
-import React, { useState } from "react";
-import { X, Mail, Lock } from "lucide-react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../services/firebase";
+import React, { useState } from 'react';
+import { Mail, Lock } from 'lucide-react';
+import Modal from './common/Modal';
+import Button from './common/Button';
+import Input from './common/Input';
+import Label from './common/Label';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
+import { auth } from '../services/firebase';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClose: () => void;
 }
 
-export default function AuthModal({ onClose }: Props) {
+const AuthModal = ({ onClose }: Props) => {
+  const { t } = useTranslation();
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -28,9 +37,9 @@ export default function AuthModal({ onClose }: Props) {
       onClose(); // Automatically close on success
     } catch (err: unknown) {
       if (err instanceof Error) {
-        setError(err.message || "Failed to authenticate.");
+        setError(err.message || 'Failed to authenticate.');
       } else {
-        setError("Failed to authenticate.");
+        setError('Failed to authenticate.');
       }
     } finally {
       setLoading(false);
@@ -38,64 +47,69 @@ export default function AuthModal({ onClose }: Props) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content relative animate-fade-in">
-        <button onClick={onClose} style={{ position: "absolute", top: "1rem", right: "1rem", background: "none", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}>
-          <X size={20} />
-        </button>
+    <Modal
+      isOpen={true}
+      onClose={onClose}
+      title={isLogin ? t('auth.welcomeBack') : t('auth.registerId')}
+      maxWidth="lg"
+    >
 
-        <h2 style={{ textAlign: "center", marginBottom: "1.5rem" }}>
-          {isLogin ? "Welcome Back Commander" : "Register Database ID"}
-        </h2>
-
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-          {error && <div style={{ padding: "0.75rem", backgroundColor: "rgba(248, 81, 73, 0.1)", color: "var(--danger-color)", borderRadius: "var(--radius-md)", fontSize: "0.875rem" }}>{error}</div>}
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-            <label className="text-sm">Transmission Code (Email)</label>
-            <div style={{ display: "flex", alignItems: "center", backgroundColor: "var(--bg-secondary)", borderRadius: "var(--radius-md)", padding: "0 0.75rem", border: "1px solid var(--border-color)" }}>
-              <Mail size={16} className="text-secondary" />
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                style={{ width: "100%", padding: "0.75rem", background: "none", border: "none", color: "var(--text-primary)", outline: "none" }}
-                placeholder="commander@earth.gsa"
-              />
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          {error && (
+            <div className="p-3 bg-brand-danger/10 text-brand-danger border border-brand-danger/20 rounded-md text-sm">
+              {error}
             </div>
+          )}
+
+          <div className="flex flex-col gap-1.5">
+            <Label>{t('auth.emailLabel')}</Label>
+            <Input
+              icon={<Mail size={16} />}
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="commander@earth.gsa"
+            />
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
-            <label className="text-sm">Access Cipher (Password)</label>
-            <div style={{ display: "flex", alignItems: "center", backgroundColor: "var(--bg-secondary)", borderRadius: "var(--radius-md)", padding: "0 0.75rem", border: "1px solid var(--border-color)" }}>
-              <Lock size={16} className="text-secondary" />
-              <input
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{ width: "100%", padding: "0.75rem", background: "none", border: "none", color: "var(--text-primary)", outline: "none" }}
-                placeholder="••••••••"
-              />
-            </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>{t('auth.passwordLabel')}</Label>
+            <Input
+              icon={<Lock size={16} />}
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="tracking-widest"
+              placeholder="••••••••"
+            />
           </div>
 
-          <button type="submit" className="btn btn-primary" style={{ width: "100%", marginTop: "0.5rem" }} disabled={loading}>
-            {loading ? "Establishing Link..." : isLogin ? "Initialize Link" : "Register Credentials"}
-          </button>
+          <Button
+            type="submit"
+            className="w-full mt-2"
+            disabled={loading}
+          >
+            {loading
+              ? t('auth.loading')
+              : isLogin
+                ? t('auth.loginBtn')
+                : t('auth.registerBtn')}
+          </Button>
         </form>
 
-        <div style={{ marginTop: "1.5rem", textAlign: "center" }}>
+        <div className="mt-6 text-center">
           <button
             type="button"
             onClick={() => setIsLogin(!isLogin)}
-            style={{ background: "none", border: "none", color: "var(--accent-primary)", fontSize: "0.875rem", cursor: "pointer", textDecoration: "underline" }}
+            className="text-brand-primary hover:text-brand-hover text-sm font-medium hover:underline transition-colors"
           >
-            {isLogin ? "Require new database ID? Register" : "Existing Commander? Initialize Link"}
+            {isLogin ? t('auth.toggleRegister') : t('auth.toggleLogin')}
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
-}
+};
+
+export default AuthModal;

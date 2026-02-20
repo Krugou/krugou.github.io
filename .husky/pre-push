@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run semantic release locally to bump the version and generate a changelog before pushing
+npx semantic-release --no-ci

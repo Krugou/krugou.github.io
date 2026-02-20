@@ -1,27 +1,27 @@
 export enum TerritoryType {
-  rural = "rural",
-  suburbs = "suburbs",
-  urban = "urban",
-  metropolis = "metropolis",
-  border = "border",
-  coastal = "coastal",
-  caves = "caves",
-  underground = "underground",
-  mountains = "mountains",
-  desert = "desert",
-  arctic = "arctic",
-  moon = "moon",
-  orbital = "orbital",
-  spaceStation = "spaceStation",
-  interstellar = "interstellar",
+  rural = 'rural',
+  suburbs = 'suburbs',
+  urban = 'urban',
+  metropolis = 'metropolis',
+  border = 'border',
+  coastal = 'coastal',
+  caves = 'caves',
+  underground = 'underground',
+  mountains = 'mountains',
+  desert = 'desert',
+  arctic = 'arctic',
+  moon = 'moon',
+  orbital = 'orbital',
+  spaceStation = 'spaceStation',
+  interstellar = 'interstellar',
 }
 
 export enum EventType {
-  immigration = "immigration",
-  emigration = "emigration",
-  disaster = "disaster",
-  opportunity = "opportunity",
-  milestone = "milestone",
+  immigration = 'immigration',
+  emigration = 'emigration',
+  disaster = 'disaster',
+  opportunity = 'opportunity',
+  milestone = 'milestone',
 }
 
 export interface Territory {
@@ -59,9 +59,9 @@ export interface GameState {
 }
 
 export const createInitialTerritory = (): Territory => ({
-  id: "village",
-  name: "Rural Village",
-  description: "A small farming community where it all begins",
+  id: 'village',
+  name: 'Rural Village',
+  description: 'A small farming community where it all begins',
   type: TerritoryType.rural,
   population: 1.0,
   capacity: 1200.0,

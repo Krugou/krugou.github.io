@@ -3,5 +3,8 @@
   "task.runAutomaticTasks": "on",
   "flutter.enableWebRendering": "canvaskit",
   "dart.flutterCreateAndroidLanguage": "kotlin",
-  "dart.flutterCreateIOSLanguage": "swift"
+  "dart.flutterCreateIOSLanguage": "swift",
+  "i18n-ally.localesPaths": [
+    "src/locales"
+  ]
 }

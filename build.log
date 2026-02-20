@@ -1,0 +1,42 @@
+
+> the_immigrants@1.0.0 build
+> next build
+
+Ôû▓ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 2 errors:
+./src/app/admin/page.tsx:1:17
+Ecmascript file had an error
+> 1 | import React, { useEffect, useState } from 'react';
+    |                 ^^^^^^^^^
+  2 | import Input from '../../components/common/Input';
+  3 | import Label from '../../components/common/Label';
+  4 |
+
+You're importing a component that needs `useEffect`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+
+./src/app/admin/page.tsx:1:28
+Ecmascript file had an error
+> 1 | import React, { useEffect, useState } from 'react';
+    |                            ^^^^^^^^
+  2 | import Input from '../../components/common/Input';
+  3 | import Label from '../../components/common/Label';
+  4 |
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+
+    at <unknown> (./src/app/admin/page.tsx:1:17)
+    at <unknown> (./src/app/admin/page.tsx:1:28)

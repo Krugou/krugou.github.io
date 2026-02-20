@@ -1,96 +1,159 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { useGame } from "../context/GameContext";
-import { useAuth } from "../context/AuthContext";
-import { Users, LogOut, Save, Zap } from "lucide-react";
-import AuthModal from "../components/AuthModal";
-import TerritoryCard from "../components/TerritoryCard";
-import EventLog from "../components/EventLog";
+import React, { useState } from 'react';
+import { useGame } from '../context/GameContext';
+import { useAuth } from '../context/AuthContext';
+import { Users, LogOut, Save, Zap, UserCircle } from 'lucide-react';
+import Link from 'next/link';
+import AuthModal from '../components/AuthModal';
+import TerritoryCard from '../components/TerritoryCard';
+import EventLog from '../components/EventLog';
+import { useTranslation } from 'react-i18next';
 
-export default function Home() {
+const Home = () => {
+  const { t, i18n } = useTranslation();
   const { gameState, manualImmigration } = useGame();
   const { user, signOut, saveGameStateToCloud } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
 
-  const totalPopulation = Math.floor(gameState.territories.reduce((acc, t) => acc + t.population, 0));
-  const totalCapacity = gameState.territories.reduce((acc, t) => acc + t.capacity, 0);
-  const capacityPercentage = Math.min(100, Math.round((totalPopulation / totalCapacity) * 100)) || 0;
-
-  const handleManualImmigration = () => {
-    manualImmigration();
-  };
+  const totalPopulation = Math.floor(
+    gameState.territories.reduce((acc, t) => acc + t.population, 0),
+  );
+  const totalCapacity = gameState.territories.reduce(
+    (acc, t) => acc + t.capacity,
+    0,
+  );
+  const capacityPercentage =
+    Math.min(100, Math.round((totalPopulation / totalCapacity) * 100)) || 0;
 
   return (
-    <div className="container animate-fade-in">
+    <div className="container mx-auto px-4 lg:px-8 animate-fade-in max-w-7xl relative pb-20">
       {/* Header */}
-      <header className="flex justify-between items-center" style={{ marginBottom: "2rem", paddingBottom: "1.5rem", borderBottom: "1px solid var(--border-color)" }}>
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-cinematic-border gap-4">
         <div>
-          <h1 style={{ marginBottom: "0.25rem" }}>The Immigrants</h1>
-          <p style={{ margin: 0 }}>From Caves to Space Stations</p>
+          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight mb-2 text-white">
+            {t('appTitle')}
+          </h1>
+          <p className="text-slate-400 m-0 text-lg">{t('ui.subtitle')}</p>
         </div>
 
         <div className="flex gap-4 items-center">
           {user ? (
-            <div className="flex gap-4 items-center">
-              <span className="text-sm text-secondary">Commander {user.displayName || "Unknown"}</span>
-              <button className="btn btn-secondary" onClick={() => saveGameStateToCloud(gameState)} title="Save to Cloud">
-                <Save size={16} /> Save
+            <div className="flex gap-4 items-center flex-wrap">
+              <Link
+                href="/profile"
+                className="flex items-center gap-2 group p-2 -ml-2 rounded-lg hover:bg-cinematic-surface transition-colors cursor-pointer text-sm text-slate-300 hover:text-white"
+              >
+                <UserCircle
+                  size={18}
+                  className="text-brand-primary group-hover:drop-shadow-[0_0_8px_rgba(88,166,255,0.8)] transition-all"
+                />
+                {t('ui.commander', { name: user.displayName || 'Unknown' })}
+              </Link>
+              <button
+                className="btn btn-secondary px-4 py-2"
+                onClick={() => saveGameStateToCloud(gameState)}
+                title={t('ui.save')}
+              >
+                <Save size={16} /> {t('ui.save')}
               </button>
-              <button className="btn btn-secondary" onClick={signOut} title="Sign Out">
+              <button
+                className="btn btn-secondary px-3 py-2"
+                onClick={signOut}
+                title="Sign Out"
+              >
                 <LogOut size={16} />
               </button>
             </div>
           ) : (
-            <button className="btn btn-primary" onClick={() => setShowAuth(true)}>
-              Sign In / Sign Up
+            <button
+              className="btn btn-primary px-6 py-2"
+              onClick={() => setShowAuth(true)}
+            >
+              {t('ui.signInUp')}
             </button>
           )}
+          <select
+            className="bg-cinematic-surface border border-cinematic-border text-white px-2 py-1 rounded"
+            value={i18n.language}
+            onChange={(e) => i18n.changeLanguage(e.target.value)}
+          >
+            <option value="en">EN</option>
+            <option value="fi">FI</option>
+          </select>
         </div>
       </header>
 
-      {/* Main Stats Area */}
-      <div className="card" style={{ marginBottom: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", background: "linear-gradient(135deg, rgba(33,38,45,1) 0%, rgba(22,27,34,1) 100%)", borderColor: "rgba(88,166,255,0.3)", boxShadow: "0 0 20px rgba(88, 166, 255, 0.05)" }}>
-        <div className="flex items-center gap-8">
+      <div className="cinematic-card mb-8 flex flex-col md:flex-row justify-between items-center gap-8 bg-linear-to-br from-slate-800/80 to-slate-900 border-brand-primary/30 shadow-[0_0_20px_rgba(88,166,255,0.05)]">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-6 w-full md:w-auto">
           <div>
-            <div className="text-sm text-secondary" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}><Users size={16}/> Total Population</div>
-            <div style={{ fontSize: "3rem", fontWeight: 800, color: "var(--accent-primary)", lineHeight: 1 }}>
+            <div className="text-sm text-slate-400 flex items-center gap-2 mb-1">
+              <Users size={16} />{' '}
+              {t('totalPopulation', { population: '' }).replace(':', '').trim()}
+            </div>
+            <div className="text-5xl md:text-6xl font-extrabold text-brand-primary leading-none">
               {totalPopulation.toLocaleString()}
             </div>
           </div>
-          <div style={{ paddingLeft: "2rem", borderLeft: "1px solid var(--border-color)" }}>
-            <div className="text-sm text-secondary">Total Immigrants Assisted</div>
-            <div style={{ fontSize: "1.5rem", fontWeight: 700 }}>{gameState.totalImmigrants.toLocaleString()}</div>
+          <div className="md:pl-8 md:border-l border-cinematic-border pt-4 md:pt-0 border-t md:border-t-0 w-full md:w-auto">
+            <div className="text-sm text-slate-400 mb-1">
+              {t('ui.totalImmigrants')}
+            </div>
+            <div className="text-3xl font-bold text-slate-200">
+              {gameState.totalImmigrants.toLocaleString()}
+            </div>
           </div>
         </div>
 
-        <div className="flex-col items-center" style={{ width: "300px" }}>
-          <button
-            className="btn btn-primary"
-            style={{ width: "100%", padding: "1rem", fontSize: "1.1rem", animation: "pulse 2s infinite" }}
-            onClick={handleManualImmigration}
-          >
-            <Zap size={20} /> Guide Immigrants
-          </button>
-          <div style={{ marginTop: "1rem", width: "100%" }}>
-            <div className="flex justify-between text-xs" style={{ marginBottom: "0.25rem" }}>
-              <span>Capacity usage</span>
+        <div className="flex flex-col items-center w-full md:w-72">
+          <div className="flex flex-col w-full gap-2">
+            <button
+              className="btn btn-primary w-full p-4 text-lg animate-pulse hover:animate-none"
+              onClick={() => manualImmigration()}
+            >
+              <Zap size={20} /> {t('ui.guideImmigrants')}
+            </button>
+            {process.env.NODE_ENV !== 'production' && (
+              <button
+                className="btn btn-secondary w-full p-2 text-sm border-dashed border-cinematic-border text-slate-400 hover:text-white bg-slate-800/50"
+                onClick={() => {
+                  // Trigger 10 manual immigration bursts for development testing
+                  for (let i = 0; i < 10; i++) {
+                    manualImmigration();
+                  }
+                }}
+              >
+                <Zap size={14} className="inline mr-1" /> [DEV] 10x Immigrants
+              </button>
+            )}
+          </div>
+          <div className="mt-4 w-full">
+            <div className="flex justify-between text-xs text-slate-300 mb-1">
+              <span>{t('ui.capacityUsage')}</span>
               <span>{capacityPercentage}%</span>
             </div>
-            <div style={{ width: "100%", height: "6px", backgroundColor: "var(--bg-secondary)", borderRadius: "var(--radius-full)", overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${capacityPercentage}%`, backgroundColor: capacityPercentage > 90 ? "var(--danger-color)" : "var(--accent-primary)", transition: "width var(--transition-normal)" }}></div>
+            <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div
+                className={`h-full transition-all duration-300 ${capacityPercentage > 90 ? 'bg-brand-danger' : 'bg-brand-primary'}`}
+                style={{ width: `${capacityPercentage}%` }}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Left Column: Territories */}
-        <div style={{ gridColumn: "span 3" }}>
-          <div className="flex justify-between items-center" style={{ marginBottom: "1rem" }}>
-            <h2>Territories ({gameState.territories.length})</h2>
+        <div className="lg:col-span-3">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">
+              {t('territories')}{' '}
+              <span className="text-slate-400 text-lg font-normal">
+                ({gameState.territories.length})
+              </span>
+            </h2>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {gameState.territories.map((territory) => (
               <TerritoryCard key={territory.id} territory={territory} />
             ))}
@@ -98,8 +161,10 @@ export default function Home() {
         </div>
 
         {/* Right Column: Event Log */}
-        <div>
-          <h2>Event Log</h2>
+        <div className="flex flex-col h-full">
+          <h2 className="text-2xl font-bold text-white mb-6">
+            {t('ui.eventLog')}
+          </h2>
           <EventLog events={gameState.eventHistory} />
         </div>
       </div>
@@ -107,4 +172,6 @@ export default function Home() {
       {showAuth && <AuthModal onClose={() => setShowAuth(false)} />}
     </div>
   );
-}
+};
+
+export default Home;

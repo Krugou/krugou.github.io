@@ -1,6 +1,20 @@
-import React from "react";
-import { Territory, TerritoryType } from "../models/types";
-import { Building2, Home, Trees, Waves, Mountain, Sun, Snowflake, Moon, Rocket, AlertCircle, Tent } from "lucide-react";
+import React from 'react';
+import { Territory, TerritoryType } from '../models/types';
+import {
+  Building2,
+  Home,
+  Trees,
+  Waves,
+  Mountain,
+  Sun,
+  Snowflake,
+  Moon,
+  Rocket,
+  AlertCircle,
+  Tent,
+} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import Text from './common/Text';
 
 interface Props {
   territory: Territory;
@@ -8,57 +22,91 @@ interface Props {
 
 const getIconForType = (type: TerritoryType) => {
   switch (type) {
-    case TerritoryType.rural: return <Trees size={20} className="text-success" />;
-    case TerritoryType.suburbs: return <Home size={20} className="text-primary" />;
-    case TerritoryType.urban: return <Building2 size={20} className="text-primary" />;
-    case TerritoryType.metropolis: return <Building2 size={20} className="text-warning" />;
-    case TerritoryType.border: return <AlertCircle size={20} className="text-danger" />;
-    case TerritoryType.coastal: return <Waves size={20} className="text-primary" />;
-    case TerritoryType.caves: return <Tent size={20} className="text-secondary" />;
-    case TerritoryType.underground: return <Tent size={20} className="text-warning" />;
-    case TerritoryType.mountains: return <Mountain size={20} className="text-secondary" />;
-    case TerritoryType.desert: return <Sun size={20} className="text-warning" />;
-    case TerritoryType.arctic: return <Snowflake size={20} className="text-primary" />;
-    case TerritoryType.moon: return <Moon size={20} className="text-secondary" />;
-    case TerritoryType.orbital: return <Rocket size={20} className="text-primary" />;
-    case TerritoryType.spaceStation: return <Rocket size={20} className="text-success" />;
-    case TerritoryType.interstellar: return <Rocket size={20} className="text-warning" />;
-    default: return <Home size={20} />;
+    case TerritoryType.rural:
+      return <Trees size={20} className="text-brand-success" />;
+    case TerritoryType.suburbs:
+      return <Home size={20} className="text-brand-primary" />;
+    case TerritoryType.urban:
+      return <Building2 size={20} className="text-brand-primary" />;
+    case TerritoryType.metropolis:
+      return <Building2 size={20} className="text-brand-warning" />;
+    case TerritoryType.border:
+      return <AlertCircle size={20} className="text-brand-danger" />;
+    case TerritoryType.coastal:
+      return <Waves size={20} className="text-brand-primary" />;
+    case TerritoryType.caves:
+      return <Tent size={20} className="text-slate-400" />;
+    case TerritoryType.underground:
+      return <Tent size={20} className="text-brand-warning" />;
+    case TerritoryType.mountains:
+      return <Mountain size={20} className="text-slate-300" />;
+    case TerritoryType.desert:
+      return <Sun size={20} className="text-brand-warning" />;
+    case TerritoryType.arctic:
+      return <Snowflake size={20} className="text-brand-primary" />;
+    case TerritoryType.moon:
+      return (
+        <Moon
+          size={20}
+          className="text-slate-200 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+        />
+      );
+    case TerritoryType.orbital:
+      return <Rocket size={20} className="text-brand-primary" />;
+    case TerritoryType.spaceStation:
+      return <Rocket size={20} className="text-brand-success" />;
+    case TerritoryType.interstellar:
+      return <Rocket size={20} className="text-brand-warning shadow-md" />;
+    default:
+      return <Home size={20} className="text-slate-400" />;
   }
 };
 
-export default function TerritoryCard({ territory }: Props) {
-  const percentage = Math.min(100, (territory.population / territory.capacity) * 100);
+const TerritoryCard = ({ territory }: Props) => {
+  const { t } = useTranslation();
+  const percentage = Math.min(
+    100,
+    (territory.population / territory.capacity) * 100,
+  );
   const isDanger = percentage >= 90;
 
   return (
-    <div className="card" style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+    <div className="cinematic-card flex flex-col gap-4 group">
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          {getIconForType(territory.type)}
-          <h3 style={{ margin: 0 }}>{territory.name}</h3>
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-slate-700 transition-colors border border-cinematic-border">
+            {getIconForType(territory.type)}
+          </div>
+          <h3 className="text-lg font-bold text-white tracking-wide m-0 leading-none">
+            {territory.name}
+          </h3>
         </div>
       </div>
-      <p className="text-xs" style={{ margin: 0, minHeight: "40px" }}>
-        {territory.description || "A growing settlement."}
-      </p>
 
-      <div style={{ marginTop: "auto" }}>
-        <div className="flex justify-between items-center text-sm" style={{ marginBottom: "0.25rem" }}>
-          <span>Population</span>
-          <span style={{ fontWeight: 600 }}>{Math.floor(territory.population).toLocaleString()} / {territory.capacity.toLocaleString()}</span>
+      <Text variant="muted" className="text-sm min-h-[48px] m-0 leading-relaxed">
+        {t(`territory.${territory.id}.description`)}
+      </Text>
+
+      <div className="mt-auto pt-2 border-t border-cinematic-border/50">
+        <div className="flex justify-between items-center text-xs text-slate-300 mb-2">
+          <Text as="span" className="font-medium tracking-wide">
+            {t('ui.population')}
+          </Text>
+          <Text as="span" variant="base" className="font-bold bg-slate-800 px-2 py-0.5 rounded-md border border-cinematic-border">
+            {Math.floor(territory.population).toLocaleString()}{' '}
+            <Text as="span" variant="muted" className="mx-1">/</Text>{' '}
+            {territory.capacity.toLocaleString()}
+          </Text>
         </div>
-        <div style={{ width: "100%", height: "8px", backgroundColor: "var(--bg-secondary)", borderRadius: "var(--radius-full)", overflow: "hidden" }}>
+        <div className="w-full h-2 bg-slate-900 rounded-full overflow-hidden shadow-inner border border-cinematic-bg">
           <div
-            style={{
-              height: "100%",
-              width: `${percentage}%`,
-              backgroundColor: isDanger ? "var(--danger-color)" : "var(--accent-primary)",
-              transition: "width 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
-            }}
+            className={`h-full transition-all duration-500 ease-out ${isDanger ? 'bg-brand-danger shadow-[0_0_10px_rgba(248,81,73,0.6)]' : 'bg-brand-primary shadow-[0_0_10px_rgba(88,166,255,0.4)]'}`}
+            style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default TerritoryCard;
