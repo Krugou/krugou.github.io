@@ -1,3 +1,9 @@
+# [1.1.0](https://github.com/krugou/krugou.github.io/compare/v1.0.0...v1.1.0) (2026-02-20)
+
+### Features
+
+- add high-contrast mode hook and admin link ([d1ec980](https://github.com/krugou/krugou.github.io/commit/d1ec9809d84b69e6e473db4df4c5448b4283566d)), closes [hi#contrast](https://github.com/hi/issues/contrast)
+
 # 1.0.0 (2026-02-20)
 
 ### Features
