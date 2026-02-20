@@ -5,6 +5,7 @@ test.describe('Functional Tests', () => {
     await page.addInitScript(() => {
       localStorage.setItem('app_lang', 'en');
       localStorage.setItem('app_onboarded', '1');
+      localStorage.setItem('useCloudChoice', 'false');
     });
     try {
       await page.goto('/');
@@ -49,6 +50,6 @@ test.describe('Functional Tests', () => {
     try {
       await page.goto('/tech');
     } catch {}
-    await expect(page.getByText('ui.techTree')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'ui.techTree' })).toBeVisible();
   });
 });

@@ -6,10 +6,11 @@ import path from 'path';
 
 test.describe('Accessibility', () => {
   test.beforeEach(async ({ page }) => {
-    // mark onboarding complete so the modal doesn't block interactions
+    // mark onboarding complete and choose local storage so modal never appears
     await page.addInitScript(() => {
       localStorage.setItem('app_lang', 'en');
       localStorage.setItem('app_onboarded', '1');
+      localStorage.setItem('useCloudChoice', 'false');
     });
   });
 
@@ -36,6 +37,8 @@ test.describe('Accessibility', () => {
     try {
       await page.goto('/');
     } catch {}
+    // close any modal that might be blocking interactions
+    await page.keyboard.press('Escape');
     // toggle via button
     await page.click('button[data-testid="contrast-toggle"]');
     const hasClass = await page.evaluate(() =>

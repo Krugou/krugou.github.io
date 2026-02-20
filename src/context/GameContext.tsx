@@ -309,6 +309,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const resetGame = useCallback(() => {
     setGameState(createInitialGameState());
+    localStorage.removeItem('useCloudChoice');
     if (useCloud) {
       // TODO: delete cloud save
       console.log('cloud save deleted');
@@ -368,10 +369,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
           canClose={useCloud !== null}
           onSelectLocal={() => {
             setUseCloud(false);
+            localStorage.setItem('useCloudChoice', 'false');
             setShowStorageModal(false);
           }}
           onSelectCloud={() => {
             setUseCloud(true);
+            localStorage.setItem('useCloudChoice', 'true');
             setShowStorageModal(false);
           }}
           onReset={() => {
