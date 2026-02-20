@@ -258,6 +258,16 @@
   .scanner-sweep {
     position: relative;
   }
+
+  /* high contrast mode overrides */
+  html.high-contrast {
+    --color-cinematic-bg: #000000;
+    --color-cinematic-surface: #111111;
+    --color-cinematic-card: #222222;
+    --color-cinematic-border: #ffffff;
+    --color-brand-primary: #00ffff;
+    --color-brand-hover: #00cccc;
+  }
   .scanner-sweep::after {
     content: '';
     position: absolute;

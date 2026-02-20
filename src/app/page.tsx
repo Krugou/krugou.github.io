@@ -122,12 +122,18 @@ const Home = () => {
 
       {/* Header */}
       {process.env.NODE_ENV !== 'production' && (
-        <div className="mb-4 text-right">
+        <div className="mb-4 text-right flex flex-col gap-1">
           <Link
             href="/admin"
             className="text-xs text-brand-warning underline hover:text-brand-primary"
           >
             Admin Dashboard
+          </Link>
+          <Link
+            href="/tech"
+            className="text-xs text-brand-warning underline hover:text-brand-primary"
+          >
+            Tech Tree (dev)
           </Link>
         </div>
       )}

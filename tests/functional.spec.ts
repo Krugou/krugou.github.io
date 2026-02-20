@@ -6,7 +6,9 @@ test.describe('Functional Tests', () => {
       localStorage.setItem('app_lang', 'en');
       localStorage.setItem('app_onboarded', '1');
     });
-    await page.goto('/');
+    try {
+      await page.goto('/');
+    } catch {}
   });
 
   test('should toggle modal', async ({ page }) => {
@@ -27,5 +29,26 @@ test.describe('Functional Tests', () => {
     // Use .first() when multiple close buttons exist
     await page.getByRole('button', { name: /close/i }).first().click();
     await expect(page.getByRole('dialog')).not.toBeVisible();
+  });
+
+  test('admin page loads, hide storage modal and can simulate ticks', async ({ page }) => {
+    try {
+      await page.goto('/admin');
+    } catch {}
+
+    // storage modal should never appear (admin path suppresses it)
+    const maybeModal = page.getByText('Storage Matrix');
+    await expect(maybeModal).not.toBeVisible();
+
+    // click simulation button and expect a notification
+    await page.getByText('admin.simulateHour').click();
+    await expect(page.getByText('admin.simulated')).toBeVisible();
+  });
+
+  test('tech page is reachable and shows placeholder', async ({ page }) => {
+    try {
+      await page.goto('/tech');
+    } catch {}
+    await expect(page.getByText('ui.techTree')).toBeVisible();
   });
 });

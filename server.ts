@@ -57,6 +57,17 @@ const getDb = () => {
 };
 
 app.prepare().then(() => {
+  // clean up any stale Next.js development lock file that can block startup
+  const lockPath = path.join(process.cwd(), '.next', 'dev', 'lock');
+  if (fs.existsSync(lockPath)) {
+    try {
+      fs.unlinkSync(lockPath);
+      console.log('Removed stale Next.js dev lock');
+    } catch (err) {
+      console.warn('Could not remove Next.js dev lock:', err);
+    }
+  }
+
   const server = express();
 
   server.use(express.json());

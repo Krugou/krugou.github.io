@@ -52,6 +52,19 @@ export interface GameEvent {
   category: EventCategory;
 }
 
+export enum PolicyId {
+  openBorders = 'openBorders',
+  closedBorders = 'closedBorders',
+}
+
+export interface PolicyCard {
+  id: PolicyId;
+  name: string;
+  description: string;
+  // multiplier applied to immigration events (e.g. 1.2 for +20%)
+  immigrationMultiplier: number;
+}
+
 export interface GameState {
   people: number;
   territories: Territory[];
@@ -64,6 +77,7 @@ export interface GameState {
   userId?: string | null;
   isOnline: boolean;
   gameSpeed: number;
+  policies: PolicyId[]; // active policy cards
 }
 
 export const createInitialTerritory = (): Territory => ({
@@ -87,4 +101,5 @@ export const createInitialGameState = (): GameState => ({
   lastSave: Date.now(),
   isOnline: false,
   gameSpeed: 1.0,
+  policies: [],
 });

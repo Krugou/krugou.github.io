@@ -91,6 +91,39 @@
     "capacityUsage": "Kapasiteetin käyttö",
     "eventLog": "Tapahtumaloki",
     "awaiting": "Odotetaan lähetystä...",
-    "population": "Väkiluku"
-  }
+    "population": "Väkiluku",
+    "techTree": "Teknologiapuu",
+    "techTreePlaceholder": "Kehitä tutkimussolmuja avataksesi tehokkaita kertoimia.",
+    "techTreeComingSoon": "Teknologiapuu tulossa pian!"
+  },
+  "policies": {
+    "openBorders": "Avoimet rajat",
+    "closedBorders": "Suljetut rajat",
+    "description": {
+      "openBorders": "Maahanmuutto tapahtumat vahvistuvat.",
+      "closedBorders": "Maahanmuutto tapahtumat vähenevät."
+    }
+  },
+  "admin": {
+    "title": "Admin - Tapahtumahallinta",
+    "back": "Takaisin peliin",
+    "policies": "Politiikat",
+    "id": "ID",
+    "titleCol": "Otsikko",
+    "type": "Tyyppi",
+    "territory": "Alue",
+    "population": "Väestö",
+    "probability": "Todennäköisyys",
+    "category": "Kategoria",
+    "threshold": "Kynnys",
+    "actions": "Toiminnot",
+    "newEvent": "Uusi tapahtuma",
+    "editEvent": "Muokkaa tapahtumaa",
+    "save": "Tallenna",
+    "cancel": "Peruuta",
+    "delete": "Poista",
+    "description": "Kuvaus"
+  },
+  "simulateHour": "Simuloi 1 tunti",
+  "simulated": "Simuloitu {{hours}} tunti(a)"
 }

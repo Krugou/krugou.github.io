@@ -9,22 +9,27 @@ import {
   Territory,
   EventType,
   EventCategory,
+  PolicyId,
 } from '../models/types';
 import { getAvailableConfigs } from '../models/territoryConfig';
 import { generateEventForTerritory, checkMilestoneEvent } from '../services/eventSystem';
 import { detectNewEra } from '../models/eraConfig';
 import { PopulationService } from '../services/PopulationService';
+import { PolicyService } from '../services/PolicyService';
+import { ModifierService } from '../services/ModifierService';
 import StorageModal from '../components/StorageModal';
 
 interface GameContextType {
   gameState: GameState;
   manualImmigration: () => void;
+  togglePolicy: (id: PolicyId) => void;
   resetGame: () => void;
   openStorageSettings: () => void;
   activeEra: { name: string; quote: string; image: string } | null;
   completeEra: () => void;
   latestEvent: GameEvent | null;
   tickCount: number;
+  simulateTicks: (count: number) => void; // developer helper for fast-forward testing
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -104,7 +109,24 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const processEvent = useCallback((state: GameState, event: GameEvent): GameState => {
     const newState = { ...state };
-    newState.eventHistory = [event, ...newState.eventHistory].slice(0, 50); // Keep last 50
+    // run the full modifier pipeline (territory, tech, etc.)
+    const territory = event.targetTerritoryId
+      ? newState.territories.find((t) => t.id === event.targetTerritoryId) || undefined
+      : undefined;
+    let modifiedEvent = ModifierService.applyModifiers(event, territory);
+
+    // apply policy modifiers (immigration only for now)
+    if (modifiedEvent.type === EventType.immigration) {
+      const pMult = PolicyService.immigrationMultiplier(state);
+      if (pMult !== 1) {
+        modifiedEvent = {
+          ...modifiedEvent,
+          populationChange: modifiedEvent.populationChange * pMult,
+        };
+      }
+    }
+
+    newState.eventHistory = [modifiedEvent, ...newState.eventHistory].slice(0, 50); // Keep last 50
 
     if (event.targetTerritoryId) {
       const tIndex = newState.territories.findIndex((t) => t.id === event.targetTerritoryId);
@@ -112,15 +134,15 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         newState.territories = [...newState.territories];
         newState.territories[tIndex] = PopulationService.applyPopulationDelta(
           newState.territories[tIndex],
-          event.populationChange,
+          modifiedEvent.populationChange,
         );
       }
     } else {
-      newState.people = Math.max(0, newState.people + event.populationChange);
+      newState.people = Math.max(0, newState.people + modifiedEvent.populationChange);
     }
 
-    if (event.populationChange > 0) {
-      newState.totalImmigrants += Math.floor(event.populationChange);
+    if (modifiedEvent.populationChange > 0) {
+      newState.totalImmigrants += Math.floor(modifiedEvent.populationChange);
     }
 
     return newState;
@@ -235,9 +257,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
       };
       worker.postMessage({ action: 'start' });
-    } else {
-      gameTimer = window.setInterval(runGameTick, 1000);
-      eventTimer = window.setInterval(runEventTick, 5000);
+    } else if (typeof window !== 'undefined') {
+      // fallback to timers if we are in a browser without worker support
+      // use global setInterval to avoid narrowing issues with `window`
+      gameTimer = setInterval(runGameTick, 1000) as unknown as number;
+      eventTimer = setInterval(runEventTick, 5000) as unknown as number;
     }
 
     return () => {
@@ -289,43 +313,62 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setActiveEra(null);
   }, []);
 
+  const togglePolicy = useCallback((id: PolicyId) => {
+    setGameState((prev) => PolicyService.togglePolicy(prev, id));
+  }, []);
+
+  const simulateTicks = useCallback(
+    (count: number) => {
+      // run both game and event ticks sequentially for deterministic testing
+      for (let i = 0; i < count; i++) {
+        runGameTick();
+        runEventTick();
+      }
+    },
+    [runGameTick, runEventTick],
+  );
+
   return (
     <GameContext.Provider
       value={{
         gameState,
         manualImmigration,
+        togglePolicy,
         resetGame,
         openStorageSettings,
         activeEra,
         completeEra,
         latestEvent,
         tickCount,
+        simulateTicks,
       }}
     >
       {children}
-      <StorageModal
-        isOpen={showStorageModal}
-        onClose={() => setShowStorageModal(false)}
-        canClose={useCloud !== null}
-        onSelectLocal={() => {
-          setUseCloud(false);
-          setShowStorageModal(false);
-        }}
-        onSelectCloud={() => {
-          setUseCloud(true);
-          setShowStorageModal(false);
-        }}
-        onReset={() => {
-          if (
-            window.confirm(
-              'Are you absolutely sure you want to reset all game data? This cannot be undone.',
-            )
-          ) {
-            resetGame();
+      {!(typeof window !== 'undefined' && window.location.pathname.startsWith('/admin')) && (
+        <StorageModal
+          isOpen={showStorageModal}
+          onClose={() => setShowStorageModal(false)}
+          canClose={useCloud !== null}
+          onSelectLocal={() => {
+            setUseCloud(false);
             setShowStorageModal(false);
-          }
-        }}
-      />
+          }}
+          onSelectCloud={() => {
+            setUseCloud(true);
+            setShowStorageModal(false);
+          }}
+          onReset={() => {
+            if (
+              window.confirm(
+                'Are you absolutely sure you want to reset all game data? This cannot be undone.',
+              )
+            ) {
+              resetGame();
+              setShowStorageModal(false);
+            }
+          }}
+        />
+      )}
     </GameContext.Provider>
   );
 };

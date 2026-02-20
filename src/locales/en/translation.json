@@ -91,6 +91,39 @@
     "capacityUsage": "Capacity usage",
     "eventLog": "Event Log",
     "awaiting": "Awaiting transmission...",
-    "population": "Population"
-  }
+    "population": "Population",
+    "techTree": "Technology Tree",
+    "techTreePlaceholder": "Develop research nodes to unlock powerful modifiers.",
+    "techTreeComingSoon": "Tech tree coming soon!"
+  },
+  "policies": {
+    "openBorders": "Open Borders",
+    "closedBorders": "Closed Borders",
+    "description": {
+      "openBorders": "Immigration events are boosted.",
+      "closedBorders": "Immigration events are reduced."
+    }
+  },
+  "admin": {
+    "title": "Admin - Event Manager",
+    "back": "Back to game",
+    "policies": "Policies",
+    "id": "ID",
+    "titleCol": "Title",
+    "type": "Type",
+    "territory": "Territory",
+    "population": "Population",
+    "probability": "Probability",
+    "category": "Category",
+    "threshold": "Threshold",
+    "actions": "Actions",
+    "newEvent": "New event",
+    "editEvent": "Edit event",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "description": "Description"
+  },
+  "simulateHour": "Simulate 1 Hour",
+  "simulated": "Simulated {{hours}} hour(s) of ticks"
 }

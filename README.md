@@ -35,10 +35,17 @@ The project is a unified Next.js application that includes both the game client 
 ### Commands
 
 - `npm run dev`: Starts the development server on `http://localhost:3000`.
+- `npm run dev:admin`: Launches the dev server and opens the admin dashboard.
 - `npm run build`: Generates the production build.
 - `npm run start`: Starts the production server.
 - `npx playwright test`: Runs the full suite of automated tests.
 - `npm run lint`: Performs static code analysis.
+
+> **Dev utilities** (only available outside production):
+>
+> - `/admin` dashboard for live event management.
+> - "Simulate 1 Hour" button on the admin page triggers 720 ticks instantly.
+> - `/tech` placeholder page for the upcoming tech tree mechanic.
 
 ## 📖 Game Systems Spec
 
