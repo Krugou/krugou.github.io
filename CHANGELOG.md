@@ -1,3 +1,9 @@
+# [1.2.0](https://github.com/krugou/krugou.github.io/compare/v1.1.1...v1.2.0) (2026-02-20)
+
+### Features
+
+- add Next.js API routes and improve storage modal handling ([fc7a9d8](https://github.com/krugou/krugou.github.io/commit/fc7a9d850e2850b976621e0e983da627a5daa2c9))
+
 ## [1.1.1](https://github.com/krugou/krugou.github.io/compare/v1.1.0...v1.1.1) (2026-02-20)
 
 ### Bug Fixes
