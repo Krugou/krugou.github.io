@@ -1,0 +1,17 @@
+# Agent Instructions
+
+## Linting & Code Quality
+- **Always Analyze**: Before finishing any task, run `flutter analyze`.
+- **Test Before Push**: Run `dev.bat test` (or `flutter test`) to ensure all tests pass.
+- **Fix All Issues**: Ensure no new linting errors or warnings are introduced. If you touch a file with existing issues, fix them if relevant.
+- **Formatting**: Run `dart format .` to maintain code style.
+
+## Repository Syncing
+- **Pull Before Work**: Always run `git pull` before starting a new session to stay in sync.
+- **Standard Sync Workflow**:
+  1. `flutter analyze`
+  2. `dev.bat test`
+  3. `git add .`
+  4. `git commit -m "brief description of changes"`
+  5. `git push`
+- **Verify Before Push**: Never push code that breaks tests or has linting errors.

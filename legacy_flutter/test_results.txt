@@ -1,0 +1,37 @@
+00:00 +0: loading C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart
+00:00 +0: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Territory unlock progression should work correctly
+Loading events from Firebase...
+Firebase not available, loading from JSON...
+Successfully loaded events from JSON
+00:00 +1: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Game speed functionality should work correctly
+00:00 +2: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Language preferences should work correctly
+00:00 +3: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Territory configuration should maintain original thresholds
+00:00 +4: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Next unlock information should be dynamic
+00:00 +5: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Game state serialization should include new fields
+00:00 +6: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Event system integration should work with new territories
+00:00 +7: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Preferences service should handle errors gracefully
+00:00 +8: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Integration Tests - Territory System with Localization Manual immigration should work with new territory system
+00:00 +9: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/integration_test.dart: Performance Tests Territory configuration lookup should be efficient
+00:00 +10: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests Territory thresholds should match new enhanced progression
+00:00 +11: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests getAvailableConfigs should return territories based on population
+00:00 +12: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests getNextUnlockConfig should return next territory to unlock
+00:00 +13: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests EventSystem.getAvailableTerritories should work with new configuration
+00:00 +14: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests Territory types should be correctly assigned
+00:00 +15: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/territory_config_test.dart: Territory Configuration Tests All territory configs should have localization keys
+00:00 +16: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game State Tests GameState should initialize with correct default values
+00:00 +17: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game State Tests GameState should serialize and deserialize correctly
+00:00 +18: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game State Tests GameState should calculate total population correctly
+00:00 +19: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests Territory thresholds should be correctly defined
+00:00 +20: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests getAvailableConfigs should work correctly
+00:00 +21: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Territory Configuration Tests getNextUnlockConfig should work correctly
+00:00 +22: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Number Formatter Tests Should format numbers correctly
+00:00 +23: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Number Formatter Tests Should format time correctly
+00:00 +24: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Number Formatter Tests Should format percentage correctly
+00:00 +25: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should initialize with default game state
+Loading events from Firebase...
+Firebase not available, loading from JSON...
+Successfully loaded events from JSON
+00:00 +26: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Manual immigration should work
+00:00 +27: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should be able to get recent events
+00:00 +28: C:/Users/moxch/Documents/GitHub/krugou.github.io/test/widget_test.dart: Game Provider Tests Should be able to get territory by ID
+00:00 +29: All tests passed!

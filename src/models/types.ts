@@ -1,0 +1,81 @@
+export enum TerritoryType {
+  rural = "rural",
+  suburbs = "suburbs",
+  urban = "urban",
+  metropolis = "metropolis",
+  border = "border",
+  coastal = "coastal",
+  caves = "caves",
+  underground = "underground",
+  mountains = "mountains",
+  desert = "desert",
+  arctic = "arctic",
+  moon = "moon",
+  orbital = "orbital",
+  spaceStation = "spaceStation",
+  interstellar = "interstellar",
+}
+
+export enum EventType {
+  immigration = "immigration",
+  emigration = "emigration",
+  disaster = "disaster",
+  opportunity = "opportunity",
+  milestone = "milestone",
+}
+
+export interface Territory {
+  id: string;
+  name: string;
+  description: string;
+  type: TerritoryType;
+  population: number;
+  capacity: number;
+  isUnlocked: boolean;
+}
+
+export interface GameEvent {
+  id: string;
+  title: string;
+  description: string;
+  type: EventType;
+  populationChange: number;
+  targetTerritoryId?: string | null;
+  timestamp: number; // Stored as milliseconds since epoch
+  category: string;
+}
+
+export interface GameState {
+  people: number;
+  territories: Territory[];
+  eventHistory: GameEvent[];
+  achievedMilestones: string[];
+  totalImmigrants: number;
+  playTime: number;
+  lastSave: number; // Stored as milliseconds since epoch
+  userId?: string | null;
+  isOnline: boolean;
+  gameSpeed: number;
+}
+
+export const createInitialTerritory = (): Territory => ({
+  id: "village",
+  name: "Rural Village",
+  description: "A small farming community where it all begins",
+  type: TerritoryType.rural,
+  population: 1.0,
+  capacity: 1200.0,
+  isUnlocked: true,
+});
+
+export const createInitialGameState = (): GameState => ({
+  people: 1.0,
+  territories: [createInitialTerritory()],
+  eventHistory: [],
+  achievedMilestones: [],
+  totalImmigrants: 1,
+  playTime: 0.0,
+  lastSave: Date.now(),
+  isOnline: false,
+  gameSpeed: 1.0,
+});
