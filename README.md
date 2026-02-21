@@ -32,21 +32,46 @@ The project is a unified Next.js application that includes both the game client 
 
 ### Setup
 
-1. **Install Dependencies** (from repo root):
+1. **Install dependencies**
+   Install everything from the workspace root:
 
    ```bash
    npm install
    ```
 
-   This will install both frontend and backend packages thanks to npm workspaces. To install only one side:
+   (or `npm install --workspace=frontend` / `--workspace=backend` for one side only)
 
-   ```bash
-   npm install --workspace=frontend
-   npm install --workspace=backend
+2. **Environment variables**
+   The backend requires a service account; set one of the following in the
+   root `.env` file:
+   - `FIREBASE_SERVICE_ACCOUNT` (JSON string)
+   - `FIREBASE_CREDENTIALS_PATH` (path to JSON file)
+     When running the backend from `backend/`, the script automatically reads
+     `../.env`.
+
+3. **Firestore security rules**
+   Browser consoles will surface permission errors when the SDK is blocked
+   by rules. To avoid `FirebaseError: Missing or insufficient permissions`,
+   add rules such as:
+   ```text
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /users/{uid} {
+         allow read, write: if request.auth != null && request.auth.uid == uid;
+       }
+       match /saves/{uid} {
+         allow read, write: if request.auth != null && request.auth.uid == uid;
+       }
+       // backend/admin SDK is exempt from rules
+     }
+   }
    ```
+   Without appropriate rules, automatic profile creation and cloud saves will
+   fail at runtime. (If you're using the emulator, ensure
+   `FIRESTORE_EMULATOR_HOST` is exported.)
 
-2. **Environment Variables**:
-   Provide Firebase credentials via `FIREBASE_SERVICE_ACCOUNT` (JSON string) or `FIREBASE_CREDENTIALS_PATH` in the root `.env`. The backend reads from `../.env` automatically when run from `backend/`.
+### Working with individual packages
 
 ### Working with individual packages
 
