@@ -49,12 +49,14 @@ const StarField: React.FC<StarFieldProps> = ({ population, territoryCount }) => 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      return;
+      // no canvas, nothing to animate – return a no-op cleanup to keep returns consistent
+      return () => {};
     }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
-      return;
+      // no drawing context, return a no-op cleanup
+      return () => {};
     }
 
     const resize = () => {
@@ -67,9 +69,8 @@ const StarField: React.FC<StarFieldProps> = ({ population, territoryCount }) => 
     window.addEventListener('resize', resize);
 
     const animate = () => {
-      if (!ctx || !canvas) {
-        return;
-      }
+      // ctx and canvas are guaranteed to exist at this point (checked above);
+      // drop the early return so the function never explicitly returns a value
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Subtle nebula gradient in the background
@@ -121,6 +122,7 @@ const StarField: React.FC<StarFieldProps> = ({ population, territoryCount }) => 
 
     animRef.current = requestAnimationFrame(animate);
 
+    // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animRef.current);

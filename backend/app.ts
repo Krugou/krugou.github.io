@@ -1,10 +1,13 @@
 import express from 'express';
-import eventsRouter from './routes/events.js';
-import userRouter from './routes/user.js';
-import configRouter from './routes/config.js';
+import eventsRouter from './routes/events';
+import userRouter from './routes/user';
+import configRouter from './routes/config';
+import { requestLogger } from './logger';
 
 const createApp = () => {
   const app = express();
+  // log every incoming request
+  app.use(requestLogger);
   app.use(express.json());
 
   app.get('/health', (_req, res) => res.json({ ok: true, service: 'admin-api' }));

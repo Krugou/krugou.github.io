@@ -20,6 +20,8 @@
 /.next/
 /frontend/.next/
 /out/
+frontend/.next/
+frontend/out/
 
 # production
 /build
@@ -40,6 +42,8 @@ yarn-error.log*
 
 # vercel
 .vercel
+frontend/.vercel
+backend/.vercel
 
 # typescript
 *.tsbuildinfo
@@ -54,3 +58,4 @@ playwright-report/*
 
 certificates
 backend/immigrants-game-firebase-adminsdk-fbsvc-da4aa4541e.json
+.log

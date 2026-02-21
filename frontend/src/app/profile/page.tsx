@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useGame } from '../../context/GameContext';
 import { useAuth } from '../../context/AuthContext';
 import { ArrowLeft, Clock, Medal, Users, Earth, Star } from 'lucide-react';
 import Link from 'next/link';
 import AuthModal from '../../components/AuthModal';
-import { useState } from 'react';
 import { PopulationService } from '../../services/PopulationService';
 
 const Profile = () => {

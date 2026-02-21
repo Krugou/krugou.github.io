@@ -27,6 +27,8 @@ export const updateEventPool = (
   territoryData: Record<string, EventTemplate[]>,
   milestoneData: EventTemplate[],
 ) => {
+  // replace entire pool with provided data (discard any built-in templates)
+  Object.keys(territoryEvents).forEach((k) => delete territoryEvents[k]);
   Object.keys(territoryData).forEach((key) => {
     territoryEvents[key] = territoryData[key];
   });

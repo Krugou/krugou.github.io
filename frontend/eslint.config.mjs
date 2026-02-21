@@ -51,6 +51,12 @@ const eslintConfig = defineConfig([
           unnamedComponents: 'arrow-function',
         },
       ],
+      // always keep an empty line between successive function declarations
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: 'function', next: 'function' },
+        { blankLine: 'always', prev: 'function', next: 'multiline-block-like' },
+      ],
       'check-file/filename-naming-convention': [
         'error',
         {

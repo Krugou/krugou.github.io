@@ -48,8 +48,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
   }, []);
 
   useEffect(() => {
+    // always return cleanup function
+    let timeout: NodeJS.Timeout | undefined;
     if (progress === 100) {
-      const timeout = setTimeout(() => {
+      timeout = setTimeout(() => {
         setIsVisible(false);
         setTimeout(() => {
           if (onFinished) {
@@ -57,8 +59,12 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onFinished }) => {
           }
         }, 800); // Wait for fade-out animation
       }, 500);
-      return () => clearTimeout(timeout);
     }
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
   }, [progress, onFinished]);
 
   return (

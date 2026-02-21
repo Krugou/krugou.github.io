@@ -72,21 +72,26 @@ const Home = () => {
 
   // ── HUD reactivity: respond to latest event ──────────────────────────
   useEffect(() => {
-    if (!latestEvent) {
-      return;
+    // always return a cleanup function to satisfy consistent-return
+    let timer: NodeJS.Timeout | undefined;
+    if (latestEvent) {
+      if (latestEvent.type === EventType.disaster || latestEvent.type === EventType.emigration) {
+        queueMicrotask(() => setHudEffect('glitch'));
+        playDisaster();
+      } else if (
+        latestEvent.type === EventType.immigration ||
+        latestEvent.type === EventType.opportunity
+      ) {
+        queueMicrotask(() => setHudEffect('glow'));
+        playImmigration();
+      }
+      timer = setTimeout(() => setHudEffect(null), 600);
     }
-    if (latestEvent.type === EventType.disaster || latestEvent.type === EventType.emigration) {
-      queueMicrotask(() => setHudEffect('glitch'));
-      playDisaster();
-    } else if (
-      latestEvent.type === EventType.immigration ||
-      latestEvent.type === EventType.opportunity
-    ) {
-      queueMicrotask(() => setHudEffect('glow'));
-      playImmigration();
-    }
-    const timer = setTimeout(() => setHudEffect(null), 600);
-    return () => clearTimeout(timer);
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, [latestEvent, playDisaster, playImmigration]);
 
   // Build dynamic HUD classes — tickCount drives heartbeat via key-based re-mount

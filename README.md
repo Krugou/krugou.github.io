@@ -2,6 +2,15 @@
 
 An advanced event-driven incremental game about population movement, territory expansion, and space colonization. Build from "Caves to Space Stations" in a cinematic, high-tech environment.
 
+## 🧩 Monorepo Structure
+
+The project is organized as an **npm workspace** with two packages:
+
+- `frontend` – Next.js client application (includes tests, configs, etc.)
+- `backend` – Express API server and related tooling
+
+Run all commands from the workspace root; the root `package.json` orchestrates both packages.
+
 ## 🚀 Technical Stack
 
 - **Core**: Next.js 16 (App Router), React 19
@@ -23,18 +32,50 @@ The project is a unified Next.js application that includes both the game client 
 
 ### Setup
 
-1. **Install Dependencies**:
+1. **Install Dependencies** (from repo root):
 
    ```bash
    npm install
    ```
 
+   This will install both frontend and backend packages thanks to npm workspaces. To install only one side:
+
+   ```bash
+   npm install --workspace=frontend
+   npm install --workspace=backend
+   ```
+
 2. **Environment Variables**:
-   Provide Firebase credentials via `FIREBASE_SERVICE_ACCOUNT` (JSON string) or `FIREBASE_CREDENTIALS_PATH`.
+   Provide Firebase credentials via `FIREBASE_SERVICE_ACCOUNT` (JSON string) or `FIREBASE_CREDENTIALS_PATH` in the root `.env`. The backend reads from `../.env` automatically when run from `backend/`.
+
+### Working with individual packages
+
+You can operate on one package directly when needed:
+
+- **Frontend** (runs on port 3001)
+
+  ```bash
+  cd frontend
+  npm run dev        # start Next.js dev server (http://localhost:3001)
+  npm run build
+  npm run lint
+  npm run test
+  ```
+
+- **Backend** (serves API on port 3000 by default)
+
+  ```bash
+  cd backend
+  npm run dev        # starts Express with hot-reload (http://localhost:3000)
+  npm run start      # production mode
+  npm run export:events
+  ```
+
+Most top-level scripts delegate to the appropriate workspace; running commands from the root is convenient for cross‑package tasks.
 
 ### Commands
 
-- `npm run dev`: Starts the development server on `http://localhost:3000`.
+- `npm run dev`: Starts both servers (frontend on 3001, backend on 3000).
 - `npm run dev:admin`: Launches the dev server and opens the admin dashboard.
 - `npm run build`: Generates the production build.
 - `npm run start`: Starts the production server.
@@ -128,6 +169,6 @@ If a script still exists as `.mjs`/`.js`, the linter will raise an error with gu
 
 You can create game events via the local admin API. Send a POST to `/api/admin/events` with a JSON payload containing an `event` object and a `territoryType`. Example (one-line curl):
 
-curl -X POST http://localhost:3000/api/admin/events -H "Content-Type: application/json" -d '{ "event": { "id": "evt_cosmic_tide", "title": "Cosmic Tide", "description": "A solar storm causes temporary migration toward orbital habitats.", "type": "opportunity", "populationChange": 120, "timestamp": 1740000000000 }, "territoryType": "orbital" }'
+curl -X POST <http://localhost:3000/api/admin/events> -H "Content-Type: application/json" -d '{ "event": { "id": "evt_cosmic_tide", "title": "Cosmic Tide", "description": "A solar storm causes temporary migration toward orbital habitats.", "type": "opportunity", "populationChange": 120, "timestamp": 1740000000000 }, "territoryType": "orbital" }'
 
 Adjust `territoryType` and event fields as needed. If your admin API requires authentication, include the appropriate auth headers.

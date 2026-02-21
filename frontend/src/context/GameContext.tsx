@@ -85,12 +85,25 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [tickCount, setTickCount] = useState(0);
   const [sysConfig, setSysConfig] = useState<SystemConfig>({
     territoryTypes: [
-      'rural', 'suburbs', 'urban', 'metropolis', 'border', 'coastal',
-      'caves', 'underground', 'mountains', 'desert', 'arctic', 'moon',
-      'orbital', 'spaceStation', 'interstellar', 'milestone'
+      'rural',
+      'suburbs',
+      'urban',
+      'metropolis',
+      'border',
+      'coastal',
+      'caves',
+      'underground',
+      'mountains',
+      'desert',
+      'arctic',
+      'moon',
+      'orbital',
+      'spaceStation',
+      'interstellar',
+      'milestone',
     ],
     eventTypes: ['immigration', 'emigration', 'disaster', 'opportunity', 'milestone'],
-    categories: ['opportunity', 'disaster', 'milestone', 'neutral']
+    categories: ['opportunity', 'disaster', 'milestone', 'neutral'],
   });
 
   // Load system configuration from API
@@ -147,7 +160,13 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const res = await fetch('/api/admin/events');
         if (res.ok) {
           const eventsRaw: unknown = await res.json();
-          const events = eventsRaw as EventTemplate[];
+          let events = eventsRaw as EventTemplate[];
+
+          // only keep templates where title/description are translation objects
+          events = events.filter(
+            (ev) => typeof ev.title !== 'string' && typeof ev.description !== 'string',
+          );
+
           const territoryData: Record<string, EventTemplate[]> = {};
           const milestoneData: EventTemplate[] = [];
 
@@ -174,18 +193,23 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Save game on interval to whichever storage was chosen
   useEffect(() => {
-    if (!isLoaded) {
-      return;
-    }
-    const saveInterval = setInterval(() => {
-      const now = Date.now();
-      setGameState((prev) => ({ ...prev, lastSave: now }));
+    // always return a cleanup function
+    let saveInterval: number | undefined;
+    if (isLoaded) {
+      saveInterval = setInterval(() => {
+        const now = Date.now();
+        setGameState((prev) => ({ ...prev, lastSave: now }));
 
-      // Perform side effect based on latest state
-      // (Using a ref might be better, but for now we'll use local storage immediately
-      // and cloud save will use the 'updated' value if we capture it or wait for next tick)
-    }, 10000);
-    return () => clearInterval(saveInterval);
+        // Perform side effect based on latest state
+        // (Using a ref might be better, but for now we'll use local storage immediately
+        // and cloud save will use the 'updated' value if we capture it or wait for next tick)
+      }, 10000) as unknown as number;
+    }
+    return () => {
+      if (saveInterval !== undefined) {
+        clearInterval(saveInterval);
+      }
+    };
   }, [isLoaded]);
 
   // Handle actual persistence as a side effect of gameState.lastSave changing
@@ -284,7 +308,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
             title: { en: 'Territory Unlocked', fi: 'Alue avattu' },
             description: {
               en: `New territory available: ${config.nameKey}`,
-              fi: `Uusi alue käytettävissä: ${config.nameKey}`
+              fi: `Uusi alue käytettävissä: ${config.nameKey}`,
             },
             type: EventType.milestone,
             populationChange: 0,
@@ -352,29 +376,27 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Core Game Loop
   useEffect(() => {
-    if (!isLoaded) {
-      return;
-    }
-
-    let gameTimer: number;
-    let eventTimer: number;
+    let gameTimer: number | undefined;
+    let eventTimer: number | undefined;
     let worker: Worker | null = null;
 
-    if (typeof window !== 'undefined' && 'Worker' in window) {
-      worker = new Worker(new URL('../workers/gameLoop.worker.ts', import.meta.url));
-      worker.onmessage = (e) => {
-        if (e.data.type === 'gameTick') {
-          runGameTick();
-        } else if (e.data.type === 'eventTick') {
-          runEventTick();
-        }
-      };
-      worker.postMessage({ action: 'start' });
-    } else if (typeof window !== 'undefined') {
-      // fallback to timers if we are in a browser without worker support
-      // use global setInterval to avoid narrowing issues with `window`
-      gameTimer = setInterval(runGameTick, 1000) as unknown as number;
-      eventTimer = setInterval(runEventTick, 5000) as unknown as number;
+    if (isLoaded) {
+      if (typeof window !== 'undefined' && 'Worker' in window) {
+        worker = new Worker(new URL('../workers/gameLoop.worker.ts', import.meta.url));
+        worker.onmessage = (e) => {
+          if (e.data.type === 'gameTick') {
+            runGameTick();
+          } else if (e.data.type === 'eventTick') {
+            runEventTick();
+          }
+        };
+        worker.postMessage({ action: 'start' });
+      } else if (typeof window !== 'undefined') {
+        // fallback to timers if we are in a browser without worker support
+        // use global setInterval to avoid narrowing issues with `window`
+        gameTimer = setInterval(runGameTick, 1000) as unknown as number;
+        eventTimer = setInterval(runEventTick, 5000) as unknown as number;
+      }
     }
 
     return () => {
@@ -382,8 +404,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         worker.postMessage({ action: 'stop' });
         worker.terminate();
       } else {
-        clearInterval(gameTimer);
-        clearInterval(eventTimer);
+        if (gameTimer !== undefined) {
+          clearInterval(gameTimer);
+        }
+        if (eventTimer !== undefined) {
+          clearInterval(eventTimer);
+        }
       }
     };
   }, [isLoaded, runGameTick, runEventTick]);

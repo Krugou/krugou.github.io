@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 const useHighContrast = () => {
   const [isHighContrast, setIsHighContrast] = useState(() => {
     if (typeof window !== 'undefined') {
-      return !!localStorage.getItem('hc_mode');
+      return Boolean(localStorage.getItem('hc_mode'));
     }
     return false;
   });

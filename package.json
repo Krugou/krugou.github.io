@@ -8,30 +8,34 @@
     "type": "git",
     "url": "https://github.com/krugou/krugou.github.io.git"
   },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
     "preinstall": "echo '📦 Installing dependencies...'",
     "postinstall": "echo '✅ Dependencies installed successfully!'",
     "dev": "concurrently --names \"SERVER,WEB\" --prefix-colors \"blue,magenta\" \"npm run server\" \"npm run dev:web\"",
-    "dev:web": "next dev --experimental-https",
-    "server": "node --env-file=.env --watch backend/server.ts",
-    "dev:https": "tsx backend/server.ts --https",
-    "dev:admin": "npm run dev & start http://localhost:3000/admin",
-    "build": "next build",
-    "start": "cross-env NODE_ENV=production tsx backend/server.ts",
-    "start:https": "cross-env NODE_ENV=production tsx backend/server.ts --https",
-    "lint": "eslint --quiet",
-    "lint:quiet": "eslint --quiet",
+    "dev:web": "npm --workspace=frontend run dev",
+    "server": "npm --workspace=backend run dev",
+    "dev:https": "npm --workspace=backend run dev:https",
+    "dev:admin": "npm run dev & start http://localhost:3001/admin",
+    "build": "npm --workspace=frontend run build",
+    "start": "npm --workspace=backend run start",
+    "start:https": "npm --workspace=backend run start:https",
+    "lint": "npm run lint --workspace=frontend",
+    "lint:quiet": "npm run lint:quiet --workspace=frontend",
     "format": "prettier --write .",
     "check": "tsc --noEmit",
-    "test": "vitest run",
-    "test:unit": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:e2e": "playwright test --quiet --reporter=list",
-    "check:i18n": "tsx scripts/check-translations.ts",
-    "export:events": "node --env-file=.env backend/export-events.ts",
-    "fetch:events": "tsx scripts/fetch-game-data.ts",
-    "generate:icons": "tsx scripts/fgenerate-icons.ts",
+    "test": "npm run test --workspace=frontend",
+    "test:unit": "npm run test:unit --workspace=frontend",
+    "test:watch": "npm run test:watch --workspace=frontend",
+    "test:coverage": "npm run test:coverage --workspace=frontend",
+    "test:e2e": "npm run test:e2e --workspace=frontend",
+    "check:i18n": "npm --workspace=frontend run check:i18n",
+    "export:events": "npm --workspace=backend run export:events",
+    "fetch:events": "npm --workspace=backend run fetch:events",
+    "generate:icons": "npm --workspace=frontend run generate:icons",
     "certs:generate": "mkdir -p certs && openssl req -x509 -newkey rsa:2048 -keyout certs/localhost-key.pem -out certs/localhost.pem -days 365 -nodes -subj \"/CN=localhost\"",
     "prepare": "husky",
     "release": "semantic-release"
@@ -40,59 +44,27 @@
     "*.txt": [
       "git rm --cached",
       "rm -f"
-    ],
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix --quiet",
-      "prettier --write"
-    ],
-    "*.{json,css,md}": [
-      "prettier --write"
     ]
+    // "*.{ts,tsx,js,jsx}": [
+    //   "eslint --fix --quiet",
+    //   "prettier --write"
+    // ],
+    // "*.{json,css,md}": [
+    //   "prettier --write"
+    // ]
   },
-  "dependencies": {
-    "express": "^4.18.2",
-    "firebase": "^12.9.0",
-    "firebase-admin": "^11.6.0",
-    "framer-motion": "^12.34.3",
-    "i18next": "^25.8.13",
-    "i18next-browser-languagedetector": "^8.2.1",
-    "lucide-react": "^0.575.0",
-    "next": "16.1.6",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "react-i18next": "^16.5.4",
-    "react-virtuoso": "^4.18.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.1",
-    "@playwright/test": "^1.58.2",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^13.1.4",
-    "@tailwindcss/postcss": "^4.2.0",
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
-    "@types/express": "^5.0.6",
-    "@types/node": "^20.19.33",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@vitest/coverage-v8": "^4.0.18",
     "concurrently": "^9.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^9",
-    "eslint-config-next": "16.1.6",
-    "eslint-plugin-check-file": "^3.3.1",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
     "husky": "^9.1.7",
-    "jsdom": "^28.1.0",
     "lint-staged": "^16.2.7",
-    "postcss": "^8.5.6",
     "prettier": "^3.0.0",
     "semantic-release": "^25.0.3",
-    "tailwindcss": "^4.2.0",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.18"
+    "typescript": "^5.9.3"
   }
 }
