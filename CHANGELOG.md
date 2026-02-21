@@ -1,3 +1,9 @@
+# [1.7.0](https://github.com/krugou/krugou.github.io/compare/v1.6.0...v1.7.0) (2026-02-21)
+
+### Features
+
+- add linting and formatting scripts; remove unused translation and Firebase scripts ([9eb7173](https://github.com/krugou/krugou.github.io/commit/9eb7173065e223e504e32442b810c2c00c1356ec))
+
 # [1.6.0](https://github.com/krugou/krugou.github.io/compare/v1.5.0...v1.6.0) (2026-02-21)
 
 ### Features
