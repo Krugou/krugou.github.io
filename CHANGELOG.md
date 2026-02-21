@@ -1,3 +1,9 @@
+# [1.6.0](https://github.com/krugou/krugou.github.io/compare/v1.5.0...v1.6.0) (2026-02-21)
+
+### Features
+
+- add master install and check-unused scripts for dependency management ([8252c70](https://github.com/krugou/krugou.github.io/commit/8252c70ff40bd7dc708750f04aa44c2eea231a20))
+
 # [1.5.0](https://github.com/krugou/krugou.github.io/compare/v1.4.0...v1.5.0) (2026-02-21)
 
 ### Features
