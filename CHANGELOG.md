@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/krugou/krugou.github.io/compare/v1.3.0...v1.4.0) (2026-02-21)
+
+### Bug Fixes
+
+- **backend:** resolve ES module import extensions ([8e947de](https://github.com/krugou/krugou.github.io/commit/8e947de435fb3ac500aef731c0b2d80c57eb7796))
+
+### Features
+
+- **admin:** proxy API to backend and add offline fallback UI ([62bc2ec](https://github.com/krugou/krugou.github.io/commit/62bc2ec53ddf82ee40706288e341f3da155b2142))
+- **admin:** upgrade EventForm with dropdowns, EventTable with metadata columns, enrich events on save ([f465156](https://github.com/krugou/krugou.github.io/commit/f4651569534e8eee5165f7be536fb15ff9a30496))
+- enhance translation sync and fix final lints ([c9edc98](https://github.com/krugou/krugou.github.io/commit/c9edc98587f3299c546046e03a1b9f8df282913f))
+
 # [1.3.0](https://github.com/krugou/krugou.github.io/compare/v1.2.0...v1.3.0) (2026-02-20)
 
 ### Features
