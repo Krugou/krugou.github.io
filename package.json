@@ -31,6 +31,7 @@
     "check:i18n": "tsx scripts/check-translations.ts",
     "export:events": "node --env-file=.env backend/export-events.ts",
     "fetch:events": "tsx scripts/fetch-game-data.ts",
+    "generate:icons": "tsx scripts/fgenerate-icons.ts",
     "certs:generate": "mkdir -p certs && openssl req -x509 -newkey rsa:2048 -keyout certs/localhost-key.pem -out certs/localhost.pem -days 365 -nodes -subj \"/CN=localhost\"",
     "prepare": "husky",
     "release": "semantic-release"
