@@ -29,11 +29,21 @@ const AdminPage = () => {
   const [editing, setEditing] = useState<EventTemplate | null>(null);
   const [form, setForm] = useState<Partial<EventTemplate>>({});
   const [notification, setNotification] = useState('');
+  const [isServerOffline, setIsServerOffline] = useState(false);
 
   const fetchEvents = React.useCallback(async () => {
-    const res = await fetch('/api/admin/events');
-    const data = await res.json();
-    setEvents(data);
+    try {
+      const res = await fetch('/api/admin/events');
+      if (!res.ok) {
+        setIsServerOffline(true);
+        return;
+      }
+      const data = await res.json();
+      setEvents(data);
+      setIsServerOffline(false);
+    } catch {
+      setIsServerOffline(true);
+    }
   }, []);
 
   useEffect(() => {
@@ -65,25 +75,33 @@ const AdminPage = () => {
       event: form,
       territoryType: form.territoryType || '',
     };
-    await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-    await fetchEvents();
-    resetForm();
+    try {
+      await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      await fetchEvents();
+      resetForm();
+    } catch {
+      setIsServerOffline(true);
+    }
   };
 
   const remove = async (event: EventTemplate) => {
-    await fetch('/api/admin/events', {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        eventId: event.id,
-        territoryType: event.territoryType,
-      }),
-    });
-    await fetchEvents();
+    try {
+      await fetch('/api/admin/events', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          eventId: event.id,
+          territoryType: event.territoryType,
+        }),
+      });
+      await fetchEvents();
+    } catch {
+      setIsServerOffline(true);
+    }
   };
 
   return (
@@ -95,6 +113,25 @@ const AdminPage = () => {
         </Link>
       </h1>
       {notification && <div className="mb-4 text-green-400 font-semibold">{notification}</div>}
+
+      {isServerOffline && (
+        <div className="mb-6 p-4 rounded-lg border border-red-500/40 bg-red-950/30 text-red-300 flex items-center gap-3">
+          <span className="text-2xl">⚠️</span>
+          <div>
+            <p className="font-bold text-red-200">No local admin server online</p>
+            <p className="text-sm mt-1 text-red-400">
+              Start the backend with{' '}
+              <code className="bg-red-900/40 px-1 rounded">npm run server</code> to manage events.
+            </p>
+          </div>
+          <button
+            className="ml-auto btn btn-secondary text-xs px-3 py-1"
+            onClick={() => fetchEvents()}
+          >
+            Retry
+          </button>
+        </div>
+      )}
 
       {/* developer helper: simulate one hour (720 ticks) for testing */}
       <div className="mb-4">
@@ -111,18 +148,27 @@ const AdminPage = () => {
       </div>
       <PolicySelector activePolicies={gameState.policies} togglePolicy={togglePolicy} />
       <TechSelector unlockedTechs={gameState.techs} toggleTech={toggleTech} />
-      {Array.isArray(events) ? (
-        <EventTable events={events} startEdit={startEdit} remove={remove} />
+
+      {isServerOffline ? (
+        <div className="text-slate-500 italic mt-6">
+          Event management is unavailable while the admin server is offline.
+        </div>
       ) : (
-        <div className="text-orange-400">Failed to load events</div>
+        <>
+          {Array.isArray(events) ? (
+            <EventTable events={events} startEdit={startEdit} remove={remove} />
+          ) : (
+            <div className="text-orange-400">Failed to load events</div>
+          )}
+          <EventForm
+            editing={editing}
+            form={form}
+            handleChange={handleChange}
+            save={save}
+            resetForm={resetForm}
+          />
+        </>
       )}
-      <EventForm
-        editing={editing}
-        form={form}
-        handleChange={handleChange}
-        save={save}
-        resetForm={resetForm}
-      />
     </div>
   );
 };
