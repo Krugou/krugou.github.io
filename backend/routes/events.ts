@@ -1,47 +1,10 @@
-export const dynamic = 'force-dynamic';
-export const runtime = 'nodejs';
+import { Router } from 'express';
+import type { Request, Response } from 'express';
+import { getDb } from '../firebase';
 
-/* eslint-disable func-style, @typescript-eslint/no-unused-vars, no-console */
-import { NextRequest, NextResponse } from 'next/server';
-import admin from 'firebase-admin';
-import fs from 'fs';
+const router = Router();
 
-// replicate firebase init logic from backend/server.ts
-const initFirebase = () => {
-  if (admin.apps.length) {
-    return;
-  }
-
-  let serviceAccount: Record<string, unknown> | undefined;
-  if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-    try {
-      serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-    } catch {
-      console.error('FIREBASE_SERVICE_ACCOUNT is not valid JSON');
-    }
-  }
-  const credPath = process.env.FIREBASE_CREDENTIALS_PATH;
-  if (!serviceAccount && credPath && fs.existsSync(credPath)) {
-    try {
-      serviceAccount = JSON.parse(fs.readFileSync(credPath, 'utf8')) as Record<string, unknown>;
-    } catch {
-      console.error('FIREBASE_CREDENTIALS_PATH does not point to valid JSON');
-    }
-  }
-  if (serviceAccount) {
-    admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
-  } else {
-    admin.initializeApp();
-  }
-};
-
-const getDb = () => {
-  initFirebase();
-  return admin.firestore();
-};
-
-// helper for remove
-const removeEvent = async (db: admin.firestore.Firestore, id: string, territoryType: string) => {
+const removeEvent = async (db: any, id: string, territoryType: string) => {
   if (territoryType === 'milestone') {
     const mileRef = db.collection('events').doc('milestone_events');
     const doc = await mileRef.get();
@@ -59,7 +22,7 @@ const removeEvent = async (db: admin.firestore.Firestore, id: string, territoryT
   }
 };
 
-export async function GET(req: NextRequest) {
+router.get('/', async (_req: Request, res: Response) => {
   try {
     const db = getDb();
     const events: Record<string, unknown>[] = [];
@@ -70,8 +33,7 @@ export async function GET(req: NextRequest) {
       for (const [territoryType, evList] of Object.entries(territoryData)) {
         if (Array.isArray(evList)) {
           evList.forEach((e: Record<string, unknown>) => {
-            const copy = { ...e, territoryType };
-            events.push(copy);
+            events.push({ ...e, territoryType });
           });
         }
       }
@@ -87,20 +49,19 @@ export async function GET(req: NextRequest) {
       }
     }
 
-    return NextResponse.json(events);
-  } catch (err) {
+    res.json(events);
+  } catch (err: unknown) {
     console.error('Error fetching events', err);
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    res.status(500).json({ error: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
-}
+});
 
-export async function POST(req: NextRequest) {
+router.post('/', async (req: Request, res: Response) => {
+  const { event, territoryType } = req.body;
+  if (!event || !territoryType)
+    return res.status(400).json({ error: 'event and territoryType are required' });
+
   try {
-    const body = await req.json();
-    const { event, territoryType } = body;
-    if (!event || !territoryType) {
-      return NextResponse.json({ error: 'event and territoryType are required' }, { status: 400 });
-    }
     const db = getDb();
     if (territoryType === 'milestone') {
       const mileRef = db.collection('events').doc('milestone_events');
@@ -113,31 +74,27 @@ export async function POST(req: NextRequest) {
       const terrRef = db.collection('events').doc('territory_events');
       const doc = await terrRef.get();
       const data = doc.exists ? doc.data()! : {};
-      if (!Array.isArray(data[territoryType])) {
-        data[territoryType] = [];
-      }
+      if (!Array.isArray(data[territoryType])) data[territoryType] = [];
       data[territoryType].push(event);
       await terrRef.set(data);
     }
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error('Error adding event', err);
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
-  }
-}
 
-export async function PUT(req: NextRequest) {
+    res.json({ success: true });
+  } catch (err: unknown) {
+    console.error('Error adding event', err);
+    res.status(500).json({ error: err instanceof Error ? err.message : 'Unknown error occurred' });
+  }
+});
+
+router.put('/', async (req: Request, res: Response) => {
+  const { event, territoryType } = req.body;
+  if (!event || !territoryType || !event.id)
+    return res.status(400).json({ error: 'event with id and territoryType are required' });
+
   try {
-    const body = await req.json();
-    const { event, territoryType } = body;
-    if (!event || !territoryType || !event.id) {
-      return NextResponse.json(
-        { error: 'event with id and territoryType are required' },
-        { status: 400 },
-      );
-    }
     const db = getDb();
     await removeEvent(db, event.id, territoryType);
+
     if (territoryType === 'milestone') {
       const mileRef = db.collection('events').doc('milestone_events');
       const doc = await mileRef.get();
@@ -149,34 +106,31 @@ export async function PUT(req: NextRequest) {
       const terrRef = db.collection('events').doc('territory_events');
       const doc = await terrRef.get();
       const data = doc.exists ? doc.data()! : {};
-      if (!Array.isArray(data[territoryType])) {
-        data[territoryType] = [];
-      }
+      if (!Array.isArray(data[territoryType])) data[territoryType] = [];
       data[territoryType].push(event);
       await terrRef.set(data);
     }
-    return NextResponse.json({ success: true });
-  } catch (err) {
-    console.error('Error updating event', err);
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
-  }
-}
 
-export async function DELETE(req: NextRequest) {
+    res.json({ success: true });
+  } catch (err: unknown) {
+    console.error('Error updating event', err);
+    res.status(500).json({ error: err instanceof Error ? err.message : 'Unknown error occurred' });
+  }
+});
+
+router.delete('/', async (req: Request, res: Response) => {
+  const { eventId, territoryType } = req.body;
+  if (!eventId || !territoryType)
+    return res.status(400).json({ error: 'eventId and territoryType are required' });
+
   try {
-    const body = await req.json();
-    const { eventId, territoryType } = body;
-    if (!eventId || !territoryType) {
-      return NextResponse.json(
-        { error: 'eventId and territoryType are required' },
-        { status: 400 },
-      );
-    }
     const db = getDb();
     await removeEvent(db, eventId, territoryType);
-    return NextResponse.json({ success: true });
-  } catch (err) {
+    res.json({ success: true });
+  } catch (err: unknown) {
     console.error('Error deleting event', err);
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    res.status(500).json({ error: err instanceof Error ? err.message : 'Unknown error occurred' });
   }
-}
+});
+
+export default router;

@@ -44,3 +44,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 backend/firebase_config.json
+
+!.env.example
+
+test-results/*
+playwright-report/*
+
+certificates

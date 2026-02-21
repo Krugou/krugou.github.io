@@ -33,15 +33,15 @@ describe('GameContext', () => {
     );
     const { result } = renderHook(() => useGame(), { wrapper });
 
-    // initial population
-    const initialPeople = result.current.gameState.people;
+    // initial territory population (people count remains unused for migrations)
+    const initialTerrPop = result.current.gameState.territories[0].population;
 
     // manual immigration without tech
     act(() => {
       result.current.manualImmigration();
     });
-    const afterNoTech = result.current.gameState.people;
-    expect(afterNoTech).toBeGreaterThan(initialPeople);
+    const afterNoTech = result.current.gameState.territories[0].population;
+    expect(afterNoTech).toBeGreaterThan(initialTerrPop);
 
     // reset and add tech
     act(() => {
@@ -49,12 +49,12 @@ describe('GameContext', () => {
       result.current.toggleTech('advancedAgriculture');
     });
 
-    const baseline = result.current.gameState.people;
+    const baseline = result.current.gameState.territories[0].population;
     act(() => {
       result.current.manualImmigration();
     });
-    const afterWithTech = result.current.gameState.people;
+    const afterWithTech = result.current.gameState.territories[0].population;
 
-    expect(afterWithTech - baseline).toBeGreaterThan(afterNoTech - initialPeople);
+    expect(afterWithTech - baseline).toBeGreaterThan(afterNoTech - initialTerrPop);
   });
 });

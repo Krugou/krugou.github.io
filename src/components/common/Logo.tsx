@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../../lib/colors';
 
 interface LogoProps {
   className?: string;
@@ -29,14 +30,24 @@ const Logo: React.FC<LogoProps> = ({ className = '', withSubtitle = false }) => 
         }}
       >
         The{' '}
-        <tspan fill="#58a6ff" className="drop-shadow-[0_0_15px_rgba(88,166,255,1)]">
+        <tspan fill={colors.logoAccent} className="drop-shadow-[0_0_15px_rgba(88,166,255,1)]">
           Immigrants
         </tspan>
       </text>
 
       {/* Decorative lines inspired by the cover image */}
-      <path d="M20 15 H140 M360 15 H480" stroke="#58a6ff" strokeWidth="2" strokeOpacity="0.5" />
-      <path d="M20 15 V25 M480 15 V25" stroke="#58a6ff" strokeWidth="2" strokeOpacity="0.5" />
+      <path
+        d="M20 15 H140 M360 15 H480"
+        stroke={colors.logoAccent}
+        strokeWidth="2"
+        strokeOpacity="0.5"
+      />
+      <path
+        d="M20 15 V25 M480 15 V25"
+        stroke={colors.logoAccent}
+        strokeWidth="2"
+        strokeOpacity="0.5"
+      />
     </svg>
 
     {withSubtitle && (

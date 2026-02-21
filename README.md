@@ -7,7 +7,7 @@ An advanced event-driven incremental game about population movement, territory e
 - **Core**: Next.js 16 (App Router), React 19
 - **Styling**: Tailwind CSS v4 (Cinematic/Dark Mode)
 - **Database/Auth**: Firebase & Firebase Admin SDK
-- **Backend**: Integrated Express server for Admin API
+- **Backend**: Express API server in `backend/server.ts` for Admin endpoints
 - **Testing**: Playwright (Functional, Responsive, Accessibility)
 - **Localization**: i18next (English, Finnish)
 
@@ -16,7 +16,7 @@ An advanced event-driven incremental game about population movement, territory e
 The project is a unified Next.js application that includes both the game client and an administrative backend:
 
 - **Frontend**: React-based UI with context-driven state management (`AuthContext`, `GameContext`).
-- **Admin API**: An Express server (`server.ts`) providing secure CRUD operations for game events.
+- **Admin API**: An Express server (`backend/server.ts`) providing secure CRUD operations for game events.
 - **Service Layer**: Firebase integration for persistent user profiles and cloud saves.
 
 ## 🛠️ Development

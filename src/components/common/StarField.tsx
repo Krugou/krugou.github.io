@@ -128,7 +128,13 @@ const StarField: React.FC<StarFieldProps> = ({ population, territoryCount }) => 
   }, [createStars, territoryCount]);
 
   return (
-    <canvas ref={canvasRef} className="fixed inset-0 z-0 pointer-events-none" aria-hidden="true" />
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 z-0 pointer-events-none"
+      role="img"
+      aria-hidden="false"
+      aria-label={`Star field; population ${population}, ${territoryCount} territories`}
+    />
   );
 };
 

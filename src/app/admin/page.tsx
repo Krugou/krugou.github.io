@@ -111,7 +111,11 @@ const AdminPage = () => {
       </div>
       <PolicySelector activePolicies={gameState.policies} togglePolicy={togglePolicy} />
       <TechSelector unlockedTechs={gameState.techs} toggleTech={toggleTech} />
-      <EventTable events={events} startEdit={startEdit} remove={remove} />
+      {Array.isArray(events) ? (
+        <EventTable events={events} startEdit={startEdit} remove={remove} />
+      ) : (
+        <div className="text-orange-400">Failed to load events</div>
+      )}
       <EventForm
         editing={editing}
         form={form}

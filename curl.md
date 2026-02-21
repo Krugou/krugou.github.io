@@ -53,3 +53,17 @@ curl -X POST \
 > **Note:** When running against a development server, make sure it's running (`npm run dev`). For production, adjust the URL or authentication accordingly. If the server responds with `{"success":true}`, the event was added successfully.
 
 This file can be referenced by automated agents or documentation to ensure consistency when interacting with the admin API.
+
+## Multiple `curl` Examples
+
+Below are several one‑line commands that can be run in sequence (rows) to post different kinds of events. They all hit the same endpoint and set the `Content-Type` header appropriately.
+
+```bash
+curl -X POST http://localhost:3000/api/admin/events -H "Content-Type: application/json" -d '{ "event": { "id": "evt_123456", "title": "New Colony Established", "description": "A new colony has been founded on Mars.", "type": "milestone", "populationChange": 0, "timestamp": 1710000000000 }, "territoryType": "milestone" }'
+
+curl -X POST http://localhost:3000/api/admin/events -H "Content-Type: application/json" -d '{ "event": { "id": "evt_7890", "title": "Forest Fire", "description": "A wildfire has broken out.", "type": "disaster", "populationChange": -100, "timestamp": 1710100000000 }, "territoryType": "forest" }'
+
+curl -X POST http://localhost:3000/api/admin/events -H "Content-Type: application/json" -d '{ "event": { "id": "evt_13579", "title": "Space Station Launch", "description": "The space station has launched successfully.", "type": "mission", "populationChange": 10, "timestamp": 1710200000000 }, "territoryType": "spaceStation" }'
+```
+
+> **Note:** When running against a development server, make sure it's running (`npm run dev`). For production, adjust the URL or authentication accordingly. If the server responds with `{"success":true}`, the event was added successfully.

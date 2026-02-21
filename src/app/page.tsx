@@ -137,7 +137,7 @@ const Home = () => {
           </Link>
         </div>
       )}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-cinematic-border gap-4">
+      <header className="glass flex flex-col md:flex-row justify-between items-start md:items-center mb-8 pb-6 border-b border-cinematic-border gap-4">
         <div>
           <Logo className="w-64 md:w-80 -ml-4" />
           <p className="text-slate-400 m-0 text-lg mt-1">{t('ui.subtitle')}</p>

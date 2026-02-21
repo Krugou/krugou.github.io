@@ -8,10 +8,15 @@
   --color-brand-danger: #f85149;
   --color-brand-warning: #d29922;
 
+  /* cinematic palette for backgrounds / cards */
   --color-cinematic-bg: #0d1117;
   --color-cinematic-surface: #161b22;
   --color-cinematic-card: #21262d;
   --color-cinematic-border: #30363d;
+
+  /* shared values used in TypeScript too */
+  --color-logo-accent: #58a6ff;
+  --color-theme: #000000;
 }
 
 @layer base {
@@ -195,6 +200,28 @@
     animation: scan-line 4s ease-in-out infinite;
     pointer-events: none;
   }
+
+  /* glass HUD utility for high‑tech panels */
+  .glass {
+    position: relative;
+    background-color: color-mix(in srgb, var(--color-cinematic-surface), transparent 40%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-cinematic-border);
+    border-radius: theme('borderRadius.lg');
+    overflow: hidden;
+  }
+
+  .glass::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: overlay;
+  }
 }
 
 /* Disaster glitch effect for HUD */
@@ -232,7 +259,6 @@
     animation: glitch-flicker 0.4s ease-in-out;
   }
 }
-
 /* Heartbeat pulse for the 5-second event tick */
 @keyframes heartbeat-pulse {
   0% {

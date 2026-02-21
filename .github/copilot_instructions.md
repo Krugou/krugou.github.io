@@ -105,3 +105,5 @@ You are helping develop "The Immigrants", a Flutter web/Android incremental game
 - Add settings for event frequency
 
 When writing code, focus on event-driven population mechanics, territory expansion, and creating meaningful immigration narratives through the event system.
+
+do not use vscode tasks and always use commands that auto quit after execution. Always ensure to stage, commit, and push changes after each code addition or modification to keep the remote repository up to date for future agents.
