@@ -27,6 +27,12 @@ import { ModifierService } from '../services/ModifierService';
 import { TechService } from '../services/TechService';
 import StorageModal from '../components/StorageModal';
 
+export interface SystemConfig {
+  territoryTypes: string[];
+  eventTypes: string[];
+  categories: string[];
+}
+
 interface GameContextType {
   gameState: GameState;
   manualImmigration: () => void;
@@ -39,6 +45,7 @@ interface GameContextType {
   latestEvent: GameEvent | null;
   tickCount: number;
   simulateTicks: (count: number) => void; // developer helper for fast-forward testing
+  sysConfig: SystemConfig;
 }
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -76,6 +83,31 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
   const [latestEvent, setLatestEvent] = useState<GameEvent | null>(null);
   const [tickCount, setTickCount] = useState(0);
+  const [sysConfig, setSysConfig] = useState<SystemConfig>({
+    territoryTypes: [
+      'rural', 'suburbs', 'urban', 'metropolis', 'border', 'coastal',
+      'caves', 'underground', 'mountains', 'desert', 'arctic', 'moon',
+      'orbital', 'spaceStation', 'interstellar', 'milestone'
+    ],
+    eventTypes: ['immigration', 'emigration', 'disaster', 'opportunity', 'milestone'],
+    categories: ['opportunity', 'disaster', 'milestone', 'neutral']
+  });
+
+  // Load system configuration from API
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await fetch('/api/admin/config');
+        if (res.ok) {
+          const data = await res.json();
+          setSysConfig(data);
+        }
+      } catch (e) {
+        console.warn('Failed to fetch system config, using hardcoded fallbacks', e);
+      }
+    };
+    fetchConfig();
+  }, []);
 
   useEffect(() => {
     if (useCloud === null) {
@@ -249,8 +281,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
           const unlockEvent: GameEvent = {
             id: `unlock_${config.id}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
-            title: 'Territory Unlocked',
-            description: `New territory available: ${config.nameKey}`,
+            title: { en: 'Territory Unlocked', fi: 'Alue avattu' },
+            description: {
+              en: `New territory available: ${config.nameKey}`,
+              fi: `Uusi alue käytettävissä: ${config.nameKey}`
+            },
             type: EventType.milestone,
             populationChange: 0,
             targetTerritoryId: config.id,
@@ -425,6 +460,7 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         latestEvent,
         tickCount,
         simulateTicks,
+        sysConfig,
       }}
     >
       {children}

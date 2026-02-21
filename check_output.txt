@@ -1,0 +1,20 @@
+
+> the_immigrants@1.3.0 check:i18n
+> tsx scripts/check-translations.ts
+
+
+Scanning codebase for translation key usage...
+
+Found 52 unique translation keys in code.
+Ô£ô Verified: admin.threshold is correctly detected in code.
+
+[Code Sync] Keys found in code but missing from locales:
+  - policies.${pid}
+  - regex.backticks
+  - regex.double_quotes
+  - regex.multiline
+  - regex.single_quotes
+  - regex.spaced_function
+  - regex.spaced_inside
+  - tech.${tid}
+  - territory.${territory.id}.description

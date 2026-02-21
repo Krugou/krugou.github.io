@@ -75,19 +75,28 @@ const codeFiles = getFiles(srcDir).filter(
 );
 
 const keysInCode = new Set<string>();
-const tRegex = /\bt\(['"]([^'"]+)['"]\)/g;
+const tRegex = /\bt\s*\(\s*['"`]([^'"`]+)['"`]\s*\)/g;
 
 for (const file of codeFiles) {
   const content = fs.readFileSync(file, 'utf-8');
   let match;
 
   while ((match = tRegex.exec(content)) !== null) {
-    keysInCode.add(match[1]);
+    const key = match[1];
+    // Ignore keys with variables (e.g. territory.${id}.name)
+    if (!key.includes('${')) {
+      keysInCode.add(key);
+    }
   }
 }
 
 const englishKeys = allKeysByFile['en'] || new Set();
 const missingFromLocales = [...keysInCode].filter((k) => !englishKeys.has(k));
+
+console.log(`\nFound ${keysInCode.size} unique translation keys in code.`);
+if (keysInCode.has('admin.threshold')) {
+  console.log('✓ Verified: admin.threshold is correctly detected in code.');
+}
 
 if (missingFromLocales.length) {
   issueFound = true;

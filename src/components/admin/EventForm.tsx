@@ -4,31 +4,28 @@ import Input from '../common/Input';
 import Label from '../common/Label';
 import { EventTemplate } from './EventTable';
 
-const TERRITORY_TYPES = [
-  'rural',
-  'suburbs',
-  'urban',
-  'metropolis',
-  'border',
-  'coastal',
-  'caves',
-  'underground',
-  'mountains',
-  'desert',
-  'arctic',
-  'moon',
-  'orbital',
-  'spaceStation',
-  'interstellar',
-  'milestone',
-] as const;
+import { useGame } from '../../context/GameContext';
 
-const EVENT_TYPES = ['immigration', 'emigration', 'disaster', 'opportunity', 'milestone'] as const;
-const CATEGORIES = ['opportunity', 'disaster', 'milestone', 'neutral'] as const;
+interface Translation {
+  en: string;
+  fi: string;
+}
+
+interface EventFormTemplate {
+  id: string;
+  title: Translation | string;
+  description: Translation | string;
+  type: string;
+  category: string;
+  territoryType: string;
+  populationChange: number;
+  probability: number;
+  threshold?: number;
+}
 
 interface Props {
   editing: EventTemplate | null;
-  form: Partial<EventTemplate>;
+  form: Partial<EventFormTemplate>;
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => void;
@@ -41,6 +38,7 @@ const selectClass =
 
 const EventForm: React.FC<Props> = ({ editing, form, handleChange, save, resetForm }) => {
   const { t } = useTranslation();
+  const { sysConfig } = useGame();
 
   return (
     <div className="cinematic-card max-w-2xl">
@@ -60,21 +58,47 @@ const EventForm: React.FC<Props> = ({ editing, form, handleChange, save, resetFo
             <Label>{t('admin.id')}</Label>
             <Input name="id" value={form.id || ''} onChange={handleChange} />
           </div>
+        {/* ── Title ── */}
+        <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <Label>{t('admin.titleCol')}</Label>
-            <Input name="title" value={form.title || ''} onChange={handleChange} />
+            <Label>Title (EN)</Label>
+            <Input
+              name="title_en"
+              value={typeof form.title === 'object' ? form.title.en : form.title || ''}
+              onChange={handleChange}
+            />
           </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>Otsikko (FI)</Label>
+            <Input
+              name="title_fi"
+              value={typeof form.title === 'object' ? form.title.fi : ''}
+              onChange={handleChange}
+            />
+          </div>
+        </div>
         </div>
 
         {/* ── Description ── */}
-        <div className="flex flex-col gap-1.5">
-          <Label>{t('admin.description')}</Label>
-          <textarea
-            className={`${selectClass} h-24`}
-            name="description"
-            value={form.description || ''}
-            onChange={handleChange}
-          />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-1.5">
+            <Label>Description (EN)</Label>
+            <textarea
+              className={`${selectClass} h-24`}
+              name="description_en"
+              value={typeof form.description === 'object' ? form.description.en : form.description || ''}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex flex-col gap-1.5">
+            <Label>Kuvaus (FI)</Label>
+            <textarea
+              className={`${selectClass} h-24`}
+              name="description_fi"
+              value={typeof form.description === 'object' ? form.description.fi : ''}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         {/* ── Row 2: Type + Category ── */}
@@ -87,7 +111,7 @@ const EventForm: React.FC<Props> = ({ editing, form, handleChange, save, resetFo
               value={form.type || 'immigration'}
               onChange={handleChange}
             >
-              {EVENT_TYPES.map((v) => (
+              {(sysConfig.eventTypes as string[]).map((v: string) => (
                 <option key={v} value={v}>
                   {v}
                 </option>
@@ -102,7 +126,7 @@ const EventForm: React.FC<Props> = ({ editing, form, handleChange, save, resetFo
               value={form.category || 'opportunity'}
               onChange={handleChange}
             >
-              {CATEGORIES.map((v) => (
+              {(sysConfig.categories as string[]).map((v: string) => (
                 <option key={v} value={v}>
                   {v}
                 </option>
@@ -121,7 +145,7 @@ const EventForm: React.FC<Props> = ({ editing, form, handleChange, save, resetFo
               value={form.territoryType || 'rural'}
               onChange={handleChange}
             >
-              {TERRITORY_TYPES.map((v) => (
+              {(sysConfig.territoryTypes as string[]).map((v: string) => (
                 <option key={v} value={v}>
                   {v}
                 </option>

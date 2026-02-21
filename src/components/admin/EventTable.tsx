@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 
 export interface EventTemplate {
   id: string;
-  title: string;
-  description: string;
+  title: string | { en: string; fi: string };
+  description: string | { en: string; fi: string };
   type: string;
   territoryType: string;
   populationChange: number;
@@ -57,7 +57,9 @@ const EventTable: React.FC<Props> = ({ events, startEdit, remove }) => {
               className="border-t border-cinematic-border hover:bg-cinematic-surface transition-colors"
             >
               <td className="p-2 font-mono text-xs">{e.id}</td>
-              <td className="p-2">{e.title}</td>
+              <td className="p-2">
+                {typeof e.title === 'object' ? e.title.en : e.title}
+              </td>
               <td className="p-2">
                 <span
                   className={`px-1.5 py-0.5 rounded text-xs font-semibold ${

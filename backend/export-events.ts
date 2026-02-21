@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { initFirebase, getDb } from './firebase.ts';
+import { initFirebase, getDb } from './firebase.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const OUTPUT_PATH = path.join(__dirname, '..', 'events-export.md');
@@ -29,13 +29,14 @@ const run = async () => {
 
       for (const ev of evList) {
         const id = ev.id ?? '—';
-        const title = ev.title ?? '—';
+        const title = typeof ev.title === 'object' ? ev.title.en : (ev.title ?? '—');
         const type = ev.type ?? '—';
         const pop = ev.populationChange ?? 0;
         const prob = ev.probability ?? '—';
         const ts = ev.timestamp ? new Date(ev.timestamp).toISOString().slice(0, 10) : docUpdated;
         const by = ev.createdBy ?? '—';
-        const desc = (ev.description ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
+        const rawDesc = typeof ev.description === 'object' ? ev.description.en : (ev.description ?? '');
+        const desc = rawDesc.replace(/\|/g, '\\|').replace(/\n/g, ' ');
         lines.push(
           `| ${id} | ${title} | ${type} | ${pop > 0 ? '+' : ''}${pop} | ${prob} | ${ts} | ${by} | ${desc} |`,
         );
@@ -65,7 +66,7 @@ const run = async () => {
 
       for (const ev of milestones) {
         const id = ev.id ?? '—';
-        const title = ev.title ?? '—';
+        const title = typeof ev.title === 'object' ? ev.title.en : (ev.title ?? '—');
         const threshold = ev.threshold ?? '—';
         const type = ev.type ?? '—';
         const pop = ev.populationChange ?? 0;
@@ -74,7 +75,8 @@ const run = async () => {
           ? new Date(ev.timestamp).toISOString().slice(0, 10)
           : mileDocUpdated;
         const by = ev.createdBy ?? '—';
-        const desc = (ev.description ?? '').replace(/\|/g, '\\|').replace(/\n/g, ' ');
+        const rawDesc = typeof ev.description === 'object' ? ev.description.en : (ev.description ?? '');
+        const desc = rawDesc.replace(/\|/g, '\\|').replace(/\n/g, ' ');
         lines.push(
           `| ${id} | ${title} | ${threshold} | ${type} | ${pop > 0 ? '+' : ''}${pop} | ${prob} | ${ts} | ${by} | ${desc} |`,
         );

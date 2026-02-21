@@ -19,7 +19,8 @@
     "build": "next build",
     "start": "cross-env NODE_ENV=production tsx backend/server.ts",
     "start:https": "cross-env NODE_ENV=production tsx backend/server.ts --https",
-    "lint": "eslint",
+    "lint": "eslint --quiet",
+    "lint:quiet": "eslint --quiet",
     "format": "prettier --write .",
     "check": "tsc --noEmit",
     "test": "vitest run",
@@ -29,7 +30,7 @@
     "test:e2e": "playwright test --quiet --reporter=list",
     "check:i18n": "tsx scripts/check-translations.ts",
     "export:events": "node --env-file=.env backend/export-events.ts",
-    "fetch:events": "node scripts/fetch-game-data.mjs",
+    "fetch:events": "tsx scripts/fetch-game-data.ts",
     "certs:generate": "mkdir -p certs && openssl req -x509 -newkey rsa:2048 -keyout certs/localhost-key.pem -out certs/localhost.pem -days 365 -nodes -subj \"/CN=localhost\"",
     "prepare": "husky",
     "release": "semantic-release"
@@ -40,7 +41,7 @@
       "rm -f"
     ],
     "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
+      "eslint --fix --quiet",
       "prettier --write"
     ],
     "*.{json,css,md}": [

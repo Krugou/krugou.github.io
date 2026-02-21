@@ -14,10 +14,10 @@ const LOCAL_SERVICE_ACCOUNT = path.join(
   'immigrants-game-firebase-adminsdk-fbsvc-da4aa4541e.json',
 );
 
-function loadServiceAccount() {
+function loadServiceAccount(): any {
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     try {
-      return JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+      return JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT as string);
     } catch (e) {
       console.error('FIREBASE_SERVICE_ACCOUNT is not valid JSON');
     }
@@ -45,21 +45,21 @@ function loadServiceAccount() {
   throw new Error('No Firebase service account configured (set FIREBASE_SERVICE_ACCOUNT secret)');
 }
 
-function sanitize(obj) {
+function sanitize(obj: unknown): unknown {
   return JSON.parse(
     JSON.stringify(obj, (k, v) => {
-      if (v && typeof v.toDate === 'function') return v.toDate().toISOString();
+      if (v && typeof (v as any).toDate === 'function') return (v as any).toDate().toISOString();
       return v;
     }),
   );
 }
 
-const writeJson = (targetPath, data) => {
+const writeJson = (targetPath: string, data: unknown): void => {
   fs.mkdirSync(path.dirname(targetPath), { recursive: true });
   fs.writeFileSync(targetPath, JSON.stringify(data, null, 2) + '\n', 'utf8');
 };
 
-const run = async () => {
+const run = async (): Promise<void> => {
   const serviceAccount = loadServiceAccount();
   admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
   const db = admin.firestore();

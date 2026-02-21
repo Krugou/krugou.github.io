@@ -1,6 +1,7 @@
 import express from 'express';
-import eventsRouter from './routes/events';
-import userRouter from './routes/user';
+import eventsRouter from './routes/events.js';
+import userRouter from './routes/user.js';
+import configRouter from './routes/config.js';
 
 const createApp = () => {
   const app = express();
@@ -11,6 +12,7 @@ const createApp = () => {
   // mount routes
   app.use('/api/admin/events', eventsRouter);
   app.use('/api/user', userRouter);
+  app.use('/api/admin/config', configRouter);
 
   return app;
 };

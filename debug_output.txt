@@ -1,0 +1,10 @@
+
+Scanning codebase for translation key usage...
+
+Found 46 unique translation keys in code.
+Ô£ô Verified: admin.threshold is correctly detected in code.
+
+[Code Sync] Keys found in code but missing from locales:
+  - policies.${pid}
+  - tech.${tid}
+  - territory.${territory.id}.description

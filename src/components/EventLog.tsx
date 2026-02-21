@@ -52,7 +52,7 @@ const getEventStyles = (type: EventType) => {
 import { Virtuoso } from 'react-virtuoso';
 
 const EventLog = React.memo(({ events }: Props) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   if (events.length === 0) {
     return (
       <div className="cinematic-card h-full min-h-[400px] flex items-center justify-center border-dashed border-cinematic-border">
@@ -67,6 +67,10 @@ const EventLog = React.memo(({ events }: Props) => {
   const renderItem = (e: GameEvent) => {
     const style = getEventStyles(e.type);
     const timeStr = new Date(e.timestamp).toLocaleTimeString();
+    const lang = i18n.language.split('-')[0] as 'en' | 'fi';
+
+    const title = typeof e.title === 'object' ? e.title[lang] || e.title.en : e.title;
+    const description = typeof e.description === 'object' ? e.description[lang] || e.description.en : e.description;
 
     return (
       <div
@@ -77,7 +81,7 @@ const EventLog = React.memo(({ events }: Props) => {
           <div className="flex items-center gap-2">
             {style.icon}
             <Text as="span" variant="base" className="text-sm font-bold tracking-wide">
-              {e.title}
+              {title}
             </Text>
           </div>
           <Text as="span" variant="muted" className="text-xs font-mono">
@@ -86,7 +90,7 @@ const EventLog = React.memo(({ events }: Props) => {
         </div>
 
         <Text as="p" className="text-xs text-slate-300 my-2 leading-relaxed">
-          {e.description}
+          {description}
         </Text>
 
         {e.populationChange !== 0 && (

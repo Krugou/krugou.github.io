@@ -112,3 +112,14 @@ Access the administrative interface at `/admin` (local: `http://localhost:3000/a
 ## 🌟 Development Standards
 
 For a comprehensive guide on architecture, UI/UX standards, and the roadmap to maximum potential, see [INSTRUCTIONS.md](file:///c:/Users/moxch/Documents/GitHub/krugou.github.io/.agent/INSTRUCTIONS.md).
+
+## 🧾 Scripts and Tooling
+
+- **Author scripts in TypeScript**: All repository utility scripts (the `scripts/` folder and new tooling) must be written in TypeScript (`.ts`/`.mts`) rather than plain JavaScript. This keeps type-safety and better IDE support.
+- To run a TypeScript script locally use `tsx` or `ts-node` in dev. Example:
+
+```bash
+npx tsx scripts/my-script.ts
+```
+
+If a script still exists as `.mjs`/`.js`, the linter will raise an error with guidance to convert it to TypeScript.

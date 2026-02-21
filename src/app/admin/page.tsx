@@ -7,6 +7,7 @@ import PolicySelector from '../../components/admin/PolicySelector';
 import TechSelector from '../../components/admin/TechSelector';
 import EventTable, { EventTemplate } from '../../components/admin/EventTable';
 import EventForm from '../../components/admin/EventForm';
+import ConfigEditor from '../../components/admin/ConfigEditor';
 
 import { useGame } from '../../context/GameContext';
 
@@ -45,7 +46,24 @@ const AdminPage = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
-    setForm((f) => ({ ...f, [name]: value }));
+
+    if (name.startsWith('title_') || name.startsWith('description_')) {
+      const [field, lang] = name.split('_');
+      setForm((f) => {
+        const current = (f[field as keyof EventTemplate] as Record<string, string> | string) || {
+          en: '',
+          fi: '',
+        };
+        // Handle case where it might be a string from legacy data
+        const base = typeof current === 'string' ? { en: current, fi: '' } : current;
+        return {
+          ...f,
+          [field]: { ...base, [lang]: value },
+        };
+      });
+    } else {
+      setForm((f) => ({ ...f, [name]: value }));
+    }
   };
 
   const startEdit = (event: EventTemplate) => {
@@ -200,6 +218,10 @@ const AdminPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           <PolicySelector activePolicies={gameState.policies} togglePolicy={togglePolicy} />
           <TechSelector unlockedTechs={gameState.techs} toggleTech={toggleTech} />
+        </div>
+
+        <div className="mb-12">
+          <ConfigEditor />
         </div>
 
         <section className="bg-slate-900/50 border border-slate-800 rounded-xl overflow-hidden backdrop-blur-sm">

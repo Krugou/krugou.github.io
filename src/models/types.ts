@@ -43,8 +43,8 @@ export interface Territory {
 
 export interface GameEvent {
   id: string;
-  title: string;
-  description: string;
+  title: string | { en: string; fi: string };
+  description: string | { en: string; fi: string };
   type: EventType;
   populationChange: number;
   targetTerritoryId?: string | null;

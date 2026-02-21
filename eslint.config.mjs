@@ -2,9 +2,11 @@ import { defineConfig } from 'eslint/config';
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import checkFile from 'eslint-plugin-check-file';
+
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // Base project rules
   {
     plugins: {
       'check-file': checkFile,
@@ -16,6 +18,16 @@ const eslintConfig = defineConfig([
       },
     },
     rules: {
+      // Best-practice rules
+      'consistent-return': 'error',
+      'no-implicit-coercion': 'error',
+      'no-magic-numbers': ['warn', { ignore: [0, 1, -1], ignoreArrayIndexes: true }],
+      complexity: ['warn', { max: 12 }],
+      'no-empty-function': 'warn',
+      'prefer-template': 'error',
+      'no-prototype-builtins': 'error',
+      'no-duplicate-imports': 'error',
+
       '@typescript-eslint/no-unused-vars': [
         'error',
         {
@@ -50,6 +62,46 @@ const eslintConfig = defineConfig([
       ],
     },
   },
+  // Backend-specific overrides (Node/Express)
+  {
+    files: ['backend/**'],
+    languageOptions: {
+      parserOptions: {
+        // Avoid using project service for backend helper scripts
+        projectService: false,
+        ecmaVersion: 2021,
+        sourceType: 'module',
+      },
+      parser: '@typescript-eslint/parser',
+    },
+    env: {
+      node: true,
+      es2021: true,
+    },
+    rules: {
+      // Backend code (Express) commonly uses function declarations and console logs
+      'func-style': 'off',
+      'prefer-arrow-callback': 'off',
+      'no-console': 'off',
+      'no-param-reassign': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
+    },
+  },
+  // Enforce scripts to be authored in TypeScript, not JS
+  {
+    files: ['scripts/**/*.{js,mjs,cjs}'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'Program',
+          message:
+            'Script files must be TypeScript (.ts/.mts). Convert this file to TypeScript and update package.json scripts to call `tsx` or `node --loader tsx`.',
+        },
+      ],
+    },
+  },
+  // Global ignore patterns
   {
     ignores: [
       '.next/**',
@@ -59,6 +111,7 @@ const eslintConfig = defineConfig([
       'next-env.d.ts',
       'legacy_flutter/**',
       'backend/**',
+      'scripts/**',
       'node_modules/**',
       '*.config.js',
       '*.config.mjs',
