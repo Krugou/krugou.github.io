@@ -44,6 +44,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 backend/firebase_config.json
+backend/*-adminsdk-*.json
 
 !.env.example
 
@@ -51,3 +52,4 @@ test-results/*
 playwright-report/*
 
 certificates
+backend/immigrants-game-firebase-adminsdk-fbsvc-da4aa4541e.json

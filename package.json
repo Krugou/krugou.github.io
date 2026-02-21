@@ -13,7 +13,7 @@
     "postinstall": "echo '✅ Dependencies installed successfully!'",
     "dev": "concurrently --names \"SERVER,WEB\" --prefix-colors \"blue,magenta\" \"npm run server\" \"npm run dev:web\"",
     "dev:web": "next dev --experimental-https",
-    "server": "node --watch backend/server.ts",
+    "server": "node --env-file=.env --watch backend/server.ts",
     "dev:https": "tsx backend/server.ts --https",
     "dev:admin": "npm run dev & start http://localhost:3000/admin",
     "build": "next build",
@@ -28,6 +28,8 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test --quiet --reporter=list",
     "check:i18n": "tsx scripts/check-translations.ts",
+    "export:events": "node --env-file=.env backend/export-events.ts",
+    "fetch:events": "node scripts/fetch-game-data.mjs",
     "certs:generate": "mkdir -p certs && openssl req -x509 -newkey rsa:2048 -keyout certs/localhost-key.pem -out certs/localhost.pem -days 365 -nodes -subj \"/CN=localhost\"",
     "prepare": "husky",
     "release": "semantic-release"

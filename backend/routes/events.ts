@@ -1,8 +1,27 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
 import { getDb } from '../firebase.ts';
+import os from 'os';
 
 const router = Router();
+
+/** Auto-populate metadata on every event save. Existing values are preserved. */
+const enrichEvent = (event: Record<string, unknown>, req: Request) => {
+  const now = Date.now();
+  return {
+    // ── defaults (overridden if caller provides them) ──
+    probability: 0.5,
+    category: 'opportunity',
+    timestamp: now,
+    // ── caller-provided fields win ──
+    ...event,
+    // ── server-managed fields (always set) ──
+    createdAt: event.createdAt ?? now,
+    updatedAt: now,
+    createdBy: event.createdBy ?? os.hostname(),
+    source: event.source ?? (req.get('User-Agent') || 'unknown'),
+  };
+};
 
 const removeEvent = async (db: any, id: string, territoryType: string) => {
   if (territoryType === 'milestone') {
@@ -61,6 +80,8 @@ router.post('/', async (req: Request, res: Response) => {
   if (!event || !territoryType)
     return res.status(400).json({ error: 'event and territoryType are required' });
 
+  const enriched = enrichEvent(event, req);
+
   try {
     const db = getDb();
     if (territoryType === 'milestone') {
@@ -68,14 +89,14 @@ router.post('/', async (req: Request, res: Response) => {
       const doc = await mileRef.get();
       const data = doc.exists ? doc.data()! : { milestones: [] };
       data.milestones = data.milestones || [];
-      data.milestones.push(event);
+      data.milestones.push(enriched);
       await mileRef.set(data);
     } else {
       const terrRef = db.collection('events').doc('territory_events');
       const doc = await terrRef.get();
       const data = doc.exists ? doc.data()! : {};
       if (!Array.isArray(data[territoryType])) data[territoryType] = [];
-      data[territoryType].push(event);
+      data[territoryType].push(enriched);
       await terrRef.set(data);
     }
 
@@ -91,6 +112,8 @@ router.put('/', async (req: Request, res: Response) => {
   if (!event || !territoryType || !event.id)
     return res.status(400).json({ error: 'event with id and territoryType are required' });
 
+  const enriched = enrichEvent(event, req);
+
   try {
     const db = getDb();
     await removeEvent(db, event.id, territoryType);
@@ -100,14 +123,14 @@ router.put('/', async (req: Request, res: Response) => {
       const doc = await mileRef.get();
       const data = doc.exists ? doc.data()! : { milestones: [] };
       data.milestones = data.milestones || [];
-      data.milestones.push(event);
+      data.milestones.push(enriched);
       await mileRef.set(data);
     } else {
       const terrRef = db.collection('events').doc('territory_events');
       const doc = await terrRef.get();
       const data = doc.exists ? doc.data()! : {};
       if (!Array.isArray(data[territoryType])) data[territoryType] = [];
-      data[territoryType].push(event);
+      data[territoryType].push(enriched);
       await terrRef.set(data);
     }
 
