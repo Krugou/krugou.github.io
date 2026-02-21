@@ -1,3 +1,9 @@
+# [1.3.0](https://github.com/krugou/krugou.github.io/compare/v1.2.0...v1.3.0) (2026-02-20)
+
+### Features
+
+- add basic PWA support with manifest and service worker ([39a5904](https://github.com/krugou/krugou.github.io/commit/39a5904d7cf5dc790d5d1ae33cc8f04d5ea4fae6))
+
 # [1.2.0](https://github.com/krugou/krugou.github.io/compare/v1.1.1...v1.2.0) (2026-02-20)
 
 ### Features
