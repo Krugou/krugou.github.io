@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-You are helping develop "The Immigrants", a Flutter web/Android incremental game about population movement and territory expansion. The game features a single resource (people) that increases/decreases as immigrants move into new territories through random events.
+"The Immigrants" is an incremental game (Flutter web/Android) about population movement and territory expansion. The core mechanic is a single resource (people) that increases/decreases as immigrants move into new territories through random events. The project also contains a Node.js backend that interacts with the Hygraph GraphQL API for asset management, client operations, mutations, and queries. Dependencies are managed via npm workspaces.
 
 ## Game Mechanics to Implement
 
@@ -122,7 +122,11 @@ This is a small Node.js project that interacts with Hygraph GraphQL API. It cont
 
 ## Coding Guidelines
 
-- Follow standard JavaScript/Node.js practices.
+- Use snake_case for variables and functions (Flutter/Dart).
+- Use PascalCase for classes.
+- Prefix private variables with underscore.
+- Use descriptive names related to immigration and territory themes.
+- Follow standard JavaScript/Node.js practices for backend/scripts.
 - Keep code small and modular; scripts live in the `scripts/` folder.
 - Use `npm run lint` to check style and `npm test` (if available) for tests.
 
@@ -133,6 +137,7 @@ This is a small Node.js project that interacts with Hygraph GraphQL API. It cont
 
 ## Workflow Notes
 
+- After each code addition or modification, always stage, commit, and push your changes to the `main` branch to keep the remote in sync for future agents.
 - There is no CI configuration in the repo. When adding features, ensure they run locally.
 - Branching follows GitHub Flow: create feature branches off `main`.
 - Frontend styling uses Tailwind CSS v4 with the `@tailwindcss/vite` plugin.
@@ -144,5 +149,4 @@ This is a small Node.js project that interacts with Hygraph GraphQL API. It cont
 - When generating code, prefer small, readable functions.
 - Avoid adding unnecessary dependencies.
 - If unsure about API usage, consult Hygraph documentation.
-
-Never ask questions just start working and if errors are encountered, try to fix them based on the error messages and project context.
+- Never ask questions—just start working, and if errors are encountered, try to fix them based on the error messages and project context.

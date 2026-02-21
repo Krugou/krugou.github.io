@@ -17,6 +17,8 @@
     "postinstall": "echo '✅ Dependencies installed successfully!'",
     "master:install": "npm install && npm --workspace=frontend install && npm --workspace=backend install && npm run master:check-unused",
     "master:check-unused": "npx depcheck ./frontend && npx depcheck ./backend && npx depcheck .",
+    "master:lint": "npm --workspace=frontend run lint && npm --workspace=backend run lint",
+    "master:format": "npm --workspace=frontend run format && npm --workspace=backend run format",
     "dev": "concurrently --names \"SERVER,WEB\" --prefix-colors \"blue,magenta\" \"npm run server\" \"npm run dev:web\"",
     "dev:web": "npm --workspace=frontend run dev",
     "server": "npm --workspace=backend run dev",
