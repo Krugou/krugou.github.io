@@ -123,3 +123,11 @@ npx tsx scripts/my-script.ts
 ```
 
 If a script still exists as `.mjs`/`.js`, the linter will raise an error with guidance to convert it to TypeScript.
+
+## API: Creating Game Events
+
+You can create game events via the local admin API. Send a POST to `/api/admin/events` with a JSON payload containing an `event` object and a `territoryType`. Example (one-line curl):
+
+curl -X POST http://localhost:3000/api/admin/events -H "Content-Type: application/json" -d '{ "event": { "id": "evt_cosmic_tide", "title": "Cosmic Tide", "description": "A solar storm causes temporary migration toward orbital habitats.", "type": "opportunity", "populationChange": 120, "timestamp": 1740000000000 }, "territoryType": "orbital" }'
+
+Adjust `territoryType` and event fields as needed. If your admin API requires authentication, include the appropriate auth headers.
