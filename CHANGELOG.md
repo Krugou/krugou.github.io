@@ -1,3 +1,9 @@
+# [1.5.0](https://github.com/krugou/krugou.github.io/compare/v1.4.0...v1.5.0) (2026-02-21)
+
+### Features
+
+- **admin:** add system configuration management with API integration ([2451be6](https://github.com/krugou/krugou.github.io/commit/2451be6b0e84ac2da130c0b356ebb3d8da29dbdc))
+
 # [1.4.0](https://github.com/krugou/krugou.github.io/compare/v1.3.0...v1.4.0) (2026-02-21)
 
 ### Bug Fixes
