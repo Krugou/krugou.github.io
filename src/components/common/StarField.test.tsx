@@ -3,11 +3,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import StarField from './StarField';
 
-
 // JSDOM stubs for canvas (no actual drawing)
 HTMLCanvasElement.prototype.getContext = () => null;
-
-
 
 const baseProps = {
   population: 1000,

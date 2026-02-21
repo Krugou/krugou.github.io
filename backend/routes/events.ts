@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import type { Request, Response } from 'express';
-import { getDb } from '../firebase';
+import { getDb } from '../firebase.ts';
 
 const router = Router();
 

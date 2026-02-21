@@ -5,7 +5,9 @@ import { TechId, GameState } from '../models/types';
 describe('TechService', () => {
   it('returns unlocked techs from state', () => {
     const state: Partial<GameState> = { techs: [TechId.advancedAgriculture] };
-    expect(TechService.getUnlockedTechs(state as GameState)).toEqual([techCatalog[TechId.advancedAgriculture]]);
+    expect(TechService.getUnlockedTechs(state as GameState)).toEqual([
+      techCatalog[TechId.advancedAgriculture],
+    ]);
   });
 
   it('calculates population multiplier correctly', () => {

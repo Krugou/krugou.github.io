@@ -1,5 +1,5 @@
 import express from 'express';
-import eventsRouter from './routes/events';
+import eventsRouter from './routes/events.ts';
 
 const createApp = () => {
   const app = express();
