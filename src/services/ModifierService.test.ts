@@ -1,5 +1,6 @@
+import { describe, it, expect, vi } from 'vitest';
 import { ModifierService } from './ModifierService';
-import { EventType, TerritoryType, GameEvent, Territory } from '../models/types';
+import { EventType, TerritoryType, GameEvent, Territory, EventCategory } from '../models/types';
 import { PolicyService } from './PolicyService';
 
 describe('ModifierService', () => {
@@ -37,7 +38,7 @@ describe('ModifierService', () => {
       type: EventType.immigration,
       populationChange: 10,
       timestamp: Date.now(),
-      category: 'opportunity',
+      category: EventCategory.opportunity,
     };
     const terr: Territory = {
       id: 't',
@@ -62,7 +63,7 @@ describe('ModifierService', () => {
       type: EventType.immigration,
       populationChange: 10,
       timestamp: Date.now(),
-      category: 'opportunity',
+      category: EventCategory.opportunity,
     };
     const terr: Territory = {
       id: 's',

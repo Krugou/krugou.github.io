@@ -1,14 +1,15 @@
+import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import EventLog from './EventLog';
-import { GameEvent, EventType } from '../models/types';
+import { GameEvent, EventType, EventCategory } from '../models/types';
 
 const makeEvent = (overrides: Partial<GameEvent> = {}): GameEvent => ({
   id: Math.random().toString(36).substring(2, 9),
   title: 'Test',
   description: 'desc',
   type: EventType.opportunity,
+  category: EventCategory.opportunity,
   populationChange: 5,
   timestamp: Date.now(),
   ...overrides,

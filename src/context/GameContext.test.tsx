@@ -1,6 +1,8 @@
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import React from 'react';
 import { GameProvider, useGame } from './GameContext';
+import { TechId } from '../models/types';
 
 // provide a minimal localStorage stub for node tests
 beforeAll(() => {
@@ -46,7 +48,7 @@ describe('GameContext', () => {
     // reset and add tech
     act(() => {
       result.current.resetGame();
-      result.current.toggleTech('advancedAgriculture');
+      result.current.toggleTech(TechId.advancedAgriculture);
     });
 
     const baseline = result.current.gameState.territories[0].population;

@@ -1,27 +1,17 @@
+import { describe, it, expect } from 'vitest';
 import React from 'react';
 import { render } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import StarField from './StarField';
-import { Territory, TerritoryType, EventType, EventCategory } from '../../models/types';
+
 
 // JSDOM stubs for canvas (no actual drawing)
 HTMLCanvasElement.prototype.getContext = () => null;
 
-const makeTerritory = (type: TerritoryType = TerritoryType.rural): Territory => ({
-  id: Math.random().toString(36).slice(2),
-  name: 'Test Territory',
-  description: 'desc',
-  type,
-  population: 100,
-  capacity: 1000,
-  isUnlocked: true,
-});
+
 
 const baseProps = {
   population: 1000,
-  territories: [makeTerritory()],
-  tickCount: 0,
-  latestEvent: null,
+  territoryCount: 1,
 };
 
 describe('StarField', () => {
@@ -46,47 +36,11 @@ describe('StarField', () => {
   });
 
   it('does not throw with zero population', () => {
-    expect(() =>
-      render(<StarField {...baseProps} population={0} territories={[]} />),
-    ).not.toThrow();
+    expect(() => render(<StarField {...baseProps} population={0} />)).not.toThrow();
   });
 
-  it('does not throw with null latestEvent', () => {
-    expect(() => render(<StarField {...baseProps} latestEvent={null} />)).not.toThrow();
-  });
-
-  it('does not throw with a disaster event', () => {
-    expect(() =>
-      render(
-        <StarField
-          {...baseProps}
-          latestEvent={{
-            id: 'e1',
-            title: 'Disaster',
-            description: 'desc',
-            type: EventType.disaster,
-            populationChange: -50,
-            timestamp: Date.now(),
-            category: EventCategory.disaster,
-          }}
-        />,
-      ),
-    ).not.toThrow();
-  });
-
-  it('does not throw with space territories', () => {
-    expect(() =>
-      render(
-        <StarField
-          {...baseProps}
-          territories={[
-            makeTerritory(TerritoryType.spaceStation),
-            makeTerritory(TerritoryType.orbital),
-            makeTerritory(TerritoryType.interstellar),
-          ]}
-        />,
-      ),
-    ).not.toThrow();
+  it('does not throw with many territories', () => {
+    expect(() => render(<StarField {...baseProps} territoryCount={5} />)).not.toThrow();
   });
 
   it('renders role="img" on the canvas', () => {

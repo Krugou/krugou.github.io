@@ -1,6 +1,6 @@
+import { describe, it, expect, vi, beforeAll } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 
 // mock i18n to return keys
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (k: string) => k }) }));

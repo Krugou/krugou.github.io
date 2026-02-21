@@ -3,9 +3,10 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    globals: true,
+    globals: false,
     environment: 'jsdom',
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
+    setupFiles: ['./vitest.setup.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],

@@ -27,10 +27,10 @@ const eslintConfig = defineConfig([
       'prefer-arrow-callback': 'error',
       'func-style': ['error', 'expression'],
       'arrow-body-style': ['error', 'as-needed'],
-      'eqeqeq': ['error', 'always'],
+      eqeqeq: ['error', 'always'],
       'no-var': 'error',
       'prefer-const': 'error',
-      'curly': ['error', 'all'],
+      curly: ['error', 'all'],
       'no-console': 'warn',
       'react/function-component-definition': [
         'error',
@@ -53,7 +53,7 @@ const eslintConfig = defineConfig([
   {
     ignores: [
       '.next/**',
-    'public/**',
+      'public/**',
       'out/**',
       'build/**',
       'next-env.d.ts',
