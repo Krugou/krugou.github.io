@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/Krugou/immigrantsgame.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/Krugou/immigrantsgamebackend.git
