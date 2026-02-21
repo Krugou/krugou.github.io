@@ -97,8 +97,10 @@
     "awaiting": "Odotetaan lähetystä...",
     "population": "Väkiluku",
     "techTree": "Teknologiapuu",
-    "techTreePlaceholder": "Kehitä tutkimussolmuja avataksesi tehokkaita kertoimia.",
-    "techTreeComingSoon": "Teknologiapuu tulossa pian!"
+    "techTreePlaceholder": "Develop research nodes to unlock powerful modifiers.",
+    "techTreeComingSoon": "Tech tree coming soon!",
+    "research": "Tutki",
+    "unresearch": "Peruuta tutkimus"
   },
   "policies": {
     "openBorders": "Avoimet rajat",
@@ -126,8 +128,8 @@
     "save": "Tallenna",
     "cancel": "Peruuta",
     "delete": "Poista",
-    "description": "Kuvaus"
-  },
-  "simulateHour": "Simuloi 1 tunti",
-  "simulated": "Simuloitu {{hours}} tunti(a)"
+    "description": "Kuvaus",
+    "simulateHour": "Simuloi 1 tunti",
+    "simulated": "Simuloitu {{hours}} tunti(a)"
+  }
 }

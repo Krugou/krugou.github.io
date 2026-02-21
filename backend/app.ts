@@ -1,5 +1,6 @@
 import express from 'express';
-import eventsRouter from './routes/events.ts';
+import eventsRouter from './routes/events';
+import userRouter from './routes/user';
 
 const createApp = () => {
   const app = express();
@@ -7,8 +8,9 @@ const createApp = () => {
 
   app.get('/health', (_req, res) => res.json({ ok: true, service: 'admin-api' }));
 
-  // mount events router at /api/admin/events
+  // mount routes
   app.use('/api/admin/events', eventsRouter);
+  app.use('/api/user', userRouter);
 
   return app;
 };

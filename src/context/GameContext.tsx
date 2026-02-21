@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 'use client';
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { useAuth } from './AuthContext';
 import {
   GameState,
   createInitialGameState,
@@ -13,7 +14,12 @@ import {
   TechId,
 } from '../models/types';
 import { getAvailableConfigs } from '../models/territoryConfig';
-import { generateEventForTerritory, checkMilestoneEvent } from '../services/eventSystem';
+import {
+  generateEventForTerritory,
+  checkMilestoneEvent,
+  updateEventPool,
+  EventTemplate,
+} from '../services/eventSystem';
 import { detectNewEra } from '../models/eraConfig';
 import { PopulationService } from '../services/PopulationService';
 import { PolicyService } from '../services/PolicyService';
@@ -44,6 +50,7 @@ const STORAGE_KEY = 'immigrants_game_save';
 // track whether player chose local or cloud persistence; `null` means prompt not answered yet
 
 export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
   const [gameState, setGameState] = useState<GameState>(createInitialGameState());
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -101,25 +108,73 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoaded(true);
   }, [useCloud]);
 
+  // Load events from API to bridge with Admin UI
+  useEffect(() => {
+    const fetchAdminEvents = async () => {
+      try {
+        const res = await fetch('/api/admin/events');
+        if (res.ok) {
+          const eventsRaw: unknown = await res.json();
+          const events = eventsRaw as EventTemplate[];
+          const territoryData: Record<string, EventTemplate[]> = {};
+          const milestoneData: EventTemplate[] = [];
+
+          events.forEach((ev) => {
+            if (ev.territoryType === 'milestone') {
+              milestoneData.push(ev);
+            } else if (ev.territoryType) {
+              if (!territoryData[ev.territoryType]) {
+                territoryData[ev.territoryType] = [];
+              }
+              territoryData[ev.territoryType].push(ev);
+            }
+          });
+
+          updateEventPool(territoryData, milestoneData);
+          console.log('Synchronized with admin event pool');
+        }
+      } catch (e) {
+        console.warn('Failed to fetch admin events, using local defaults', e);
+      }
+    };
+    fetchAdminEvents();
+  }, []);
+
   // Save game on interval to whichever storage was chosen
   useEffect(() => {
     if (!isLoaded) {
       return;
     }
     const saveInterval = setInterval(() => {
-      setGameState((prev) => {
-        const updated = { ...prev, lastSave: Date.now() };
-        if (useCloud) {
-          // TODO: POST to server API
-          console.log('would send save to cloud', updated);
-        } else {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
-        }
-        return updated;
-      });
+      const now = Date.now();
+      setGameState((prev) => ({ ...prev, lastSave: now }));
+
+      // Perform side effect based on latest state
+      // (Using a ref might be better, but for now we'll use local storage immediately
+      // and cloud save will use the 'updated' value if we capture it or wait for next tick)
     }, 10000);
     return () => clearInterval(saveInterval);
-  }, [isLoaded, useCloud]);
+  }, [isLoaded]);
+
+  // Handle actual persistence as a side effect of gameState.lastSave changing
+  useEffect(() => {
+    if (!isLoaded) {
+      return;
+    }
+
+    if (useCloud && user) {
+      fetch('/api/user/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.uid,
+          gameState: gameState,
+        }),
+      }).catch((err) => console.error('Cloud save failed', err));
+    } else if (!useCloud) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+    }
+  }, [gameState.lastSave, useCloud, user, isLoaded, gameState]);
 
   const processEvent = useCallback((state: GameState, event: GameEvent): GameState => {
     const newState = { ...state };

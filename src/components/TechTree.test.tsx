@@ -3,6 +3,12 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 
 vi.mock('react-i18next', () => ({ useTranslation: () => ({ t: (k: string) => k }) }));
+vi.mock('../context/AuthContext', () => ({
+  useAuth: () => ({
+    user: { uid: 'test-user' },
+    loading: false,
+  }),
+}));
 
 import TechTree from './TechTree';
 import { GameProvider } from '../context/GameContext';

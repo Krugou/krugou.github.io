@@ -23,6 +23,17 @@ const territoryEvents: Record<string, EventTemplate[]> = territoryEventsData as 
 const milestoneEvents: EventTemplate[] =
   milestoneEventsData.milestones as unknown as EventTemplate[];
 
+export const updateEventPool = (
+  territoryData: Record<string, EventTemplate[]>,
+  milestoneData: EventTemplate[],
+) => {
+  Object.keys(territoryData).forEach((key) => {
+    territoryEvents[key] = territoryData[key];
+  });
+  milestoneEvents.length = 0;
+  milestoneEvents.push(...milestoneData);
+};
+
 export const generateEventForTerritory = (territory: Territory): GameEvent | null => {
   const eventPool = territoryEvents[territory.type] || [];
   if (eventPool.length === 0) {

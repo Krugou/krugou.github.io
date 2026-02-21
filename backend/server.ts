@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import createApp from './app.ts';
+import createApp from './app';
 import fs from 'fs';
 import https from 'https';
 import path from 'path';

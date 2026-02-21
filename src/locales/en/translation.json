@@ -98,7 +98,9 @@
     "population": "Population",
     "techTree": "Technology Tree",
     "techTreePlaceholder": "Develop research nodes to unlock powerful modifiers.",
-    "techTreeComingSoon": "Tech tree coming soon!"
+    "techTreeComingSoon": "Tech tree coming soon!",
+    "research": "Research",
+    "unresearch": "Unresearch"
   },
   "policies": {
     "openBorders": "Open Borders",
@@ -126,8 +128,8 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
-    "description": "Description"
-  },
-  "simulateHour": "Simulate 1 Hour",
-  "simulated": "Simulated {{hours}} hour(s) of ticks"
+    "description": "Description",
+    "simulateHour": "Simulate 1 Hour",
+    "simulated": "Simulated {{hours}} hour(s) of ticks"
+  }
 }

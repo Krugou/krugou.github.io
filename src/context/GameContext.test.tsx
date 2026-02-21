@@ -4,6 +4,13 @@ import React from 'react';
 import { GameProvider, useGame } from './GameContext';
 import { TechId } from '../models/types';
 
+vi.mock('./AuthContext', () => ({
+  useAuth: () => ({
+    user: { uid: 'test-user' },
+    loading: false,
+  }),
+}));
+
 // provide a minimal localStorage stub for node tests
 beforeAll(() => {
   global.localStorage = {
