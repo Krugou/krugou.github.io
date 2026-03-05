@@ -1,3 +1,9 @@
+## [1.7.1](https://github.com/krugou/krugou.github.io/compare/v1.7.0...v1.7.1) (2026-03-05)
+
+### Bug Fixes
+
+- **ci:** consolidate dependencies and add firebase deployment ([0a72044](https://github.com/krugou/krugou.github.io/commit/0a7204410c99b4e389fd3d6175f0cc99f598ec9a))
+
 # [1.7.0](https://github.com/krugou/krugou.github.io/compare/v1.6.0...v1.7.0) (2026-02-21)
 
 ### Features
