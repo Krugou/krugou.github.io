@@ -42,7 +42,8 @@
     "generate:icons": "npm --workspace=frontend run generate:icons",
     "certs:generate": "mkdir -p certs && openssl req -x509 -newkey rsa:2048 -keyout certs/localhost-key.pem -out certs/localhost.pem -days 365 -nodes -subj \"/CN=localhost\"",
     "prepare": "husky",
-    "release": "semantic-release"
+    "release": "semantic-release",
+    "deploy:hosting": "firebase deploy --only hosting"
   },
   "lint-staged": {
     "*.txt": [
