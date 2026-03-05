@@ -1,51 +1,59 @@
-name: Fetch game data
+name: 🛰️ Begging Firebase For Data Again
 
 on:
   schedule:
     - cron: '0 3 * * *' # daily at 03:00 UTC
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   fetch:
+    name: 📡 The Daily Disappointment — Firebase Sync
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v6
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Ensure service account (from secret)
+      - name: Validate service account secret
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: |
           if [ -z "$FIREBASE_SERVICE_ACCOUNT" ]; then
-            echo "No FIREBASE_SERVICE_ACCOUNT secret set"
+            echo "❌ FIREBASE_SERVICE_ACCOUNT secret is not set."
             exit 1
           fi
-          # also write a local file for any scripts expecting a path
-          echo "$FIREBASE_SERVICE_ACCOUNT" > backend/service-account.json
+          # Write local file for scripts that expect a file path
+          printf '%s' "$FIREBASE_SERVICE_ACCOUNT" > backend/service-account.json
+          echo "✅ Service account written."
 
-      - name: Fetch events
+      - name: Fetch events from Firebase
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: node scripts/fetch-game-data.mjs
 
-      - name: Commit and push changes
+      - name: Commit and push if changes exist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/data/events/*.json || true
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/events/*.json 2>/dev/null || true
           if git diff --cached --quiet; then
-            echo "No changes to commit"
-            exit 0
+            echo "ℹ️ No new game data to commit."
+          else
+            git commit -m "chore(data): update game events from Firebase [skip ci]"
+            git push
+            echo "✅ Game data pushed."
           fi
-          git commit -m "chore(data): update game events from Firebase [skip ci]" || true
-          git push
